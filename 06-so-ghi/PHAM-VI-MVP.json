@@ -1,0 +1,24 @@
+{
+  "_doc": "PHẠM VI MVP — DANH MỤC MỤC TIÊU chủ dự án nêu, NGUYÊN VĂN, máy đọc được. Bước 0 chép vào đây TRƯỚC khi AI kịp diễn đạt lại. Mọi cổng khác đo thứ ĐÃ KHAI; chỉ sổ này đo thứ chủ dự án ĐÃ YÊU CẦU.",
+  "_luat": "⛔ AI KHÔNG ĐƯỢC ĐỔI trangThai, round, hoanSang hay nguyenVan của bất kỳ mục nào. Đây là PHẠM VI — điều dừng 3. Đổi phải có huynhDuyet NGUYÊN VĂN câu chủ dự án nói.",
+  "_coCheGac": "node Log/kiem-pham-vi.cjs — ① trạng thái hợp lệ (xong | dang-lam | chua-lam | khong-lam-nua) · ② xong đòi bằng chứng CÓ THẬT (bangChung.duong/diemCuoi tìm thấy trong mã theo config › route; bangChung.tep tồn tại) · ③ chưa xong đòi conThieu ≥40 ký tự · ④ hoãn (round/hoanSang) hoặc bỏ đòi huynhDuyet ≥20 ký tự. --truoc-prod: chặn đẩy nếu mục chưa giao mà chưa có chữ ký.",
+  "mvp": "01",
+  "nguonMucTieu": "<ở đâu chủ dự án nêu: tin nhắn ngày …, SCOPE.md §…>",
+  "mucTieu": [
+    {
+      "id": "M1",
+      "nguyenVan": "<chép NGUYÊN VĂN câu chủ dự án nói — không diễn đạt lại>",
+      "trangThai": "chua-lam",
+      "conThieu": "<≥40 ký tự: còn thiếu gì cụ thể để mục này thành xong — 'chưa làm' và 'không làm nữa' là hai câu khác nhau>",
+      "bangChung": { "duong": [], "diemCuoi": [], "tep": [] }
+    },
+    {
+      "id": "M2",
+      "nguyenVan": "<chép NGUYÊN VĂN câu chủ dự án nói>",
+      "trangThai": "chua-lam",
+      "conThieu": "<≥40 ký tự: còn thiếu gì cụ thể để mục này thành xong — nêu đường HTTP / tệp kiểm sẽ là bằng chứng>",
+      "bangChung": { "duong": [], "diemCuoi": [], "tep": [] },
+      "_viDuHoan": "Khi chủ dự án quyết hoãn: thêm \"hoanSang\": \"R2\" và \"huynhDuyet\": \"<nguyên văn câu chủ dự án đồng ý hoãn>\"; đồng thời mở mục BL- ở BACKLOG.md §ⓑ kèm điều kiện bung lại."
+    }
+  ]
+}

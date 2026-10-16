@@ -1,0 +1,26 @@
+{
+  "_doc": "BẢNG DÂY CƯƠNG — NGUỒN SỰ THẬT DUY NHẤT cho mức tự hành của AI theo từng mục việc. gate-check.cjs đọc THẲNG từ đây (--muc <mã>). DELEGATION-MAP.md chỉ TRỎ tới đây và giữ phần văn xuôi vì sao — không chép giá trị ra chỗ thứ hai.",
+  "_gioi_han": [
+    "File này KHÔNG ngăn được việc hạ một mục từ A+ xuống A. Nó chỉ làm việc hạ mức KHÔNG THỂ LẶNG LẼ: một dòng đổi trong file dữ liệu nhỏ, hiện rõ trong git diff.",
+    "Người duy nhất thật sự chặn được là chủ dự án khi đọc git diff. AI CÓ XUNG ĐỘT LỢI ÍCH ở file này: nới nó thì AI được lợi."
+  ],
+  "_y_nghia_muc": {
+    "A": "Leash A ≈ L3 — AI tự làm tới bản nháp rồi báo, tự kiểm bằng cổng máy.",
+    "A+": "Leash A+ ≈ L4 — AI PHẢI DỪNG HỎI chủ dự án TRƯỚC. Cổng máy đòi cờ --huynh-xac-nhan <ngày>; AI KHÔNG được tự cắm."
+  },
+  "_luat_sua_file_nay": [
+    "Hạ một mục từ A+ xuống A = NỚI LUẬT QUẢN AI = điều dừng 5. AI không tự làm, và phải khai rằng mình được lợi.",
+    "Thêm mục mới thì ghi luôn vi_sao — mục không có lý do là mục không ai bảo vệ được khi bị chất vấn.",
+    "Bước 6 phải điền bảng này TRƯỚC Bước 8 — xây việc A+ khi bảng còn trống thì cổng máy không bao giờ đòi cờ."
+  ],
+  "muc": {
+    "MA-THUONG": { "leash": "A", "ten": "Mã nghiệp vụ thông thường, không chạm dữ liệu nhạy", "vi_sao": "Kết quả kiểm được bằng test; không chạm dữ liệu cá nhân, không chạm nội dung người dùng đọc trực tiếp." },
+    "DU-LIEU-CA-NHAN": { "leash": "A+", "ten": "Việc đọc/ghi dữ liệu cá nhân người dùng", "vi_sao": "Dữ liệu người thật; sai là không hoàn lại được và có hệ quả pháp lý." },
+    "LUOC-DO-CSDL": { "leash": "A+", "ten": "Đổi cấu trúc CSDL / di trú", "vi_sao": "Ảnh hưởng mọi dữ liệu đang có; di trú trên CSDL người thật phải gộp một đợt và có sao lưu." },
+    "PHAN-QUYEN": { "leash": "A+", "ten": "Xác thực · phân quyền · mật khẩu / OTP", "vi_sao": "Sai một dòng là lộ dữ liệu hoặc khoá nhầm người thật." },
+    "KHOA-BI-MAT": { "leash": "A+", "ten": "Khoá bí mật · credential · cấu hình môi trường thật", "vi_sao": "Luật cứng #2. Lộ là phải xoay vòng, không chỉ xoá dòng." },
+    "NOI-DUNG-NGUOI-DUNG": { "leash": "A+", "ten": "Nội dung AI sinh mà người dùng cuối đọc trực tiếp", "vi_sao": "Rủi ro bịa / vùng cấm; phải có nguồn và lớp duyệt của người." },
+    "PHAT-HANH": { "leash": "A+", "ten": "Đẩy lên môi trường có người dùng thật · mời người thật", "vi_sao": "Luật cứng #1 + điều dừng 6. Cổng UAT→Production + chữ ký chủ dự án." },
+    "TAI-LIEU-NOI-BO": { "leash": "A", "ten": "Tài liệu nội bộ ghi lại việc đã làm", "vi_sao": "Chủ dự án không cần duyệt; nhưng ranh giới ghi lại ↔ diễn giải mỏng — thấy mình tô hồng thì dừng (điều dừng 5)." }
+  }
+}

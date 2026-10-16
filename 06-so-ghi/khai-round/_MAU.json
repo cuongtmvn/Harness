@@ -1,0 +1,19 @@
+{
+  "_doc": "BẢNG KHAI MỞ ROUND — chép thành Log/khai-round/<mvp>-R<k>.json. Khai ĐỦ 11 Bước TRƯỚC khi chạy (PLAYBOOK §0.4). Mỗi Bước đúng một trạng thái: cham | khong-cham | ke-thua. MỌI Bước đều phải có lyDo = VIỆC CỤ THỂ (kể cả cham) — lời khai trống thì không đối chiếu được. Round 1 ngầm định không cần bảng này.",
+  "mvp": "01",
+  "round": "R2",
+  "moVi": "<Round này mở vì KHOẢNG CÁCH NÀO của Round trước — nguyên văn chủ dự án nếu có>",
+  "buoc": [
+    { "so": "0", "trangThai": "cham", "lyDo": "<việc cụ thể: phạm vi Round này gồm gì, cố ý KHÔNG làm gì>" },
+    { "so": "1", "trangThai": "cham", "lyDo": "<story mới nào, AC đo bằng gì>" },
+    { "so": "2", "trangThai": "ke-thua", "lyDo": "<vì sao không có module mới — hoặc có thì phải cham>" },
+    { "so": "3", "trangThai": "ke-thua", "lyDo": "<không đổi lược đồ / phân quyền; nếu đổi ⇒ cham và V4.doiThietKe:true>" },
+    { "so": "4", "trangThai": "cham", "lyDo": "<chẻ việc + gán mã task cấp 3 TRƯỚC khi làm>" },
+    { "so": "5", "trangThai": "cham", "lyDo": "<ước lượng theo giờ thật của Round trước>" },
+    { "so": "6", "trangThai": "ke-thua", "lyDo": "<rủi ro mới nào không; dây cương có mục mới không — có thì cham, và PHẢI xong trước Bước 8>" },
+    { "so": "7", "trangThai": "cham", "lyDo": "<DoR cho lát cắt của Round này, chạy TRƯỚC khi viết mã>" },
+    { "so": "8", "trangThai": "cham", "lyDo": "<xây gì, không xây gì>" },
+    { "so": "9", "trangThai": "cham", "lyDo": "<bộ ca soạn trước; Tester lượt 1; chủ dự án lượt 2>" },
+    { "so": "10", "trangThai": "cham", "lyDo": "<telemetry mọi task + RTM khép vòng + kiem-pham-vi>" }
+  ]
+}

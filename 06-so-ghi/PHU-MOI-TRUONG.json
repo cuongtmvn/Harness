@@ -1,0 +1,21 @@
+{
+  "_doc": "BẢNG PHỦ MÔI TRƯỜNG × TẦNG ĐO — trả lời câu 'phép đo này chạy Ở ĐÂU?'. Mọi cổng khác đếm SỐ CA; chỉ bảng này đếm NƠI CHẠY. Một phép đo đúng, chạy nhầm môi trường, vẫn là không đo — mà nó làm mọi con số đẹp lên.",
+  "_coCheGac": "node Log/kiem-phu-moi-truong.cjs — ① ô trống phải khai lyDo ≥60 ký tự · ② tệp khai phải CÓ THẬT và THỰC SỰ nhắc tới môi trường đó (config › moiTruong.<x>.dauHieu) · ③ tệp bắn tới production mà không ô nào khai ⇒ cảnh báo. ⛔ Không tự suy môi trường bằng cách quét mã — bắt KHAI thì người viết phải trả lời câu 'kiểm ở đâu'.",
+  "moiTruong": {
+    "uat": "<http://127.0.0.1:cổng — máy chủ dự án, nơi chủ dự án kiểm thử trực tiếp>",
+    "production": "<https://tên-miền — có người dùng thật>"
+  },
+  "tangDo": {
+    "don-vi": "Gọi thẳng hàm/lớp. Không qua mạng.",
+    "http": "Gửi yêu cầu HTTP. Đo MÁY CHỦ. Không dựng hình, không chạy JavaScript.",
+    "trinh-duyet": "Trình duyệt thật dựng hình và BẤM. Lớp DUY NHẤT đo được: nút có bấm được không · JavaScript có chạy không · biểu mẫu gửi đúng trường không."
+  },
+  "o": [
+    { "moiTruong": "uat", "tang": "don-vi", "boiTep": [], "lyDo": "<≥60 ký tự, hoặc liệt kê tệp test đơn vị trong boiTep — thường là toàn bộ App/tests/test_*.py không qua mạng>" },
+    { "moiTruong": "uat", "tang": "http", "boiTep": [], "lyDo": "<≥60 ký tự: vì sao chưa có / không thể có phép đo HTTP ở UAT>" },
+    { "moiTruong": "uat", "tang": "trinh-duyet", "boiTep": [], "lyDo": "<≥60 ký tự: nếu ứng dụng dựng trang ở máy chủ, không JS, thì nói rõ vì sao HTTP là đủ>" },
+    { "moiTruong": "production", "tang": "don-vi", "boiTep": [], "lyDo": "Test đơn vị gọi thẳng hàm, không có khái niệm môi trường production — ô này trống theo định nghĩa, không phải vì chưa ai đo." },
+    { "moiTruong": "production", "tang": "http", "boiTep": [], "lyDo": "<≥60 ký tự — thường là Log/kiem-prod-doc.* (chỉ đọc) chạy sau mỗi lần đẩy>" },
+    { "moiTruong": "production", "tang": "trinh-duyet", "boiTep": [], "lyDo": "<≥60 ký tự — phép ghi vào CSDL production KHÔNG nằm trong App/tests/, chạy có ý sau mỗi lần đẩy>" }
+  ]
+}

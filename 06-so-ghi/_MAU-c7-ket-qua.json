@@ -1,0 +1,8 @@
+{
+  "_doc": "c7 — Retrieval quality: phép đo HÀNH VI, chạy tay. Soạn ~10 câu hỏi về chức năng (người KHÁC soạn — người soạn biết tài liệu nằm đâu sẽ vô tình chỉ hỏi câu tra được), với mỗi câu AI phải trỏ ra 4 nguồn: spec · code · test · quyết định. Chấm theo 4 cột (đủ/thiếu/sai), không chấm một điểm đúng-sai. soO = 4 × số câu. Chưa đo thì XOÁ file này (doc-health sẽ ghi chuaDo), ⛔ không điền số cho có.",
+  "doLuc": "<YYYY-MM-DD>",
+  "soCauHoi": 0,
+  "soO": 0,
+  "soODung": 0,
+  "ghiChu": "<mỗi ô trích file:dòng để soi lại; chức năng nào đủ cả 4 nguồn>"
+}

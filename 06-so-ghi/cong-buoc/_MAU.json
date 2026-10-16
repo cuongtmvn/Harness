@@ -1,0 +1,23 @@
+{
+  "_doc": "BẢN KHAI CỔNG — chép thành Log/cong-buoc/<mvp>[-<round>]-B<n>.json (ví dụ 01-B0.json · 02-R2-B8.json). 13 mục: V1-V6 (cổng VÀO, khai lúc MỞ Bước) + R1,R2,R3,R5,R6,R7,R8 (cổng RA, khai lúc ĐÓNG). R4 là 13 điều kiện máy, không khai tay. Mỗi mục {dat, canCu}; dat:false BẮT BUỘC lyDo — đó là NỢ ĐÃ GHI, không phải việc đã làm. Xoá các dòng _huongDan khi dùng.",
+  "_khaiBu": false,
+  "mvp": "01",
+  "round": "R1",
+  "buoc": "0",
+  "moTa": "<Bước này làm gì trong MVP/Round này · artefact ra là gì>",
+
+  "V1": { "dat": false, "canCu": "", "lyDo": "", "_huongDan": "Bản ghi MỚI NHẤT của Bước trước trong PHASE-GATE-LOG.ndjson là ketQua='qua' (không phải 'huy'). Bước 0 hoặc Bước trước khai khong-cham/ke-thua ⇒ ghi rõ." },
+  "V2": { "dat": false, "canCu": "", "keThua": [], "lyDo": "", "_huongDan": "Đã đọc RTM.md khối RÀNG BUỘC THEO BƯỚC. keThua = MẢNG, mỗi phần tử MỘT ràng buộc chép từ R5 của Bước trước (điều kiện máy g). Không mang gì thì nói vì sao." },
+  "V3": { "dat": false, "canCu": "", "lyDo": "", "_huongDan": "Nguồn dữ liệu cần có đã có mặt — đường dẫn + ai xác nhận. Nguồn thiếu thì NÊU TÊN, không lấp bằng suy đoán." },
+  "V4": { "dat": false, "canCu": "", "doiThietKe": false, "lyDo": "", "_huongDan": "Điểm mơ hồ viết TRƯỚC khi làm, mỗi điểm gắn nhãn 'tự quyết được' hoặc 'hỏi chủ dự án (điều dừng số mấy)' — điểm phải hỏi đã vào CHO-QUYET.ndjson. doiThietKe:true nếu Round này chạm lại lược đồ/phân quyền/phạm vi (REVIEW-POLICY §3)." },
+  "V5": { "dat": false, "canCu": "", "lyDo": "", "_huongDan": "4 câu phản xạ: (1) quyền tác động tới đâu (2) L nào, A hay A+ (3) cổng nào gác đầu ra (4) phần nguy hiểm ai đích thân duyệt." },
+  "V6": { "dat": false, "canCu": "", "chuaQuyet": "", "lyDo": "", "_huongDan": "Quyết định đã chốt áp cho Bước này (D-…, NFR-…, M…). chuaQuyet = quyết định Bước này cần mà chưa có." },
+
+  "R1": { "dat": false, "canCu": "", "lyDo": "", "_huongDan": "'Done khi' của Bước (PLAYBOOK) — TỪNG tiêu chí PASS/FAIL, không 'gần đúng'." },
+  "R2": { "dat": false, "canCu": "", "lyDo": "", "_huongDan": "Bằng chứng chỉ được cho mỗi PASS: đường dẫn · lệnh chạy lại được · dòng PROOF-LOG. Loại bằng chứng theo PHASEGATE §6." },
+  "R3": { "dat": false, "lopReview": "", "nguoiReview": "", "phatHien": [], "quyetDinh": "", "canCu": "", "lyDo": "", "_huongDan": "lopReview: 'doc-lap' | 'tu-soi' theo REVIEW-POLICY. doc-lap ⇒ nguoiReview + phatHien[] (0 phát hiện thì [] và nói đã soi gì) + quyetDinh = NGUYÊN VĂN chủ dự án. Quyết định đã vào DEVBOOK." },
+  "R5": { "dat": false, "canCu": "", "lyDo": "", "_huongDan": "Ràng buộc phát sinh cho Bước SAU đã ghi vào RTM.md khối RÀNG BUỘC THEO BƯỚC. Chép nội dung ràng buộc vào canCu (điều kiện g đối chiếu từ khoá)." },
+  "R6": { "dat": false, "canCu": "", "lyDo": "", "_huongDan": "Mọi điểm mơ hồ ở V4 đã giải quyết hoặc đã thành ràng buộc/mục chờ quyết. Điểm phát sinh thêm mà chưa giải ⇒ dat:false + lyDo (nợ đã ghi)." },
+  "R7": { "dat": false, "canCu": "", "lyDo": "", "_huongDan": "Đã chạy node Log/doc-health.cjs lúc đóng Bước; dán số thật ĐỦ 7 mã c1 c2 c3 c4 c5 c6 c7 (không đo được thì ghi rõ kèm lý do, không bịa)." },
+  "R8": { "dat": false, "canCu": "", "lyDo": "", "_huongDan": "Đã đẩy git qua skill day-git; thư mục gác sạch. File của PHIÊN KHÁC ⇒ dat:false + lyDo, không commit hộ." }
+}

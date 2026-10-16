@@ -1,0 +1,68 @@
+{
+  "_doc": "Hook của harness. Chép vào <dự án>/.claude/settings.json (hoặc gộp khối hooks nếu đã có). Skill để NẠP, Hook để CHẶN: việc nào AI có thể quên mà hậu quả không hoàn lại được thì bắt buộc là Hook. ⛔ Tệp này là hạ tầng gác luật — AI không được sửa/tắt (điều dừng 5).",
+  "permissions": {
+    "allow": [
+      "Bash(node Log/gate-check.cjs *)",
+      "Bash(node Log/kiem-luat.cjs *)",
+      "Bash(node Log/kiem-luat.cjs)",
+      "Bash(node Log/rtm-check.cjs)",
+      "Bash(node Log/doc-health.cjs)",
+      "Bash(node Log/cho-quyet.cjs *)",
+      "Bash(node Log/cho-quyet.cjs)",
+      "Bash(node Log/kiem-backlog.cjs)",
+      "Bash(node Log/kiem-pham-vi.cjs *)",
+      "Bash(node Log/kiem-pham-vi.cjs)",
+      "Bash(node Log/kiem-phu-moi-truong.cjs)",
+      "Bash(node Log/kiem-c2-staged.cjs *)",
+      "Bash(node Log/kiem-c2-staged.cjs)",
+      "Bash(node Log/kiem-khoa-lo.cjs *)",
+      "Bash(node Log/kiem-khoa-lo.cjs)",
+      "Bash(node Log/check-telemetry-gaps.cjs)",
+      "Bash(node Log/do-gio.cjs *)",
+      "Bash(node Log/do-gio.cjs)",
+      "Bash(node Log/kiem-harness.cjs)",
+      "Bash(node Log/kiem-day-git.cjs)",
+      "Bash(git status *)",
+      "Bash(git diff *)",
+      "Bash(git log *)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash|PowerShell",
+        "hooks": [
+          { "type": "command", "command": "node \"${CLAUDE_PROJECT_DIR}/.claude/hooks/chan-git-commit-tay.cjs\"", "statusMessage": "Kiểm git commit có đi qua skill day-git không...", "timeout": 10 },
+          { "type": "command", "command": "node \"${CLAUDE_PROJECT_DIR}/.claude/hooks/chan-ghi-de-file-luat.cjs\"", "statusMessage": "Kiểm lệnh có ghi đè file luật không...", "timeout": 10 },
+          { "type": "command", "command": "node \"${CLAUDE_PROJECT_DIR}/.claude/hooks/chan-ghi-csdl-that.cjs\"", "statusMessage": "Kiểm lệnh có ghi vào CSDL thật khi chưa sao lưu không...", "timeout": 10 }
+        ]
+      },
+      {
+        "matcher": "Write",
+        "hooks": [
+          { "type": "command", "command": "node \"${CLAUDE_PROJECT_DIR}/.claude/hooks/chan-ghi-de-file-luat.cjs\"", "statusMessage": "Kiểm có đang ghi đè file luật không...", "timeout": 10 }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "hooks": [
+          { "type": "command", "command": "node \"${CLAUDE_PROJECT_DIR}/.claude/hooks/log-tool-event.cjs\" 2>/dev/null || true", "statusMessage": "Ghi mốc giờ tool event...", "async": true }
+        ]
+      },
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          { "type": "command", "command": "node \"${CLAUDE_PROJECT_DIR}/.claude/hooks/kiem-luat-hook.cjs\" 2>&1 || true", "statusMessage": "Kiểm luật..." }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          { "type": "command", "command": "node \"${CLAUDE_PROJECT_DIR}/.claude/hooks/log-usage.cjs\" 2>/dev/null || true", "statusMessage": "Ghi log token usage vào Log/USAGE.md..." }
+        ]
+      }
+    ]
+  }
+}

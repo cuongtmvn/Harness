@@ -1,0 +1,209 @@
+{
+  "_doc": "CẤU HÌNH HARNESS — một file duy nhất, mọi công cụ trong Log/*.cjs và .claude/hooks/*.cjs đọc từ đây. Đặt ở GỐC dự án. Công cụ tìm file này bằng cách đi ngược thư mục từ vị trí của chính nó.",
+  "_cachDung": [
+    "Sao chép sang gốc dự án mới (node <Harness>/07-cai-dat/cai-dat.cjs <đường-dẫn-dự-án> làm việc này).",
+    "Sửa các trường có dấu <...>. Trường nào không dùng thì để nguyên giá trị mặc định, ⛔ đừng xoá khoá.",
+    "Chạy `node Log/kiem-harness.cjs` để xác nhận cấu hình hợp lệ và mọi công cụ/sổ có mặt.",
+    "⛔ Ba khối `reviewPolicy`, `congRaRieng`, `csdlThat` là LUẬT QUẢN AI — AI không được tự nới (điều dừng 5)."
+  ],
+
+  "duAn": {
+    "ten": "<TÊN DỰ ÁN>",
+    "moTaMotDong": "<một dòng nói sản phẩm là gì>",
+    "ngayBatDau": "<YYYY-MM-DD>"
+  },
+
+  "vaiTro": {
+    "chu": "Huynh",
+    "ai": "CULI",
+    "_doc": "Tên gọi hai vai trong mọi thông báo của công cụ. `chu` = chủ dự án, người quyết; `ai` = AI thực thi."
+  },
+
+  "thuMuc": {
+    "luat": "Instructions",
+    "output": "Output",
+    "log": "Log",
+    "app": "App",
+    "tests": "App/tests",
+    "gacGit": ["App", "Output"],
+    "_doc": "gacGit = các thư mục mà cổng R8 đòi phải sạch (đã commit) trước khi đóng Bước."
+  },
+
+  "tep": {
+    "_doc": "Tên tệp của từng artefact. Khoá là CỐ ĐỊNH (công cụ gọi theo khoá), giá trị là tên tệp tuỳ dự án. Nhóm nào nằm ở thư mục nấy.",
+    "output": {
+      "SCOPE": "SCOPE.md",
+      "SPEC": "SPEC.md",
+      "MODULEMAP": "MODULEMAP.md",
+      "ARCH": "ARCH.md",
+      "WBS": "WBS.md",
+      "EST": "EST.md",
+      "RISK": "RISK.md",
+      "DELEGATION": "DELEGATION-MAP.md",
+      "DOR": "DOR.md",
+      "DEVBOOK": "DEVBOOK.md",
+      "SITUAT": "SITUAT.md",
+      "RTM": "RTM.md",
+      "TELEMETRY": "TELEMETRY.md",
+      "WEEKLY": "WEEKLY.md",
+      "BACKLOG": "BACKLOG.md"
+    },
+    "log": {
+      "TASKLIST": "TASKLIST.md",
+      "PHASE_GATE_LOG": "PHASE-GATE-LOG.ndjson",
+      "PROOF_LOG": "PROOF-LOG.ndjson",
+      "CHO_QUYET": "CHO-QUYET.ndjson",
+      "HOOK_EVENTS": "HOOK-EVENTS.ndjson",
+      "USAGE": "USAGE.md",
+      "DOC_HEALTH": "DOC-HEALTH.json",
+      "DOC_HEALTH_THEO_BUOC": "doc-health-theo-buoc",
+      "CONG_BUOC": "cong-buoc",
+      "KHAI_ROUND": "khai-round",
+      "DAYGIT_LOG": "DAYGIT-LOG.ndjson",
+      "MOC_DAY_GIT": ".moc-day-git.json",
+      "NGOAI_LE_PROD": "NGOAI-LE-PRODUCTION.ndjson",
+      "C7_KET_QUA": "c7-ket-qua.json",
+      "CHAN_GIT": "CHAN-GIT-COMMIT.ndjson",
+      "CHAN_GHI_DE": "CHAN-GHI-DE-LUAT.ndjson",
+      "CHAN_CSDL": "CHAN-CSDL-THAT.ndjson"
+    },
+    "luat": {
+      "PLAYBOOK": "PLAYBOOK.md",
+      "PHASEGATE": "PHASEGATE.md",
+      "OPERATING_MODEL": "OPERATING-MODEL.md",
+      "RUNBOOK": "RUNBOOK.md",
+      "REVIEW_POLICY": "REVIEW-POLICY.md",
+      "TRACEABILITY": "TRACEABILITY.md",
+      "LUAT_DANGKY": "LUAT-DANGKY.json",
+      "LEASH": "LEASH-BANG.json",
+      "PHAM_VI": "PHAM-VI-MVP.json",
+      "PHU_MOI_TRUONG": "PHU-MOI-TRUONG.json"
+    }
+  },
+
+  "tepLuat": {
+    "_doc": "Những tệp được coi là FILE LUẬT: sửa vào là kiem-luat.cjs phải chạy, ghi đè toàn bộ bị hook chặn. Đường dẫn tương đối từ gốc dự án.",
+    "danhSach": [
+      "CLAUDE.md",
+      "Instructions/PLAYBOOK.md",
+      "Instructions/PHASEGATE.md",
+      "Instructions/OPERATING-MODEL.md",
+      "Instructions/REVIEW-POLICY.md",
+      "Instructions/TRACEABILITY.md"
+    ],
+    "haTangGac": [
+      "harness.config.json",
+      ".claude/settings.json",
+      ".claude/hooks/chan-git-commit-tay.cjs",
+      ".claude/hooks/chan-ghi-de-file-luat.cjs",
+      ".claude/hooks/chan-ghi-csdl-that.cjs",
+      "Log/kiem-luat.cjs",
+      "Log/gate-check.cjs"
+    ]
+  },
+
+  "maTask": {
+    "tienTo": "MVP_",
+    "_doc": "Mã task cấp 3: MVP_<nn>.<bước>[a-z]?[.R<k>].<nhóm>.<loại>.<số>. Ví dụ MVP_01.8.A.BUILD.1 · MVP_02.8.R2.B.BUILD.3. Round chèn SAU số Bước. Task sinh mã chạy được mang nhãn `.BUILD.`."
+  },
+
+  "ma": {
+    "_doc": "Regex (chuỗi, không có dấu /) cho các họ mã dùng trong truy vết.",
+    "story": "US-\\d+",
+    "backlog": "PB-\\d{3}",
+    "quyetDinh": "D-[A-Z]+-[A-Z]*\\d+|NFR-[A-Z0-9]+-\\d+",
+    "ruiRo": "R-[A-Z0-9]+-\\d+|R\\d+",
+    "mucTieu": "M\\d+",
+    "testCase": "(UAT|SIT|IT|UT)-[A-Z0-9]*-?\\d+"
+  },
+
+  "maCode": {
+    "_doc": "Tệp nào được coi là MÃ SẢN PHẨM (cho cổng c2, c4, kiem-khoa-lo).",
+    "duoi": ["py", "js", "ts", "tsx", "jsx", "html", "css", "go", "java", "cs", "rb", "php", "sql"],
+    "boQua": ["venv/", "node_modules/", "__pycache__/", ".git/", "dist/", "build/", "logs/"]
+  },
+
+  "kiemThu": {
+    "_doc": "Cách đếm/chạy bộ kiểm thử. `lenhDemCa` chạy ở thư mục `thuMuc.app`; `khuonSoCa` là regex lấy con số từ đầu ra. Đổi theo ngôn ngữ: pytest · jest · go test · dotnet test...",
+    "lenhDemCa": "python -m pytest -q --collect-only",
+    "khuonSoCa": "(\\d+)\\s+tests?\\s+collected",
+    "lenhChayBo": "python -m pytest -q",
+    "tienToTepTest": "test_",
+    "duoiTepTest": ".py"
+  },
+
+  "route": {
+    "_doc": "Cách tìm ĐƯỜNG HTTP CÓ THẬT trong mã (kiem-pham-vi dùng để chống khai `xong` khống). Regex nhóm 1 = đường dẫn.",
+    "thuMuc": "App/routes",
+    "khuon": "@router\\.(?:get|post|put|delete|patch)\\(\\s*[\"'](\\/[^\"']*)"
+  },
+
+  "moiTruong": {
+    "_doc": "Hai môi trường tối thiểu. `dauHieu` = regex nhận ra một tệp kiểm THỰC SỰ bắn tới môi trường đó (kiem-phu-moi-truong).",
+    "uat": { "ten": "UAT", "diaChi": "http://127.0.0.1:<cổng>", "dauHieu": "127\\.0\\.0\\.1|localhost|TestClient" },
+    "production": { "ten": "PRODUCTION", "diaChi": "https://<tên-miền>", "dauHieu": "<tên-miền-không-dấu-chấm-escape>" }
+  },
+
+  "csdlThat": {
+    "_doc": "Hook chan-ghi-csdl-that: lệnh có ý định GHI vào CSDL thật chỉ chạy khi có bản sao lưu mới. Để `khuon` rỗng nếu dự án chưa có CSDL thật. ⛔ AI không được tự nới.",
+    "khuon": ["\\bApp[\\/\\\\]db[\\/\\\\][\\w.-]+\\.(db|sqlite3?)\\b"],
+    "khuonProd": "",
+    "kichBanNguy": "\\b(init_db|migrate_\\w+|seed_\\w+)\\.(py|js|ts|sql)\\b",
+    "thuMucSaoLuu": "App/db",
+    "khuonSaoLuu": "\\.(db|sqlite3?)\\.bak",
+    "hanSaoLuuPhut": 120
+  },
+
+  "docHealth": {
+    "_doc": "Tham số cho 7 chỉ số sức khoẻ tài liệu (DOC-HEALTH-RULES.md).",
+    "nguongRuiRoCao": 12,
+    "c4": { "ngonNgu": "python", "diemVao": ["main.py"], "_doc": "ngonNgu: python | none. `none` ⇒ chiều ngược (cơ chế chết) khai là không đo được bằng máy." },
+    "c2LoaiTru": [],
+    "c2_loaiTru_doc": "Mã commit bản nhập ban đầu (initial import) — luôn bị chấm 'coupled' giả nên phải loại."
+  },
+
+  "reviewPolicy": {
+    "_doc": "⛔ LUẬT QUẢN AI. Bước nào BẮT BUỘC có LỚP REVIEW ĐỘC LẬP (R3.lopReview = 'doc-lap', có nguoiReview + phatHien + quyetDinh của chủ dự án), và ở Round nào. Giá trị: 'moi-round' (mọi Round) · 'round-dau' (chỉ Round đầu của MVP; Round sau tự soi là đủ) · 'khong' (tự soi là đủ). Chi tiết: Instructions/REVIEW-POLICY.md.",
+    "macDinh": "round-dau",
+    "buoc": {
+      "0": "moi-round",
+      "1": "round-dau",
+      "2": "round-dau",
+      "3": "round-dau",
+      "4": "khong",
+      "5": "khong",
+      "6": "round-dau",
+      "7": "round-dau",
+      "8": "moi-round",
+      "9": "moi-round",
+      "10": "khong"
+    }
+  },
+
+  "congRaRieng": {
+    "_doc": "Cổng RA RIÊNG của từng Bước: danh sách lệnh phải trả mã thoát 0 thì Bước mới đóng được (điều kiện máy (m)). Lệnh chạy ở gốc dự án. ⛔ AI không được tự bớt.",
+    "1": ["node Log/kiem-backlog.cjs"],
+    "3": [],
+    "8": [],
+    "9": ["node Log/kiem-phu-moi-truong.cjs"],
+    "10": ["node Log/kiem-pham-vi.cjs --cho-phep-chua-giao"]
+  },
+
+  "dayGit": {
+    "_doc": "mocGoc = commit đầu tiên SAU khi cài harness; kiem-day-git chỉ soi từ đó. ⛔ Không dời mốc để né commit thiếu vết. tepBiMat/tepDuLieu = khuôn chặn C1/C2 của skill day-git (regex).",
+    "mocGoc": "",
+    "tepBiMat": "(^|/)\\.env(\\.|$)|credential|secret|\\.key$|\\.pem$",
+    "ngoaiLeBiMat": ["App/.env.example"],
+    "tepDuLieu": "\\.(db|sqlite3?)(\\.|$)|\\.db-(wal|shm|journal)$"
+  },
+
+  "lenhKichHoat": {
+    "_doc": "Câu chủ dự án gõ ⇒ AI làm gì. Chép vào CLAUDE.md của dự án; để ở đây để công cụ do-gio.cjs nhận ra ranh giới khối làm việc.",
+    "napContext": "nạp context",
+    "banGiao": "BANGIAO|HANDOFF",
+    "moBuoc": "mở Bước",
+    "dongBuoc": "đóng Bước",
+    "dayGit": "đẩy git đi",
+    "dayProduction": "đẩy lên production"
+  }
+}

@@ -3,6 +3,13 @@
 > Mỗi mục ghi đủ: **dự án nguồn** · **lớp** (*lõi chung* = mọi dự án · *gói `<loại>`* = dự án cùng loại · *riêng* = không đưa) · **bắt buộc / khuyến nghị** với dự án nhận · **tệp đổi** · **vì sao** (bằng chứng). Mục *bắt buộc* mà `cap-nhat.cjs` không tự làm được thì ghi rõ dự án nhận phải làm gì.
 > Số bản: `VERSION`. PATCH sửa chữ / lỗi công cụ · MINOR thêm luật, công cụ, hook, skill, gói · MAJOR đổi cấu trúc thư mục, khoá `harness.config.json`, cách khai cổng.
 
+## 1.1.1 — 2026-10-17 · đăng ký Mười Ngón, nới luật sổ đăng ký
+
+| Lớp | Mức | Tệp | Vì sao |
+|---|---|---|---|
+| lõi chung | khuyến nghị | `CLAUDE.md` (kho) luật 1 | Sổ `DU-AN-DANG-KY.json` đổi mỗi lần một dự án đăng ký / cập nhật — bắt tăng bản cho việc đó sinh số bản rỗng nghĩa. Ngoại lệ ghi rõ, vẫn phải commit + đẩy kèm thông điệp `sổ đăng ký: …` |
+| sổ | — | `08-cap-nhat/DU-AN-DANG-KY.json` | Mười Ngón đăng ký bản 1.1.0 (19 tệp riêng, 64 tệp chép); việc còn lại ở dự án: gộp hook vào `settings.json` riêng, điền `harness.config.json`, đồng bộ `LUAT-DANGKY.json` với PLAYBOOK bản riêng |
+
 ## 1.1.0 — 2026-10-17 · cơ chế cập nhật hai chiều + tài liệu tương tác
 
 Nguồn: phiên Harness 17/10/2026, theo hai cơ chế Huynh chốt (ghi ở `tomtat.md` mục 2) và tám cải tiến mục 4.

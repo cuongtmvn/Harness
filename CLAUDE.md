@@ -23,7 +23,7 @@ Chủ dự án = **Huynh**. AI = **ĐỆ** (ở dự án thì là CULI theo `har
 
 ## 🔒 Luật của kho
 
-1. **Mọi thay đổi nội dung harness = tăng `VERSION` + mục `CHANGELOG.md`** (PATCH chữ/lỗi · MINOR thêm · MAJOR đổi cấu trúc/khoá). Sửa `MO-TA-HARNESS.html` hay README không đổi luật thì PATCH.
+1. **Mọi thay đổi nội dung harness = tăng `VERSION` + mục `CHANGELOG.md`** (PATCH chữ/lỗi · MINOR thêm · MAJOR đổi cấu trúc/khoá). Sửa `MO-TA-HARNESS.html` hay README không đổi luật thì PATCH. Ngoại lệ duy nhất không cần tăng bản: sổ `08-cap-nhat/DU-AN-DANG-KY.json` (ghi dự án nào ở bản nào) — vẫn commit + đẩy GitHub với thông điệp `sổ đăng ký: …`.
 2. **Không đẩy GitHub mà thiếu ghi chú** — ghi chú = mục CHANGELOG + thông điệp commit trùng nhau.
 3. **Sửa tệp luật (`00`–`03`) = Edit từng khối**, không ghi đè cả tệp; thêm luật thì thêm dòng vào `06-so-ghi/LUAT-DANGKY.json`; chạy `node 04-cong-may/kiem-luat.cjs --mat --trung` sau khi sửa (chạy trong một dự án đã cài, hoặc thư mục cài thử).
 4. **Chạm luật quản AI** (dây cương, 7 điều dừng, cổng, `reviewPolicy`, `congRaRieng`, `csdlThat`, hook, `gate-check.cjs`, `kiem-luat.cjs`, `settings.json`) ⇒ khai *"ĐỆ được lợi nếu nới"* rồi dừng chờ Huynh — điều dừng 5.

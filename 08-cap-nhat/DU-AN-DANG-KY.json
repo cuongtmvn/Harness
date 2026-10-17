@@ -22,8 +22,9 @@
       "duongDan": "D:\\OneDrive\\AI\\TypingMaster\\Source code\\typingmaster",
       "repo": null,
       "loai": "desktop-tauri",
-      "banDangDung": null,
-      "ghiChu": "Harness rút gọn bằng tay từ Thiên Số, không qua bộ cài. Bài học chờ đưa vào harness: xem tomtat.md mục 6. Đăng ký lần đầu bằng --dang-ky."
+      "banDangDung": "1.1.0",
+      "ngayDangKy": "2026-10-17",
+      "ghiChu": "Đăng ký 2026-10-17 bằng cap-nhat.cjs --dang-ky rồi --ap-dung: 19 tệp bản riêng (CLAUDE.md, PLAYBOOK, PHAM-VI-MVP, artefact Output/, settings.json, hook log-tool-event, skill day-git), 64 tệp thiếu đã chép. settings.json là bản riêng nên hook mới chưa được cắm — gộp tay. harness.config.json mới chép còn chỗ trống <...> phải điền theo Tauri. Bài học chờ đưa vào harness: tomtat.md mục 6."
     }
   ]
 }

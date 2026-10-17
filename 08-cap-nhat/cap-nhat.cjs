@@ -4,7 +4,7 @@
  * cap-nhat.cjs — KÉO BẢN HARNESS MỚI VỀ MỘT DỰ ÁN ĐÃ CÀI (cơ chế 2: harness → dự án).
  *
  * Dùng:  node <Harness>/08-cap-nhat/cap-nhat.cjs <đường-dẫn-dự-án> [--ap-dung] [--dang-ky] [--kho]
- *   (không cờ)  CHỈ BÁO: tệp nào sẽ cập nhật, tệp nào xung đột, tệp nào thiếu. Không ghi gì.
+ *   (không cờ)  XEM TRƯỚC (dry run) — CHỈ BÁO: tệp nào sẽ cập nhật, tệp nào xung đột, tệp nào thiếu. Không ghi gì.
  *   --ap-dung   ghi thật các tệp "cập nhật được" + "thiếu"; tệp xung đột vẫn KHÔNG ghi đè.
  *   --dang-ky   dự án chưa có .harness-manifest.json (cài tay / bản cũ): dựng bảng kê từ trạng thái hiện tại,
  *               liệt kê tệp trùng harness / tệp khác / tệp thiếu. Không ghi đè tệp nào.
@@ -106,6 +106,6 @@ if (AP_DUNG) {
     if (fs.existsSync(kh)) { console.log(`\n--- node ${C.thuMuc.log}/kiem-harness.cjs ---`); try { console.log(execSync(`node ${JSON.stringify(kh)}`, { cwd: GOC, encoding: 'utf8' })); } catch (e) { console.log((e.stdout || '') + (e.stderr || '')); } }
   }
 } else if (ket.capNhat.length || ket.thieu.length) {
-  console.log('\nChưa ghi gì. Áp dụng: thêm --ap-dung.');
+  console.log('\nĐây là bản XEM TRƯỚC — chưa ghi gì. Áp dụng: thêm --ap-dung.');
 }
 process.exit(ket.xungDot.length ? 2 : 0);

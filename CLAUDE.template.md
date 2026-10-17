@@ -25,7 +25,7 @@ Tiếng Việt, ngắn gọn, thẳng, có phản biện — không xu nịnh.
 | *"đóng MVP"* | `node Log/gate-check.cjs --dong-mvp <nn> --ghi` |
 | *"đẩy git đi"* | Skill `day-git` — 5 bước có kiểm chứng. ⛔ **Cấm gõ tay `git commit`** (hook chặn) |
 | *"đẩy lên production"* | `bash Log/day-len-may-chu.sh` — chặng 1 có cổng UAT→Production, cổng phạm vi, cổng phủ môi trường. ⛔ CULI **không tự cắm cờ ngoại lệ** |
-| *"cập nhật harness"* | Skill `cap-nhat-harness` — đọc CHANGELOG bản mới → chạy khô `cap-nhat.cjs` → Huynh gật mới `--ap-dung`. Tệp dự án đã sửa riêng **không bị ghi đè**. Hook `SessionStart` chỉ **nhắc** khi có bản mới |
+| *"cập nhật harness"* | Skill `cap-nhat-harness` — đọc CHANGELOG bản mới → xem trước `cap-nhat.cjs` (dry run, chưa ghi) → Huynh gật mới `--ap-dung`. Tệp dự án đã sửa riêng **không bị ghi đè**. Hook `SessionStart` chỉ **nhắc** khi có bản mới |
 | *"đưa vào harness"* | Skill `dua-vao-harness` — viết lại cho chung · gắn lớp (lõi / gói / riêng) · cài thử dự án trống · tăng `VERSION` + `CHANGELOG` · đẩy GitHub kho Harness kèm ghi chú · ghi Dev Book |
 
 ---

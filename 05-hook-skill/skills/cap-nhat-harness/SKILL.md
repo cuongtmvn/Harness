@@ -19,7 +19,7 @@ Không có ổ chứa harness (phiên điện thoại) ⇒ `git clone https://gi
 
 **Báo Huynh:** bản A → B · số mục bắt buộc / khuyến nghị · mục nào chạm Bước đang mở. **Dừng chờ Huynh gật** (điều dừng 5: đổi luật quản AI là việc của Huynh).
 
-## Bước 2 — CHẠY THỬ KHÔ
+## Bước 2 — XEM TRƯỚC, CHƯA GHI (dry run)
 
 ```bash
 node <harnessPath>/08-cap-nhat/cap-nhat.cjs . 

@@ -17,7 +17,7 @@ Chủ dự án = **Huynh**. AI = **ĐỆ** (ở dự án thì là CULI theo `har
 |---|---|
 | *"nạp context"* | Đọc 4 tệp trên · `git status` · `git log --oneline -5` · báo bản hiện tại và tệp dở |
 | *"đưa vào harness …"* | Skill `05-hook-skill/skills/dua-vao-harness/SKILL.md` — 7 bước; Bước 4 **phải** cài thử vào thư mục trống và `kiem-harness` xanh |
-| *"cập nhật harness"* (cho dự án X) | Skill `05-hook-skill/skills/cap-nhat-harness/SKILL.md` — `node 08-cap-nhat/cap-nhat.cjs <X>` khô trước, `--ap-dung` sau khi Huynh gật |
+| *"cập nhật harness"* (cho dự án X) | Skill `05-hook-skill/skills/cap-nhat-harness/SKILL.md` — `node 08-cap-nhat/cap-nhat.cjs <X>` xem trước (dry run, chưa ghi), `--ap-dung` sau khi Huynh gật |
 | *"đẩy git đi"* | commit máy theo kỷ luật `day-git` (kho này chưa cài hook, ĐỆ tự giữ 5 bước) |
 | *"đẩy GitHub đi"* | commit + `git push origin main` — **chỉ khi** `VERSION` đã tăng và `CHANGELOG.md` có mục mới; thông điệp commit theo khuôn `harness <bản>: <tóm tắt>` + từng mục lớp/mức/tệp/vì sao |
 

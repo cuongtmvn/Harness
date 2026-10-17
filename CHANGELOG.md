@@ -3,6 +3,14 @@
 > Mỗi mục ghi đủ: **dự án nguồn** · **lớp** (*lõi chung* = mọi dự án · *gói `<loại>`* = dự án cùng loại · *riêng* = không đưa) · **bắt buộc / khuyến nghị** với dự án nhận · **tệp đổi** · **vì sao** (bằng chứng). Mục *bắt buộc* mà `cap-nhat.cjs` không tự làm được thì ghi rõ dự án nhận phải làm gì.
 > Số bản: `VERSION`. PATCH sửa chữ / lỗi công cụ · MINOR thêm luật, công cụ, hook, skill, gói · MAJOR đổi cấu trúc thư mục, khoá `harness.config.json`, cách khai cổng.
 
+## 1.2.2 — 2026-10-17 · đổi thuật ngữ "chạy khô" thành "xem trước, chưa ghi (dry run)"
+
+Nguồn: dự án Mười Ngón · Huynh hỏi *"mục 2, chạy thử khô là gì?"* rồi chỉ thị *"vậy sửa lại thuật ngữ 'chạy thử khô - dry run'"* (17/10).
+
+| Lớp | Mức | Tệp | Vì sao |
+|---|---|---|---|
+| lõi chung | khuyến nghị | `05-hook-skill/skills/cap-nhat-harness/SKILL.md` (tiêu đề Bước 2) · `08-cap-nhat/cap-nhat.cjs` (chú thích + lời báo cuối "Đây là bản XEM TRƯỚC — chưa ghi gì") · `08-cap-nhat/HUONG-DAN-CAP-NHAT.md` · `CLAUDE.md` · `CLAUDE.template.md` · `MO-TA-HARNESS.html` · `tomtat.md` · mục 1.1.0, 1.1.2 của tệp này | "Chạy khô" là dịch máy của *dry run*, đọc không hiểu ⇒ người duyệt không nhận ra đây là bước an toàn chưa ghi gì. Thuật ngữ mới nói thẳng việc nó làm: lần đầu ghi *"xem trước, chưa ghi (dry run)"*, các lần sau *"xem trước"*. ⛔ Không đổi tên tham số dòng lệnh (`--kho`, `--ap-dung`) để khỏi làm hỏng lệnh / script đang gọi. Dự án nhận: chạy "cập nhật harness" là nhận đủ (tệp skill, công cụ thuộc nhóm tự cập nhật); `CLAUDE.md` riêng của dự án nếu có chữ "chạy khô" thì sửa tay |
+
 ## 1.2.1 — 2026-10-17 · chốt bố cục workspace
 
 | Lớp | Mức | Tệp | Vì sao |
@@ -32,7 +40,7 @@ Nguồn: phiên Mười Ngón (typingmaster-fd) soát bản 1.1.1, chuyển 3 vi
 
 | Lớp | Mức | Tệp | Vì sao |
 |---|---|---|---|
-| lõi chung | khuyến nghị | `08-cap-nhat/cap-nhat.cjs` | Chạy khô trước đây im lặng về tệp dự án đã tự sửa khi harness chưa đổi tệp đó — đúng nhưng thiếu thông tin. Nay in *"dự án tự sửa N tệp"* kèm tên, để biết trước chỗ sẽ thành xung đột |
+| lõi chung | khuyến nghị | `08-cap-nhat/cap-nhat.cjs` | Bản xem trước (dry run) trước đây im lặng về tệp dự án đã tự sửa khi harness chưa đổi tệp đó — đúng nhưng thiếu thông tin. Nay in *"dự án tự sửa N tệp"* kèm tên, để biết trước chỗ sẽ thành xung đột |
 | sổ | — | `08-cap-nhat/DU-AN-DANG-KY.json` | Mục Harness không chép số bản nữa (trỏ `VERSION`, tránh lệch như 1.1.0/1.1.1); điền `repo` Thiên Số (`git@github.com:cuongtmvn/ThienSo.git`) và Mười Ngón (`https://github.com/Cuongtmvn/typingmaster`) |
 
 ## 1.1.1 — 2026-10-17 · đăng ký Mười Ngón, nới luật sổ đăng ký
@@ -50,7 +58,7 @@ Nguồn: phiên Harness 17/10/2026, theo hai cơ chế Huynh chốt (ghi ở `to
 |---|---|---|---|
 | lõi chung | bắt buộc | `VERSION` · `CHANGELOG.md` | Chưa có số bản thì không dự án nào biết mình tụt bản; không có lịch sử thì không tra được vì sao luật đổi |
 | lõi chung | bắt buộc | `07-cai-dat/_ban-do.cjs` (mới) · `07-cai-dat/cai-dat.cjs` (sửa) | Bản đồ chép tệp tách ra dùng chung cho cài và nâng cấp; bộ cài ghi `.harness-manifest.json` (bản + mã băm từng tệp) — cơ sở để nâng cấp không ghi đè phần dự án tự sửa (rủi ro 5 trong `tomtat.md`). Bộ cài nay chép **mọi** thư mục trong `05-hook-skill/skills/` |
-| lõi chung | bắt buộc | `08-cap-nhat/cap-nhat.cjs` (mới) | Công cụ nâng cấp: chạy khô báo 4 nhóm (cập nhật được · thiếu · mẫu đổi · xung đột); `--ap-dung` chỉ ghi hai nhóm đầu; `--dang-ky` cho dự án cài tay. Thoát 2 khi có xung đột |
+| lõi chung | bắt buộc | `08-cap-nhat/cap-nhat.cjs` (mới) | Công cụ nâng cấp: xem trước (dry run) báo 4 nhóm (cập nhật được · thiếu · mẫu đổi · xung đột); `--ap-dung` chỉ ghi hai nhóm đầu; `--dang-ky` cho dự án cài tay. Thoát 2 khi có xung đột |
 | lõi chung | khuyến nghị | `05-hook-skill/hooks/nhac-cap-nhat-harness.cjs` (mới) · `05-hook-skill/settings.json` (thêm `SessionStart`) | Cơ chế 2: nhắc lúc mở phiên khi có bản mới — đọc `VERSION` ở ổ máy, không có ổ (điện thoại) thì GitHub raw, chờ ≤2,5 s. Chỉ nhắc, không sửa. **Dự án đã gộp `settings.json` riêng: thêm khối `SessionStart` bằng tay** |
 | lõi chung | khuyến nghị | `05-hook-skill/skills/cap-nhat-harness/SKILL.md` (mới) | Quy trình 4 bước kéo bản mới về dự án, Huynh gật mới áp dụng |
 | lõi chung | khuyến nghị | `05-hook-skill/skills/dua-vao-harness/SKILL.md` (mới) | Cơ chế 1: 7 bước đưa bài học từ dự án vào kho — pull --ff-only (rủi ro 3), hỏi "chặn lỗi gì" (rủi ro 2), cài thử dự án trống (rủi ro 4), VERSION + CHANGELOG, đẩy GitHub kèm ghi chú theo khuôn, ghi Dev Book |

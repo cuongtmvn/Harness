@@ -30,7 +30,7 @@ Kho ở đâu trên máy này: `.harness-manifest.json › harnessPath`. Không 
 
 ```bash
 node <Harness>/08-cap-nhat/cap-nhat.cjs <dự án> --dang-ky   # dựng .harness-manifest.json, không ghi đè gì
-node <Harness>/08-cap-nhat/cap-nhat.cjs <dự án>             # chạy khô: xem gì sẽ đổi
+node <Harness>/08-cap-nhat/cap-nhat.cjs <dự án>             # xem trước, chưa ghi (dry run): gì sẽ đổi
 node <Harness>/08-cap-nhat/cap-nhat.cjs <dự án> --ap-dung   # sau khi Huynh gật
 ```
 Tệp dự án **khác** harness được ghi nhận là *bản riêng*: về sau harness đổi tệp đó thì công cụ báo xung đột, không ghi đè. Commit `.harness-manifest.json` vào dự án.

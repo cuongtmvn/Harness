@@ -85,6 +85,21 @@ L0 quan sát · L1 nháp (người duyệt 100%) · L2 đề xuất (người ch
 
 ---
 
+## 🤖 Chọn model + effort cho trợ lý — CULI tự chọn, không hỏi lại
+
+CULI chia việc rồi tự gọi trợ lý và **tự đặt model + effort** theo bảng; có vai dựng sẵn trong `.claude/agents/` thì gọi đúng tên vai (model/effort đi theo vai). Phiên chính CULI **không tự đổi** được model/effort — Huynh dùng `/model`. Lý do cần bảng: công cụ giao việc chỉ cho AI đặt effort khi `CLAUDE.md` yêu cầu rõ.
+
+| Loại việc | Vai | Model | Effort |
+|---|---|---|---|
+| Kiểm sản phẩm độc lập (UAT lượt 1, kiểm lại sau sửa) | `tester` | Sonnet | medium |
+| Dựng tài nguyên hàng loạt, script kỹ thuật rõ đầu bài | `dung-tai-nguyen` | Sonnet | medium |
+| Nội dung, tài liệu, hướng dẫn | `viet-noi-dung` | Sonnet | medium |
+| Vẽ hình, thiết kế giao diện, chấm thẩm mỹ bằng mắt | `ve-hinh` | Opus | high |
+| Tra cứu nhanh trong repo, đếm, tìm tệp | `tra-cuu` | Haiku | low |
+| Lõi, tích hợp nhiều phần, gỡ lỗi khó, quyết định thiết kế | phiên chính | Opus | high |
+
+Việc chạm vùng A+ vẫn dừng hỏi Huynh dù giao cho vai nào.
+
 ## Kiến trúc <TÊN DỰ ÁN> — không được phá
 <Các quyết định kiến trúc nền `D-ARCH-n` luôn đúng, 3–6 dòng. Ví dụ: tầng tính toán xác định tách khỏi tầng diễn giải; dữ liệu nào là nhạy; vùng cấm nào.>
 

@@ -3,6 +3,22 @@
 > Mỗi mục ghi đủ: **dự án nguồn** · **lớp** (*lõi chung* = mọi dự án · *gói `<loại>`* = dự án cùng loại · *riêng* = không đưa) · **bắt buộc / khuyến nghị** với dự án nhận · **tệp đổi** · **vì sao** (bằng chứng). Mục *bắt buộc* mà `cap-nhat.cjs` không tự làm được thì ghi rõ dự án nhận phải làm gì.
 > Số bản: `VERSION`. PATCH sửa chữ / lỗi công cụ · MINOR thêm luật, công cụ, hook, skill, gói · MAJOR đổi cấu trúc thư mục, khoá `harness.config.json`, cách khai cổng.
 
+## 1.2.0 — 2026-10-17 · bài học Mười Ngón vào lõi + hai gói desktop; 5 vai trợ lý
+
+Nguồn: Mười Ngón (`tomtat.md` mục 5–6), Huynh gật 17/10/2026 *"đồng ý làm cả 3"*. Bằng chứng: Dev Book Mười Ngón 14–16/10 (HANDOFF, CSP Tauri, tường lửa LAN, Tester không bắt được lỗi app thật).
+
+| Lớp | Mức | Tệp | Vì sao |
+|---|---|---|---|
+| lõi chung | **bắt buộc** | `00-nguyen-tac/RUNBOOK.md §8` (4 nếp) · `06-so-ghi/LUAT-DANGKY.json` (+3 luật `L-KIEM-01`, `L-HANDOFF-01`, `L-WS-01`) | Kiểm trong điều kiện chạy thật · bàn giao `Log/HANDOFF-<ngày>.md` mỗi phiên lớn · sửa tệp bằng script thì kiểm ký tự điều khiển · workspace mở đúng gốc repo. Ba cái đầu từng gây lỗi thật; cái cuối làm hook không chạy mà không ai biết. **Dự án nhận:** `LUAT-DANGKY.json` là nhóm `rieng` ⇒ chép tay 3 mục luật mới vào sổ của dự án (hoặc chạy `cap-nhat` rồi `kiem-luat --mat`) |
+| lõi chung | khuyến nghị | `05-hook-skill/skills/day-git/SKILL.md` | Thêm chế độ: *"đẩy git đi"* trên điện thoại / máy ảo = ĐẦY ĐỦ (Huynh chốt 14/10 ở Mười Ngón) |
+| lõi chung | khuyến nghị | `05-hook-skill/agents/` 5 vai (`tester`, `dung-tai-nguyen`, `viet-noi-dung`, `ve-hinh`, `tra-cuu`, có model + effort) · `CLAUDE.template.md` mục "Chọn model + effort" · `_ban-do.cjs` chép vào `.claude/agents/` (nhóm `rieng`, thay `<TÊN DỰ ÁN>`) | Công cụ giao việc chỉ cho AI đặt effort khi CLAUDE.md yêu cầu rõ; vai có sẵn thì gọi đúng tên. Dự án đã có vai riêng (Mười Ngón) giữ nguyên |
+| gói `desktop` | khuyến nghị (bắt buộc với app có LAN) | `09-goi/desktop/README.md` · `mo-tuong-lua.mau.ps1` | Hộp tường lửa bị Cancel ⇒ Windows tạo luật CHẶN; ping thông không chứng minh cổng mở; script mở đúng cổng chỉ mạng Private, không vượt UAC |
+| gói `desktop-tauri` | **bắt buộc** với Tauri | `09-goi/desktop-tauri/README.md` · `csp-tauri.mau.py` | Tauri chèn nonce ⇒ `'unsafe-inline'` bị bỏ ⇒ `style=` bị chặn; cách sửa hai lớp + kịch bản dựng lại CSP; mẫu cấu hình harness cho dự án Tauri |
+| lõi chung | khuyến nghị | `harness.config.json › duAn.goi` (khoá mới, mặc định `[]`) · `_ban-do.cjs` | Bộ cài / `cap-nhat` chép gói theo loại vào `Instructions/goi/<loại>/`. **Dự án nhận:** thêm khoá `goi` vào config (xem `_goi_doc`) |
+| lõi chung | **bắt buộc** (sửa lỗi) | `08-cap-nhat/cap-nhat.cjs` | Lỗi phát hiện khi nâng Mười Ngón: tệp ghi nhận là *bản riêng* lúc `--dang-ky` vẫn bị coi là "cập nhật được" khi harness đổi (vì bảng kê lấy mã băm bản riêng làm `dich`). Nay bảng kê đánh dấu `rieng: true` và tệp đó luôn thành **xung đột**, không ghi đè. Dự án đã `--dang-ky` trước 1.2.0: chạy lại `--dang-ky` không cần, nhưng tệp riêng chưa có cờ sẽ cần xem kỹ nhóm "cập nhật được" lần đầu |
+
+**Việc còn chờ Huynh** (`tomtat.md` mục 8.3): bố cục workspace tối thiểu / đầy đủ (`D:\Projects\…`).
+
 ## 1.1.2 — 2026-10-17 · cap-nhat báo tệp dự án tự sửa; sửa sổ đăng ký
 
 Nguồn: phiên Mười Ngón (typingmaster-fd) soát bản 1.1.1, chuyển 3 việc về phiên Harness.

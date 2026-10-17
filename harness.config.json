@@ -10,7 +10,9 @@
   "duAn": {
     "ten": "<TÊN DỰ ÁN>",
     "moTaMotDong": "<một dòng nói sản phẩm là gì>",
-    "ngayBatDau": "<YYYY-MM-DD>"
+    "ngayBatDau": "<YYYY-MM-DD>",
+    "goi": [],
+    "_goi_doc": "Gói bài học theo loại dự án, chép từ <Harness>/09-goi/<loại>/ vào Instructions/goi/<loại>/. Có: \"desktop\" (app cài Windows, LAN, tường lửa) · \"desktop-tauri\" (CSP nonce; đọc kèm \"desktop\"). Web/cloud chưa có gói riêng — lõi đã đủ. Để [] nếu không dùng."
   },
 
   "vaiTro": {

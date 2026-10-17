@@ -57,7 +57,7 @@ for (const m of B.banDo(HARNESS, GOC, C, ten)) {
     if (!co) ket.thieu.push(m);
     else if (dichNow === require('crypto').createHash('sha256').update(B.noiDung(m)).digest('hex').slice(0, 16)) ket.trung.push(r);
     else ket.rieng.push(r);
-    mf.tep[r] = { nguon, dich: dichNow, nhom: m.nhom, ...(co ? {} : { thieu: true }) };
+    mf.tep[r] = { nguon, dich: dichNow, nhom: m.nhom, ...(co ? {} : { thieu: true }), ...(ket.rieng.includes(r) ? { rieng: true } : {}) };
     continue;
   }
   if (!co) { ket.thieu.push(m); continue; }
@@ -65,7 +65,8 @@ for (const m of B.banDo(HARNESS, GOC, C, ten)) {
   if (nguon === rec.nguon) { ket.khongDoi++; if (dichNow !== rec.dich && m.nhom !== 'so') ket.tuSua.push(r); continue; }
   if (m.nhom === 'so') { ket.khongDoi++; continue; }
   if (m.nhom === 'rieng') { ket.mauDoi.push(m); continue; }
-  if (dichNow === rec.dich) ket.capNhat.push(m); else ket.xungDot.push(m);
+  // rec.rieng: lúc --dang-ky tệp đã khác harness (bản riêng của dự án) ⇒ harness đổi thì luôn là xung đột, không ghi đè
+  if (dichNow === rec.dich && !rec.rieng) ket.capNhat.push(m); else ket.xungDot.push(m);
 }
 
 const in_ = (tieuDe, ds, fmt) => { if (!ds.length) return; console.log(`\n${tieuDe} (${ds.length}):`); ds.forEach((x) => console.log('   · ' + (fmt ? fmt(x) : x))); };

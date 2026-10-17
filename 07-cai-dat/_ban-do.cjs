@@ -44,6 +44,13 @@ function banDo(HARNESS, GOC, C, ten) {
   const SK = path.join(HARNESS, '05-hook-skill', 'skills');
   for (const d of ls(SK).filter((d) => fs.statSync(path.join(SK, d)).isDirectory()))
     for (const f of ls(path.join(SK, d))) if (fs.statSync(path.join(SK, d, f)).isFile()) them(path.join(SK, d, f), path.join(GOC, '.claude', 'skills', d, f), null, 'cong-cu');
+  for (const f of ls(path.join(HARNESS, '05-hook-skill', 'agents'), /\.md$/)) them(path.join(HARNESS, '05-hook-skill', 'agents', f), path.join(GOC, '.claude', 'agents', f), thayTen(ten), 'rieng');
+  // gói theo loại dự án: harness.config.json › duAn.goi = ["desktop", "desktop-tauri", ...] → Instructions/goi/<loại>/
+  for (const g of ((C.duAn || {}).goi || [])) {
+    const G = path.join(HARNESS, '09-goi', g);
+    if (!fs.existsSync(G)) continue;
+    for (const f of ls(G)) if (fs.statSync(path.join(G, f)).isFile()) them(path.join(G, f), path.join(LUAT, 'goi', g, f), null, 'luat');
+  }
   return ds;
 }
 

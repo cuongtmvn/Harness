@@ -14,18 +14,18 @@
       "duongDan": "D:\\OneDrive\\AI\\Bootcamp",
       "repo": "git@github.com:cuongtmvn/ThienSo.git",
       "loai": "web-cloud",
-      "banDangDung": "1.1.2",
-      "ngayDangKy": "2026-10-17",
-      "ghiChu": "Dự án gốc sinh ra harness 1.0.0. Đăng ký 2026-10-17 bằng --dang-ky (chỉ ghi bảng kê, chưa chép gì): 30 tệp bản riêng (công cụ Log/*.cjs cùng tên nhưng là bản gốc, hook, settings, CLAUDE.md), 53 tệp 'thiếu' VÌ BỐ CỤC KHÁC: luật mang hậu tố -TS (PLAYBOOK-TS.md, PHASEGATE-11BUOC-TS.md, LUAT-DANGKY-TS.json), không có harness.config.json, công cụ tên khác (MVP2_gate-check.cjs, chan-cham-csdl-that.cjs). ⛔ KHÔNG chạy --ap-dung: sẽ chép bản luật song song. Chờ Huynh quyết di trú sang bố cục đóng gói hay giữ bản gốc riêng (tomtat.md mục 8b.4)."
+      "banDangDung": "gốc riêng — chép tay theo CHANGELOG, không có bảng kê",
+      "ghiChu": "Dự án gốc sinh ra harness 1.0.0, giữ bố cục TRƯỚC đóng gói (luật hậu tố -TS, không có harness.config.json, công cụ tên khác). Huynh quyết 17/10/2026 phương án (b): không di trú trong lúc chạy capstone; mỗi bản harness mới phiên Thiên Số đọc CHANGELOG và chép tay mục cần, ghi Dev Book. ⛔ Không chạy cap-nhat.cjs --ap-dung ở đây (sẽ chép bộ luật song song). Di trú sang bố cục đóng gói khi mở MVP kế tiếp (Bước 0), một Round riêng. Handoff: Log/HANDOFF-2026-10-17-harness-TS.md."
     },
     {
       "ten": "Mười Ngón",
       "duongDan": "D:\\OneDrive\\AI\\TypingMaster\\Source code\\typingmaster",
       "repo": "https://github.com/Cuongtmvn/typingmaster",
       "loai": "desktop-tauri",
-      "banDangDung": "1.1.0",
+      "banDangDung": "1.2.0",
       "ngayDangKy": "2026-10-17",
-      "ghiChu": "Đăng ký 2026-10-17 bằng cap-nhat.cjs --dang-ky rồi --ap-dung: 19 tệp bản riêng (CLAUDE.md, PLAYBOOK, PHAM-VI-MVP, artefact Output/, settings.json, hook log-tool-event, skill day-git), 64 tệp thiếu đã chép. settings.json là bản riêng nên hook mới chưa được cắm — gộp tay. harness.config.json mới chép còn chỗ trống <...> phải điền theo Tauri. Bài học chờ đưa vào harness: tomtat.md mục 6."
+      "ngayCapNhat": "2026-10-17",
+      "ghiChu": "17/10: đăng ký (--dang-ky), chép 64 tệp, rồi lên 1.2.0: gộp 7 hook + permissions vào settings.json riêng; điền harness.config.json theo Tauri (goi: desktop, desktop-tauri; không HTTP, không CSDL); 25 luật chuyển neo sang Instructions/LUAT-LUON-DUNG.md vì CLAUDE.md/PLAYBOOK rút gọn; skill day-git thay bằng bản harness (có chế độ điện thoại). kiem-harness ✅, kiem-luat ✅. Còn: dayGit.mocGoc sau commit đầu; mã task MV2-xx chưa theo khuôn MVP_nn nên gate-check.cjs chưa đọc được (dùng Log/cong-buoc.mjs riêng); 5 vai .claude/agents/ là bản riêng. Bài học Mười Ngón đã vào harness 1.2.0."
     }
   ]
 }

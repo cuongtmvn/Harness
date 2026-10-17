@@ -97,3 +97,14 @@
 Quỹ giờ của chủ dự án là nguồn lực khan hiếm nhất. **Bốn việc Huynh không làm:** đọc mã dò lỗi AI · duyệt từng lát cắt mã · duyệt test · duyệt tài liệu nội bộ chỉ ghi lại việc đã làm. **Việc Huynh làm:** chốt phạm vi · quyết điểm mơ hồ · đọc phát hiện của review rồi **quyết** · bấm thử UAT · ký hoãn / ký ngoại lệ · chấp nhận rủi ro còn lại.
 
 Nhịp dự án do **đợt khảo sát người dùng thật** và **lịch phát hành** quyết định — không phải lịch của ai khác.
+
+---
+
+## 8. Bốn nếp làm rút từ dự án thứ hai (Mười Ngón, 10/2026) — áp cho mọi dự án
+
+| Nếp | Luật | Bằng chứng |
+|---|---|---|
+| **Kiểm trong điều kiện chạy thật** | Một phép kiểm chỉ được tính khi nó chạy **đúng điều kiện người dùng sẽ gặp**: đúng CSP, đúng webview, đúng bản cài, đúng mạng. Trình duyệt mở `file://` báo xanh **không chứng minh** app cài thật chạy. Tester phải ghi rõ **môi trường của từng phép đo**; phần không dựng lại được điều kiện thật thì ghi *"chưa kiểm"*, không ghi "đạt" | 16/10/2026: 10 kịch bản + Tester đều xanh trên Chromium, app cài thật hiện 1/87 phím vì Tauri chèn nonce vào CSP (gói `desktop-tauri`) |
+| **Bàn giao mỗi phiên lớn** | Cuối mỗi phiên làm việc lớn, hoặc khi Huynh nói *"save context"*, viết mới `Log/HANDOFF-<ngày>.md`: đang dừng ở đâu · việc kế tiếp · điểm chờ Huynh · thứ chỉ có trong hội thoại. *"nạp context"* đọc tệp này **trước tiên**. Trạng thái nằm trong repo, không nằm trong đầu ai — Huynh làm từ điện thoại, tối mới bật PC | Mười Ngón 14/10: *"có cần làm file handoff rồi đẩy lên git để vscode kéo về không?"* |
+| **Sửa tệp bằng script thì kiểm ký tự điều khiển** | Tránh `sed` với chuỗi có `` ` `` (GNU sed hiểu là đầu dòng) và chuỗi Python không raw (`\b`, `\t` thành ký tự điều khiển). Viết script ra tệp rồi chạy, không gõ inline; sau khi sửa, `grep -nP "[\x00-\x08\x0b\x0c\x0e-\x1f]"` tệp vừa sửa | 16/10: DEVBOOK bị chèn backtick mọi dòng |
+| **Workspace mở đúng gốc repo** | Claude Code chỉ nạp `CLAUDE.md`, `.claude/` của **thư mục đứng đầu workspace** và các thư mục phía trên. Mở thư mục cha (hoặc workspace nhiều thư mục mà repo không đứng đầu) ⇒ luật, hook, vai trợ lý **không nạp mà không báo gì**. Trước khi làm: `echo $CLAUDE_PROJECT_DIR` phải là gốc repo. Đường dẫn repo không dấu cách, không dấu tiếng Việt; mã nguồn nên để ngoài OneDrive | Mười Ngón 17/10: workspace đứng đầu là thư mục cha ⇒ hook SessionStart không chạy |

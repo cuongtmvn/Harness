@@ -768,14 +768,14 @@ khong                     ⇒ tu-soi được</pre>
         <rect width="230" height="200" rx="10" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="2"/>
         <use href="#ic-harness" x="14" y="12" width="28" height="28"/>
         <text x="52" y="26" font-size="13" font-weight="700" fill="var(--accent-ink)">KHO HARNESS</text>
-        <text x="52" y="40" font-size="9.5" class="mo" fill="currentColor">cuongtmvn/Harness · VERSION 1.1.0</text>
+        <text x="52" y="40" font-size="9.5" class="mo" fill="currentColor">cuongtmvn/Harness · VERSION 1.2.0</text>
         <use href="#ic-onedrive" x="14" y="50" width="18" height="18"/><text x="38" y="63" font-size="10" fill="currentColor">D:\OneDrive\AI\Harness</text>
         <g font-size="10" fill="currentColor" class="mo">
           <text x="14" y="86">00 nguyên tắc · 01 playbook</text>
           <text x="14" y="101">02 truy vết · 03 kiểm thử</text>
           <text x="14" y="116">04 cổng máy: 17 .cjs</text>
           <text x="14" y="131">05 hook ×7 · skill ×3</text>
-          <text x="14" y="146">06 sổ ghi · 07 cài · 08 cập nhật</text>
+          <text x="14" y="146">06 sổ · 07 cài · 08 cập nhật · 09 gói</text>
         </g>
         <rect x="14" y="158" width="202" height="30" rx="5" fill="var(--surface)" stroke="var(--accent)"/>
         <use href="#ic-node" x="20" y="164" width="18" height="18"/>
@@ -805,7 +805,7 @@ khong                     ⇒ tu-soi được</pre>
             <text x="10" y="76" font-weight="600">.claude/</text>
             <text x="18" y="90">settings.json · hook ×7</text>
             <text x="18" y="104">skills: day-git · cap-nhat · dua-vao</text>
-            <text x="18" y="118">agents/ 5 vai *</text>
+            <text x="18" y="118">agents/ 5 vai (model+effort)</text>
             <text x="10" y="140" font-weight="600">Cần điều khiển</text>
             <text x="18" y="154">Plan mode · permissions</text>
             <text x="18" y="168">subagent Tester</text>
@@ -894,7 +894,7 @@ khong                     ⇒ tu-soi được</pre>
         <text x="112" y="62" font-size="10" fill="currentColor">Tauri · Rust · HTML/JS · PowerShell</text>
         <g font-size="10" fill="currentColor">
           <text x="12" y="86">UAT = cài thật trên máy · LAN đấu trường</text>
-          <text x="12" y="100">gói riêng desktop-tauri: CSP nonce, tường lửa</text>
+          <text x="12" y="100">gói desktop + desktop-tauri: CSP nonce, tường lửa</text>
         </g>
       </g>
       <g transform="translate(335,410)">
@@ -942,8 +942,8 @@ khong                     ⇒ tu-soi được</pre>
 
       <!-- chú thích -->
       <g font-size="10" fill="currentColor" transform="translate(20,500)">
-        <text x="0" y="0" fill="var(--cho)">* còn chờ Huynh quyết (tomtat.md mục 8): 5 vai trợ lý trong .claude/agents · gói desktop-tauri với 8 bài học Mười Ngón · bố cục workspace · đăng ký Thiên Số và Mười Ngón</text>
-        <text x="0" y="18" opacity=".8">Có từ bản 1.1.0: VERSION · CHANGELOG · .harness-manifest.json (bộ cài ghi) · cap-nhat.cjs · hook SessionStart nhắc · skill cap-nhat-harness, dua-vao-harness · sổ DU-AN-DANG-KY.json. Tech stack ở bảng dưới.</text>
+        <text x="0" y="0" fill="var(--cho)">* còn chờ Huynh quyết (tomtat.md mục 8.3): bố cục workspace tối thiểu / đầy đủ. Thiên Số giữ bố cục gốc (chép tay theo CHANGELOG); Mười Ngón đã lên 1.2.0.</text>
+        <text x="0" y="18" opacity=".8">1.1.0: VERSION · CHANGELOG · manifest · cap-nhat.cjs · hook nhắc · 2 skill · sổ đăng ký. 1.2.0: 5 vai agents/ · RUNBOOK §8 (4 nếp) · gói 09-goi/desktop, desktop-tauri · duAn.goi. Tech stack ở bảng dưới.</text>
       </g>
     </svg>
     </div>
@@ -1000,7 +1000,7 @@ khong                     ⇒ tu-soi được</pre>
         <li><strong>Permissions</strong> cho 17 lệnh cổng + <code>git status/diff/log</code> — có sẵn</li>
         <li><strong>Tester độc lập</strong> — subagent, gọi ở Bước 8–9 theo REVIEW-POLICY</li>
         <li><strong>Bảng kê</strong> <code>.harness-manifest.json</code> ở gốc dự án — bộ cài ghi, phải commit; dự án cài tay chạy <code>cap-nhat.cjs --dang-ky</code></li>
-        <li><strong>5 vai trợ lý</strong> (<code>.claude/agents/</code>) — còn là đề xuất, xem <a class="more" href="#skill">Skill · hook · vai →</a></li>
+        <li><strong>5 vai trợ lý</strong> <code>.claude/agents/</code> — bộ cài chép, dự án sửa theo sản phẩm (nhóm riêng); <strong>gói</strong> theo <code>duAn.goi</code> → <code>Instructions/goi/&lt;loại&gt;/</code>. Xem <a class="more" href="#skill">Skill · hook · vai →</a></li>
       </ul>
     </div>
   </div>
@@ -1011,7 +1011,7 @@ khong                     ⇒ tu-soi được</pre>
   <div class="sec-head">
     <div class="eyebrow">Điểm can thiệp</div>
     <h2>Harness chạm vào đâu trong một phiên làm việc</h2>
-    <p class="lead">Năm loại (bản 1.1.0: 18 công cụ · 7 hook · 3 skill): <strong style="color:var(--chan)">Hook</strong> chạy bất kể AI nghĩ gì (kích hoạt cứng) · <strong style="color:var(--accent-ink)">Công cụ cổng</strong> AI phải gọi và trả mã thoát · <strong style="color:var(--qua)">Skill</strong> AI tự gọi khi câu lệnh khớp (kích hoạt mềm) · <strong style="color:var(--cho)">Sổ ghi</strong> máy đọc được · <strong style="color:var(--muted)">Cấu hình</strong> một tệp mọi công cụ đọc. Đọc hết mục này là biết mỗi luật được cưỡng chế ở đâu.</p>
+    <p class="lead">Năm loại (bản 1.2.0: 18 công cụ · 7 hook · 3 skill · 5 vai · 2 gói): <strong style="color:var(--chan)">Hook</strong> chạy bất kể AI nghĩ gì (kích hoạt cứng) · <strong style="color:var(--accent-ink)">Công cụ cổng</strong> AI phải gọi và trả mã thoát · <strong style="color:var(--qua)">Skill</strong> AI tự gọi khi câu lệnh khớp (kích hoạt mềm) · <strong style="color:var(--cho)">Sổ ghi</strong> máy đọc được · <strong style="color:var(--muted)">Cấu hình</strong> một tệp mọi công cụ đọc. Đọc hết mục này là biết mỗi luật được cưỡng chế ở đâu.</p>
   </div>
   <div class="iv" id="iv"></div>
   <div class="legend" style="margin-top:14px"><span style="--x:var(--chan)">Hook: AI không sửa/tắt được (điều dừng 5)</span><span style="--x:var(--accent)">Công cụ: thoát 0 qua · 2 chặn · 1 dùng sai</span><span style="--x:var(--qua)">Skill</span><span style="--x:var(--cho)">Sổ ghi ndjson/json chỉ append</span></div>
@@ -1032,7 +1032,7 @@ khong                     ⇒ tu-soi được</pre>
       <tr><td></td><td></td><td>kéo bản harness mới về dự án (cơ chế 2)</td><td><code>cap-nhat-harness</code>: đọc CHANGELOG → <code>cap-nhat.cjs</code> chạy khô → Huynh gật → <code>--ap-dung</code>; tệp đã sửa riêng chỉ hiện diff</td><td><span class="chip ok">có · 1.1.0</span></td></tr>
       <tr><td><strong>Hook</strong></td><td>cứng: theo sự kiện công cụ</td><td>việc AI có thể quên mà hậu quả không hoàn lại</td><td>PreToolUse ×3 chặn · PostToolUse ×2 ghi/kiểm · Stop ×1 ghi usage · SessionStart ×1 nhắc</td><td><span class="chip ok">7 hook</span></td></tr>
       <tr><td></td><td>SessionStart</td><td>nhắc harness có bản mới</td><td><code>nhac-cap-nhat-harness.cjs</code>: so <code>.harness-manifest.json</code> với <code>VERSION</code> (ổ máy, không có thì GitHub raw ≤2,5 s); chỉ nhắc</td><td><span class="chip ok">có · 1.1.0</span></td></tr>
-      <tr><td><strong>Subagent</strong></td><td>AI gọi, không thấy hội thoại</td><td>lớp kiểm độc lập; việc lớn chạy song song</td><td>Tester Middle/Senior (PHASEGATE §8) · 5 vai: tester · dung-tai-nguyen · viet-noi-dung · ve-hinh · tra-cuu kèm model + effort</td><td><span class="chip ok">Tester</span> <span class="chip plan">5 vai</span></td></tr>
+      <tr><td><strong>Subagent</strong></td><td>AI gọi, không thấy hội thoại</td><td>lớp kiểm độc lập; việc lớn chạy song song</td><td>Tester Middle/Senior (PHASEGATE §8) · 5 vai <code>05-hook-skill/agents/</code>: tester · dung-tai-nguyen · viet-noi-dung · ve-hinh · tra-cuu kèm model + effort, bộ cài chép vào <code>.claude/agents/</code></td><td><span class="chip ok">Tester</span> <span class="chip ok">5 vai · 1.2.0</span></td></tr>
       <tr><td><strong>Plan mode</strong></td><td>Huynh/AI bật</td><td>việc nhiều bước, rủi ro</td><td>mọi lát cắt Bước 8 trình kế hoạch trước</td><td><span class="chip ok">luật</span></td></tr>
       <tr><td><strong>Permission</strong></td><td>settings.json</td><td>đặt đúng dây cương</td><td>allow sẵn 17 lệnh <code>node Log/*.cjs</code> + <code>git status/diff/log</code></td><td><span class="chip ok">có</span></td></tr>
       <tr><td><strong>MCP tools</strong></td><td>cắm công cụ ngoài</td><td>đụng hệ thống thật</td><td>tuỳ dự án</td><td><span class="chip">tuỳ</span></td></tr>
@@ -1053,7 +1053,7 @@ khong                     ⇒ tu-soi được</pre>
       </ol>
     </div>
     <div class="panel">
-      <h3>Vai trợ lý đề xuất đưa vào lõi chung (từ Mười Ngón)</h3>
+      <h3>Vai trợ lý trong lõi chung (từ Mười Ngón, bản 1.2.0)</h3>
       <div class="tbl-wrap" style="border:none"><table style="min-width:0;font-size:13px">
         <thead><tr><th>Vai</th><th>Việc</th><th>Model</th><th>Effort</th></tr></thead>
         <tbody>
@@ -1065,7 +1065,7 @@ khong                     ⇒ tu-soi được</pre>
           <tr><td>phiên chính</td><td>lõi, tích hợp, gỡ lỗi khó</td><td>Opus</td><td>high</td></tr>
         </tbody>
       </table></div>
-      <p class="hint" style="margin-top:8px">Công cụ giao việc chỉ cho AI đặt effort khi CLAUDE.md yêu cầu rõ; model phiên chính chỉ Huynh đổi được (<code>/model</code>). Vai mới có ở Mười Ngón, chưa commit, chưa vào harness.</p>
+      <p class="hint" style="margin-top:8px">Công cụ giao việc chỉ cho AI đặt effort khi CLAUDE.md yêu cầu rõ; model phiên chính chỉ Huynh đổi được (<code>/model</code>). Vai nằm ở <code>05-hook-skill/agents/</code>, bảng ở <code>CLAUDE.template.md</code> mục "Chọn model + effort".</p>
     </div>
   </div>
 </section>
@@ -1429,6 +1429,8 @@ const IV=[
  ["cfg","VERSION · CHANGELOG.md · .harness-manifest.json","Số bản semver của kho · lịch sử từng mục (dự án nguồn · lớp · bắt buộc/khuyến nghị · tệp · vì sao) · bảng kê trong dự án: bản đang dùng + mã băm nguồn/đích từng tệp lúc cài (bộ cài ghi, commit cùng dự án).","mọi lần sửa kho · mọi lần cài / cập nhật"],
  ["skill","cap-nhat-harness","4 bước: đọc CHANGELOG từ bản đang dùng tới bản mới → chạy khô cap-nhat.cjs → Huynh gật mới --ap-dung → ghi Dev Book, DU-AN-DANG-KY.json, đẩy git. Xung đột ở hạ tầng gác luật phải khai 'CULI được lợi nếu nới'.","\"cập nhật harness\" · khi hook nhắc"],
  ["skill","dua-vao-harness","7 bước: git pull --ff-only (dở thì dừng) → trả lời 'chặn lỗi gì / tiết kiệm gì' + gắn lớp lõi/gói/riêng → sửa đúng chỗ → cài thử vào thư mục trống + kiem-harness xanh → VERSION + CHANGELOG → đẩy GitHub với commit theo khuôn → Dev Book dự án gốc.","\"đưa vào harness …\""],
+ ["cfg","09-goi/ · duAn.goi","Gói bài học theo loại dự án: desktop (tường lửa LAN, UAT = bản cài thật, mo-tuong-lua.mau.ps1) · desktop-tauri (CSP nonce chặn style=, csp-tauri.mau.py, mẫu config). Bộ cài / cap-nhat chép vào Instructions/goi/<loại>/ theo harness.config.json › duAn.goi.","cài đặt · cập nhật · từ 1.2.0"],
+ ["cfg",".claude/agents/ 5 vai","tester · dung-tai-nguyen · viet-noi-dung · ve-hinh · tra-cuu, mỗi vai có model + effort trong frontmatter; CULI gọi đúng tên vai, không hỏi lại. Nhóm riêng: dự án sửa theo sản phẩm, harness đổi chỉ báo.","mọi lần giao việc cho subagent · từ 1.2.0"],
  ["skill","day-git","5 bước có kiểm chứng: kiểm → đưa file vào (+ moc-day-git) → commit → đẩy lên → kiểm lại (+ ghi-vet). Chốt C1–C4 dừng, W1–W4 cảnh báo. LOCAL vs ĐẦY ĐỦ do câu Huynh gõ quyết định.","\"đẩy git đi\" · \"đẩy GitHub đi\""],
  ["so","TASKLIST.md","Nguồn trạng thái duy nhất: task cấp 3, ô cuối đọc theo ký tự đầu ✅🔒🔄⬜⛔.","Bước 4 tạo · mọi Bước cập nhật"],
  ["so","PHASE-GATE-LOG.ndjson","Bản ghi mo-round · đóng Bước (qua/huy) · xac-nhan-A+ · dong-mvp. V1 và điều kiện (e) đọc từ đây.","gate-check --ghi"],

@@ -32,6 +32,7 @@ git log --oneline -3
 |---|---|---|
 | *"đẩy git đi"* · *"commit đi"* | 🏠 **LOCAL** | 1 → 2 → 3 → 5 *(bản local)*. **Bỏ Bước 4.** |
 | *"đẩy GitHub đi"* · *"push đi"* · *"đẩy lên remote"* | 🌐 **ĐẦY ĐỦ** | Cả 5 bước |
+| *"đẩy git đi"* khi phiên chạy trên **điện thoại / máy ảo đám mây** (không có ổ máy của Huynh, repo chỉ sống trên GitHub) | 🌐 **ĐẦY ĐỦ** | Cả 5 bước — *Huynh chốt 14/10/2026 ở Mười Ngón: "mobile thì đồng ý để đẩy lên github luôn"*. Dấu hiệu: `CLAUDE_PROJECT_DIR` không nằm trên ổ máy Huynh, hoặc Huynh nói đang ở điện thoại |
 
 > 🛑 Gõ *"đẩy git đi"* mà chạy `git push` = vi phạm luật cứng #1 *(không tự đẩy/phát hành)*. Chế độ LOCAL: commit xong là **DỪNG**, không bao giờ viết "đã đẩy lên".
 > *Vì sao:* phép cũ *"remote rỗng ⇒ local"* đọc **trạng thái repo** để suy ra **ý định người** — ngày repo có remote là ngày cùng một câu lệnh lặng lẽ đảo nghĩa, và không cổng nào bắt được.

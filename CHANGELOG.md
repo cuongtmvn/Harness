@@ -3,6 +3,15 @@
 > Mỗi mục ghi đủ: **dự án nguồn** · **lớp** (*lõi chung* = mọi dự án · *gói `<loại>`* = dự án cùng loại · *riêng* = không đưa) · **bắt buộc / khuyến nghị** với dự án nhận · **tệp đổi** · **vì sao** (bằng chứng). Mục *bắt buộc* mà `cap-nhat.cjs` không tự làm được thì ghi rõ dự án nhận phải làm gì.
 > Số bản: `VERSION`. PATCH sửa chữ / lỗi công cụ · MINOR thêm luật, công cụ, hook, skill, gói · MAJOR đổi cấu trúc thư mục, khoá `harness.config.json`, cách khai cổng.
 
+## 1.1.2 — 2026-10-17 · cap-nhat báo tệp dự án tự sửa; sửa sổ đăng ký
+
+Nguồn: phiên Mười Ngón (typingmaster-fd) soát bản 1.1.1, chuyển 3 việc về phiên Harness.
+
+| Lớp | Mức | Tệp | Vì sao |
+|---|---|---|---|
+| lõi chung | khuyến nghị | `08-cap-nhat/cap-nhat.cjs` | Chạy khô trước đây im lặng về tệp dự án đã tự sửa khi harness chưa đổi tệp đó — đúng nhưng thiếu thông tin. Nay in *"dự án tự sửa N tệp"* kèm tên, để biết trước chỗ sẽ thành xung đột |
+| sổ | — | `08-cap-nhat/DU-AN-DANG-KY.json` | Mục Harness không chép số bản nữa (trỏ `VERSION`, tránh lệch như 1.1.0/1.1.1); điền `repo` Thiên Số (`git@github.com:cuongtmvn/ThienSo.git`) và Mười Ngón (`https://github.com/Cuongtmvn/typingmaster`) |
+
 ## 1.1.1 — 2026-10-17 · đăng ký Mười Ngón, nới luật sổ đăng ký
 
 | Lớp | Mức | Tệp | Vì sao |

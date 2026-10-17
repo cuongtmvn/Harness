@@ -93,6 +93,16 @@ Phương án lan cho mọi dự án: đặt vai chung ở `~/.claude/agents` (m�
 3. Bố cục workspace: tối thiểu hay đầy đủ (mục 7).
 4. Vai trợ lý chung: đặt ở `~/.claude/agents` hay trong lõi harness.
 
+## 8b. Việc nhận từ phiên Mười Ngón (typingmaster-fd) soát bản 1.1.1 — 17/10/2026
+
+| # | Việc | Ai | Trạng thái |
+|---|---|---|---|
+| 1 | Sổ đăng ký sai: mục Harness ghi 1.1.0 khi kho 1.1.1; Thiên Số / Mười Ngón `repo: null` | phiên Harness | ✅ 1.1.2: mục Harness trỏ `VERSION`, điền repo `git@github.com:cuongtmvn/ThienSo.git` · `https://github.com/Cuongtmvn/typingmaster` |
+| 2 | Mười Ngón: hook SessionStart chưa cắm vào `settings.json` riêng; **workspace đang mở thư mục cha** nên cắm rồi hook vẫn không chạy — sửa workspace trước (mục 7) | phiên Mười Ngón mới | ⏳ chờ Huynh mở đúng gốc repo |
+| 3 | `cap-nhat.cjs` chạy khô không cho thấy tệp dự án tự sửa khi harness chưa đổi | phiên Harness | ✅ 1.1.2: in *"dự án tự sửa N tệp"* kèm tên |
+| 4 | Thiên Số chưa đăng ký dù là dự án gốc | phiên Harness | ⚠️ đã chạy `--dang-ky` (chỉ ghi bảng kê). **Phát hiện:** Thiên Số giữ bố cục *trước đóng gói* — tệp luật mang hậu tố `-TS` (`PLAYBOOK-TS.md`, `PHASEGATE-11BUOC-TS.md`, `LUAT-DANGKY-TS.json`), không có `harness.config.json`, công cụ tên khác (`MVP2_gate-check.cjs`, hook `chan-cham-csdl-that.cjs`). Bản đồ chép của bộ cài không khớp ⇒ ⛔ **không được `--ap-dung`** (sẽ chép bản song song, luật trùng hai nơi). Cần Huynh quyết: (a) di trú Thiên Số sang bố cục đóng gói (đổi tên tệp, thêm config) — việc lớn, làm ở phiên Thiên Số; hay (b) để Thiên Số là "bản gốc riêng", chỉ nhận thủ công các mục harness mới |
+| 5 | 8 bài học Mười Ngón + 5 vai trợ lý chưa đưa lên | Huynh chọn lớp → skill `dua-vao-harness` | ⏳ (mục 8.2, 8.4) |
+
 ## 9. Mở phiên Thiên Số
 
 Mở VS Code **đúng thư mục repo** (`D:\OneDrive\AI\Bootcamp`, hoặc `D:\OneDrive\AI\Harness` nếu làm thẳng trên harness), rồi gõ:

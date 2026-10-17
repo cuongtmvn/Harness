@@ -6,21 +6,22 @@
       "duongDan": "D:\\OneDrive\\AI\\Harness",
       "repo": "https://github.com/cuongtmvn/Harness.git",
       "loai": "harness",
-      "banDangDung": "1.1.0",
+      "banDangDung": "xem tệp VERSION — không chép số vào đây để khỏi lệch",
       "ghiChu": "Chính kho harness. Phiên mở ở đây đọc CLAUDE.md của kho để biết luật sửa harness."
     },
     {
       "ten": "Thiên Số",
       "duongDan": "D:\\OneDrive\\AI\\Bootcamp",
-      "repo": null,
+      "repo": "git@github.com:cuongtmvn/ThienSo.git",
       "loai": "web-cloud",
-      "banDangDung": null,
-      "ghiChu": "Dự án gốc sinh ra harness 1.0.0 (2026-10-16). Chưa có .harness-manifest.json — chạy `node <Harness>/08-cap-nhat/cap-nhat.cjs <dự án> --dang-ky` để đăng ký lần đầu."
+      "banDangDung": "1.1.2",
+      "ngayDangKy": "2026-10-17",
+      "ghiChu": "Dự án gốc sinh ra harness 1.0.0. Đăng ký 2026-10-17 bằng --dang-ky (chỉ ghi bảng kê, chưa chép gì): 30 tệp bản riêng (công cụ Log/*.cjs cùng tên nhưng là bản gốc, hook, settings, CLAUDE.md), 53 tệp 'thiếu' VÌ BỐ CỤC KHÁC: luật mang hậu tố -TS (PLAYBOOK-TS.md, PHASEGATE-11BUOC-TS.md, LUAT-DANGKY-TS.json), không có harness.config.json, công cụ tên khác (MVP2_gate-check.cjs, chan-cham-csdl-that.cjs). ⛔ KHÔNG chạy --ap-dung: sẽ chép bản luật song song. Chờ Huynh quyết di trú sang bố cục đóng gói hay giữ bản gốc riêng (tomtat.md mục 8b.4)."
     },
     {
       "ten": "Mười Ngón",
       "duongDan": "D:\\OneDrive\\AI\\TypingMaster\\Source code\\typingmaster",
-      "repo": null,
+      "repo": "https://github.com/Cuongtmvn/typingmaster",
       "loai": "desktop-tauri",
       "banDangDung": "1.1.0",
       "ngayDangKy": "2026-10-17",

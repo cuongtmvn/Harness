@@ -48,7 +48,7 @@ if (!mf && !DANG_KY) {
 }
 if (!mf) mf = { harnessVersion: '0.0.0', harnessPath: HARNESS, harnessRepo: 'https://github.com/cuongtmvn/Harness.git', ngayCai: null, tep: {} };
 
-const ket = { capNhat: [], xungDot: [], thieu: [], mauDoi: [], trung: [], rieng: [], khongDoi: 0 };
+const ket = { capNhat: [], xungDot: [], thieu: [], mauDoi: [], trung: [], rieng: [], khongDoi: 0, tuSua: [] };
 for (const m of B.banDo(HARNESS, GOC, C, ten)) {
   if (!fs.existsSync(m.tu)) continue;
   const r = rel(m.den), nguon = B.bam(m.tu), co = fs.existsSync(m.den), rec = mf.tep[r];
@@ -62,7 +62,7 @@ for (const m of B.banDo(HARNESS, GOC, C, ten)) {
   }
   if (!co) { ket.thieu.push(m); continue; }
   if (!rec) { mf.tep[r] = { nguon, dich: dichNow, nhom: m.nhom, giu: true }; ket.rieng.push(r); continue; }
-  if (nguon === rec.nguon) { ket.khongDoi++; continue; }
+  if (nguon === rec.nguon) { ket.khongDoi++; if (dichNow !== rec.dich && m.nhom !== 'so') ket.tuSua.push(r); continue; }
   if (m.nhom === 'so') { ket.khongDoi++; continue; }
   if (m.nhom === 'rieng') { ket.mauDoi.push(m); continue; }
   if (dichNow === rec.dich) ket.capNhat.push(m); else ket.xungDot.push(m);
@@ -85,7 +85,7 @@ in_('⬜ THIẾU — harness có, dự án chưa có', ket.thieu, (m) => rel(m.d
 in_('📄 MẪU ĐỔI — tệp dự án tự điền, harness đổi mẫu: xem diff rồi gộp tay nếu cần', ket.mauDoi, (m) => `${rel(m.den)}   ← ${path.relative(HARNESS, m.tu)}`);
 in_('⛔ XUNG ĐỘT — harness đổi VÀ dự án đã sửa riêng: KHÔNG ghi đè', ket.xungDot, (m) => `${rel(m.den)}\n       git diff --no-index ${JSON.stringify(m.den)} ${JSON.stringify(m.tu)}`);
 if (ket.rieng.length) console.log(`\n(ghi nhận ${ket.rieng.length} tệp có trong dự án nhưng chưa có trong bảng kê — coi là bản riêng)`);
-console.log(`\nKhông đổi: ${ket.khongDoi} tệp.`);
+console.log(`\nKhông đổi: ${ket.khongDoi} tệp` + (ket.tuSua.length ? ` — trong đó dự án tự sửa ${ket.tuSua.length} tệp (harness chưa đổi nên không chạm; sau này harness đổi sẽ thành xung đột): ${ket.tuSua.join(' · ')}` : '') + '.');
 
 if (AP_DUNG) {
   let n = 0;

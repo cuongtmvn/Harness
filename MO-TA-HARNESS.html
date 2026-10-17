@@ -1,0 +1,1530 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Đường ray 11 Bước</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: một cột đọc 1120px, sơ đồ SVG rộng cuộn ngang trong khung riêng, thanh Bước làm bộ chọn cho checklist */
+:root{
+  --bg:#f4f6f9; --surface:#ffffff; --surface-2:#eaeef4; --fg:#1a2230; --muted:#5a6679; --line:#d5dbe6;
+  --accent:#0f6e69; --accent-ink:#0b4f4b; --accent-soft:#d8efec;
+  --qua:#2a7a48; --qua-soft:#dcf1e3; --chan:#b3261e; --chan-soft:#f8e0dd; --cho:#a26a0c; --cho-soft:#f7ebd0;
+  --font-display:"Be Vietnam Pro",system-ui,sans-serif; --font-body:"IBM Plex Sans",system-ui,sans-serif; --font-mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#10151c; --surface:#171e27; --surface-2:#1f2832; --fg:#e4e9f1; --muted:#98a3b4; --line:#2b3542;
+  --accent:#4cc2b6; --accent-ink:#8fe0d7; --accent-soft:#143735;
+  --qua:#62c184; --qua-soft:#17352a; --chan:#f08a80; --chan-soft:#3f1f1c; --cho:#e2b35a; --cho-soft:#3a2d13; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --bg:#10151c; --surface:#171e27; --surface-2:#1f2832; --fg:#e4e9f1; --muted:#98a3b4; --line:#2b3542;
+  --accent:#4cc2b6; --accent-ink:#8fe0d7; --accent-soft:#143735;
+  --qua:#62c184; --qua-soft:#17352a; --chan:#f08a80; --chan-soft:#3f1f1c; --cho:#e2b35a; --cho-soft:#3a2d13; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:15px;line-height:1.55}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 64px}
+h1,h2,h3,h4{font-family:var(--font-display);text-wrap:balance;margin:0;line-height:1.2}
+h1{font-size:clamp(28px,4vw,40px);font-weight:700}
+h2{font-size:clamp(21px,2.6vw,26px);font-weight:600;margin-bottom:6px}
+h3{font-size:16px;font-weight:600}
+h4{font-size:14px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+p{margin:0}
+code,.mono{font-family:var(--font-mono);font-size:.9em}
+code{background:var(--surface-2);padding:1px 5px;border-radius:4px}
+a{color:var(--accent-ink)}
+.eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.lead{color:var(--muted);max-width:68ch}
+
+header.hero{padding-block:40px 24px;border-bottom:1px solid var(--line)}
+.hero-grid{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:end}
+.stats{display:flex;gap:10px;flex-wrap:wrap}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 14px;min-width:96px}
+.stat b{display:block;font-family:var(--font-display);font-size:22px;font-variant-numeric:tabular-nums}
+.stat span{font-size:12px;color:var(--muted)}
+@media (max-width:760px){.hero-grid{grid-template-columns:1fr}}
+
+nav.toc{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding-block:8px;display:flex;gap:6px;flex-wrap:wrap}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+nav.toc a{text-decoration:none;font-size:13px;padding:5px 10px;border-radius:999px;border:1px solid var(--line);color:var(--fg);background:var(--surface)}
+nav.toc a:hover{border-color:var(--accent)}
+
+section{padding-block:40px 8px}
+.sec-head{display:grid;gap:6px;margin-bottom:20px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px;min-width:0}
+.panel h3{margin-bottom:10px}
+.panel ul,.panel ol{margin:0;padding-left:20px;display:grid;gap:5px}
+.panel li{min-width:0}
+.panel.rule{border-left:4px solid var(--chan)}
+.panel.mech{border-left:4px solid var(--accent)}
+.note{background:var(--surface-2);border-radius:8px;padding:10px 14px;font-size:14px;color:var(--muted)}
+.note strong{color:var(--fg)}
+
+figure{margin:0 0 16px}
+.fig-box{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow-x:auto;padding:12px}
+.fig-box svg{display:block;height:auto;max-width:none}
+figcaption{font-size:13px;color:var(--muted);margin-top:8px;max-width:80ch}
+svg text{font-family:var(--font-body)}
+svg .mo{font-family:var(--font-mono)}
+.ic{display:inline-flex;align-items:center;gap:5px;margin-right:8px;white-space:nowrap}
+.ic svg{width:18px;height:18px;flex:none}
+table.stack td{font-size:13.5px}
+table.stack td .hint{display:block;margin-top:3px}
+svg .go{cursor:pointer}
+svg .go:hover circle{stroke-width:4;filter:brightness(1.08)}
+svg .go:hover text{text-decoration:underline}
+svg .ab{cursor:help}
+svg .ab:hover rect{stroke-width:2.5}
+svg .ab:hover text{text-decoration:underline}
+
+/* thanh 11 Bước */
+.rail{display:grid;grid-template-columns:repeat(auto-fill,minmax(176px,1fr));gap:10px;margin-top:16px}
+.step{appearance:none;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 12px 10px;cursor:pointer;color:var(--fg);font:inherit;display:grid;gap:6px;position:relative;min-width:0}
+.step:hover{border-color:var(--accent)}
+.step[aria-pressed="true"]{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
+.step:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.step .num{font-family:var(--font-display);font-size:24px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums;color:var(--accent)}
+.step .name{font-weight:600;font-size:14px;line-height:1.3}
+.step .art{font-family:var(--font-mono);font-size:11px;color:var(--muted);word-break:break-word}
+.badge{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.03em;border-radius:999px;padding:2px 8px;border:1px solid transparent;white-space:nowrap}
+.badge.moi{background:var(--accent);color:#fff;border-color:var(--accent)}
+.badge.dau{background:var(--accent-soft);color:var(--accent-ink);border-color:var(--accent)}
+.badge.khong{background:var(--surface-2);color:var(--muted);border-color:var(--line)}
+.badge.qua{background:var(--qua-soft);color:var(--qua)}
+.badge.chan{background:var(--chan-soft);color:var(--chan)}
+.badge.cho{background:var(--cho-soft);color:var(--cho)}
+.phase-row{display:grid;grid-template-columns:4fr 4fr 2fr 1fr;gap:10px;margin-top:18px;font-size:12px;color:var(--muted)}
+.phase-row div{border-top:2px solid var(--line);padding-top:4px;text-transform:uppercase;letter-spacing:.06em}
+@media (max-width:760px){.phase-row{display:none}}
+
+/* bảng */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:560px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:600;background:var(--surface-2)}
+tr:last-child td{border-bottom:none}
+td.k{font-family:var(--font-mono);font-weight:500;white-space:nowrap;color:var(--accent-ink)}
+td.c{font-family:var(--font-mono);font-size:13px}
+
+/* bộ chọn checklist */
+.detail{margin-top:18px;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.detail-head{padding:16px 20px;border-bottom:1px solid var(--line);display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center;background:var(--surface-2)}
+.detail-head .num{font-family:var(--font-display);font-size:40px;font-weight:700;color:var(--accent);line-height:1}
+.detail-head .meta{font-size:13px;color:var(--muted);display:grid;gap:3px}
+.detail-body{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.detail-col{padding:16px 20px;min-width:0}
+.detail-col + .detail-col{border-left:1px solid var(--line)}
+.detail-col h4{margin-bottom:8px}
+.detail-col ul{margin:0 0 14px;padding-left:18px;display:grid;gap:4px}
+.ai-row{display:grid;gap:4px;margin-bottom:12px}
+.ai-row span.tag{font-size:11px;font-weight:700;letter-spacing:.04em}
+.tag.ok{color:var(--qua)} .tag.stop{color:var(--cho)} .tag.no{color:var(--chan)}
+.check{list-style:none;padding:0}
+.check li{display:grid;grid-template-columns:18px 1fr;gap:8px;align-items:start}
+.check li::before{content:"";width:13px;height:13px;border:1.5px solid var(--muted);border-radius:3px;margin-top:4px}
+.check li b{font-family:var(--font-mono);font-weight:500;color:var(--accent-ink)}
+.detail-foot{padding:12px 20px;border-top:1px solid var(--line);font-size:13px;color:var(--muted);background:var(--surface-2)}
+@media (max-width:760px){.detail-body{grid-template-columns:1fr}.detail-col + .detail-col{border-left:none;border-top:1px solid var(--line)}.detail-head{grid-template-columns:auto 1fr}}
+
+.laws{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.law{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--chan);border-radius:8px;padding:12px 14px;font-size:14px}
+.law b{display:block;font-family:var(--font-display);margin-bottom:4px}
+.stops{counter-reset:s;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px}
+.stop{display:grid;grid-template-columns:30px 1fr;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-size:14px}
+.stop .n{font-family:var(--font-display);font-weight:700;color:var(--cho);font-size:20px;line-height:1}
+.stop small{display:block;color:var(--muted);font-size:12.5px;margin-top:2px}
+.ladder{display:grid;gap:4px}
+.ladder div{display:grid;grid-template-columns:40px 1fr auto;gap:10px;align-items:center;padding:6px 10px;border-radius:6px;background:var(--surface-2);font-size:13.5px}
+.ladder div b{font-family:var(--font-mono)}
+.ladder div.l5{opacity:.55;text-decoration:line-through}
+.ladder div.aplus{outline:1.5px solid var(--cho)}
+.ladder div.a{outline:1.5px solid var(--qua)}
+
+footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+@media (prefers-reduced-motion:no-preference){.step,.badge{transition:border-color .15s,box-shadow .15s}}
+
+/* scrollspy: menu trên + sidebar trái */
+nav.toc a.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.side{display:none;position:fixed;top:calc(env(safe-area-inset-top,0px) + 72px);left:max(16px,env(safe-area-inset-left,0px));width:184px;z-index:4;font-size:12.5px}
+.side a{display:block;padding:5px 10px;border-left:2px solid var(--line);color:var(--muted);text-decoration:none;line-height:1.3}
+.side a:hover{color:var(--fg)}
+.side a.active{border-left-color:var(--accent);color:var(--accent-ink);font-weight:600;background:var(--accent-soft)}
+.side .side-ttl{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:0 10px 6px}
+@media (min-width:1540px){.side{display:block}}
+</style>
+<style>html{color-scheme:light dark}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+
+
+<style>
+/* bổ sung: viết tắt bấm được, popup, ma trận, điểm can thiệp */
+.ab{appearance:none;border:none;background:none;padding:0 1px;margin:0;font:inherit;color:inherit;cursor:help;border-bottom:1.5px dotted var(--accent);border-radius:0;line-height:inherit}
+.ab:hover,.ab:focus-visible{background:var(--accent-soft);outline:none;border-bottom-style:solid}
+code .ab{border-bottom-color:var(--accent)}
+.pop{position:fixed;z-index:50;max-width:min(380px,calc(100vw - 32px));background:var(--surface);color:var(--fg);border:1px solid var(--line);border-radius:10px;box-shadow:0 12px 32px rgba(0,0,0,.18);padding:12px 14px;font-size:13.5px;line-height:1.5}
+.pop[hidden]{display:none}
+.pop .ttl{font-family:var(--font-display);font-weight:600;font-size:14px;margin-bottom:4px;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.pop .ttl .mono{color:var(--accent-ink);font-size:12px}
+.pop .src{margin-top:8px;font-size:12px;color:var(--muted)}
+.pop .src code{font-size:11.5px}
+.pop a.more{display:inline-block;margin-top:8px;font-size:12.5px;font-weight:600;text-decoration:none;color:var(--accent-ink)}
+.pop a.more:hover{text-decoration:underline}
+.pop .x{position:absolute;top:6px;right:8px;border:none;background:none;color:var(--muted);font-size:16px;cursor:pointer;line-height:1}
+a.more{font-size:12.5px;font-weight:600;color:var(--accent-ink);text-decoration:none;white-space:nowrap}
+a.more:hover{text-decoration:underline}
+.hint{font-size:12.5px;color:var(--muted)}
+.hint .ab{border-bottom-color:var(--muted)}
+
+/* ma trận */
+.mx-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+table.mx{border-collapse:separate;border-spacing:0;min-width:1500px;font-size:12.5px;table-layout:fixed}
+table.mx th,table.mx td{border-bottom:1px solid var(--line);border-right:1px solid var(--line);padding:8px 9px;vertical-align:top;text-align:left}
+table.mx th:first-child,table.mx td:first-child{position:sticky;left:0;background:var(--surface-2);z-index:2;width:150px;font-weight:600;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+table.mx thead th{background:var(--surface-2);position:sticky;top:0;z-index:3}
+table.mx thead th:first-child{z-index:4}
+table.mx tr.pipe td{background:var(--accent-soft);padding:10px 6px;text-align:center;border-right-color:transparent;position:relative}
+table.mx tr.pipe td:first-child{background:var(--surface-2);text-align:left;border-right-color:var(--line)}
+table.mx tr.pipe .node{display:inline-grid;place-items:center;width:40px;height:40px;border-radius:50%;background:var(--surface);border:3px solid var(--accent);font-family:var(--font-display);font-weight:700;font-size:16px;color:var(--accent);cursor:pointer}
+table.mx tr.pipe td.dor .node{background:var(--accent);color:#fff}
+table.mx tr.pipe td:not(:first-child):not(:last-child)::after{content:"";position:absolute;right:-7px;top:50%;width:14px;height:2px;background:var(--accent);opacity:.6}
+table.mx tr.pipe .lbl{display:block;font-size:11.5px;font-weight:600;margin-top:4px;color:var(--fg)}
+table.mx td .cell{display:grid;gap:3px}
+table.mx td .cell .mono{font-size:11.5px;word-break:break-word}
+table.mx td .cell .l{color:var(--muted);font-size:11.5px}
+table.mx td.empty{color:var(--muted);font-style:italic}
+table.mx tr.grp td{background:var(--surface-2);font-weight:600;font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);padding:5px 9px}
+table.mx tr.grp td:first-child{color:var(--accent-ink)}
+table.mx td button.cellbtn{appearance:none;border:none;background:none;padding:0;font:inherit;color:inherit;text-align:left;cursor:pointer;display:block;width:100%}
+table.mx td button.cellbtn:hover .lbl2{text-decoration:underline}
+
+/* điểm can thiệp */
+.iv{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.iv .card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:grid;gap:6px;min-width:0}
+.iv .card .kind{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.kind.hook{color:var(--chan)} .kind.tool{color:var(--accent-ink)} .kind.skill{color:var(--qua)} .kind.so{color:var(--cho)} .kind.cfg{color:var(--muted)}
+.iv .card .nm{font-family:var(--font-mono);font-weight:500;font-size:13px}
+.iv .card .wh{font-size:13px}
+.iv .card .when{font-size:12px;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:12px;border:1px solid var(--line);border-radius:999px;padding:2px 9px;background:var(--surface-2)}
+.chip.ok{border-color:var(--qua);color:var(--qua)} .chip.plan{border-color:var(--cho);color:var(--cho);border-style:dashed}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);margin-top:8px}
+.legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px;background:var(--x)}
+</style>
+
+<aside class="side" id="side" aria-label="Mục lục"><div class="side-ttl">Mục lục</div></aside>
+<div class="wrap">
+<header class="hero">
+  <div class="hero-grid">
+    <div>
+      <div class="eyebrow">Harness · bộ luật + cổng máy để lái AI làm phần mềm</div>
+      <h1 style="margin-top:8px">Đường ray 11 Bước</h1>
+      <p class="lead" style="margin-top:10px">Tài liệu mô tả bộ harness dạng tương tác. Mỗi <span class="ab" data-k="MVP">MVP</span> đi hết 11 Bước; mỗi Bước kẹp giữa cổng vào <span class="ab" data-k="V">V1–V6</span>, cổng ra <span class="ab" data-k="R">R1–R8</span> và 13 điều kiện máy. Round mở ở Bước bất kỳ nhưng phải khai đủ 11. Nguyên tắc trùm: <span class="ab" data-k="fail-closed">fail-closed</span>.</p>
+      <p class="hint" style="margin-top:8px">Chữ có <span class="ab" data-k="ab">gạch chấm</span> bấm vào là hiện giải thích; mỗi ô ngắn đều có <a class="more" href="#cong">Chi tiết →</a> trỏ sang phần đầy đủ.</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>11</b><span>Bước 0→10</span></div>
+      <div class="stat"><b>6 + 8</b><span>cổng vào + ra</span></div>
+      <div class="stat"><b>13</b><span>điều kiện máy</span></div>
+      <div class="stat"><b>18 · 7 · 3</b><span>công cụ · hook · skill</span></div>
+    </div>
+  </div>
+</header>
+
+<nav class="toc" aria-label="Mục">
+  <a href="#tom-tat">Tóm tắt pipeline</a>
+  <a href="#ma-tran">Ma trận 11 Bước</a>
+  <a href="#quy-dinh">Quy định tổng thể</a>
+  <a href="#cong">Phasegate &amp; checklist</a>
+  <a href="#mvp-round">MVP × Round</a>
+  <a href="#mo-hinh">Mô hình dự án áp dụng</a>
+  <a href="#can-thiep">Điểm can thiệp</a>
+  <a href="#skill">Skill · hook · vai</a>
+  <a href="#lenh">Bảng lệnh</a>
+  <a href="#tu-dien">Từ điển viết tắt</a>
+</nav>
+
+<!-- ============ TÓM TẮT ============ -->
+<section id="tom-tat">
+  <div class="sec-head">
+    <div class="eyebrow">Tóm tắt</div>
+    <h2>Từ đề mơ hồ tới lát cắt dọc chạy thật trên production</h2>
+    <p class="lead">Bốn chặng. Định hình và Kế hoạch sinh tài liệu có mã truy vết; Bước 7 (<span class="ab" data-k="DoR">DoR</span>) là cổng vào vùng AI tự hành; Bước 8–9 là bằng chứng chạy thật; Bước 10 khép vòng <span class="ab" data-k="RTM">RTM</span> rồi mới đẩy lên môi trường có người dùng. <a class="more" href="#ma-tran">Xem ma trận đầy đủ →</a></p>
+  </div>
+  <figure>
+    <div class="fig-box">
+    <svg viewBox="0 0 1240 330" width="1240" role="img" aria-label="Đường ray 11 Bước chia bốn chặng, mỗi Bước có cổng vào V và cổng ra R, mũi tên R5 ghi RTM nối sang V2 của Bước kế, Bước 6 phải đóng trước Bước 8, sau Bước 10 là cổng UAT trước production">
+      <defs>
+        <marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker>
+        <marker id="arwA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--accent)"/></marker>
+        <marker id="arwC" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--cho)"/></marker>
+      </defs>
+      <g fill="currentColor" font-size="11" font-weight="600" letter-spacing=".06em">
+        <text x="60" y="28">ĐỊNH HÌNH · tài liệu có mã truy vết</text>
+        <text x="460" y="28">KẾ HOẠCH · việc đo được, dây cương rõ</text>
+        <text x="860" y="28">XÂY &amp; KIỂM · bằng chứng chạy thật</text>
+        <text x="1060" y="28">KHÉP VÒNG</text>
+      </g>
+      <g stroke="currentColor" stroke-opacity=".35" stroke-width="2">
+        <line x1="60" y1="36" x2="440" y2="36"/><line x1="460" y1="36" x2="840" y2="36"/><line x1="860" y1="36" x2="1040" y2="36"/><line x1="1060" y1="36" x2="1140" y2="36"/>
+      </g>
+
+      <!-- đường ray -->
+      <line x1="40" y1="130" x2="1150" y2="130" stroke="currentColor" stroke-opacity=".4" stroke-width="3" marker-end="url(#arw)"/>
+
+      <!-- nút Bước: x = 100 + i*100 -->
+      <g id="nodes" font-size="12" text-anchor="middle">
+        <!-- B0 -->
+        <g class="go" data-go="0" transform="translate(100,130)"><circle r="22" fill="var(--surface)" stroke="var(--accent)" stroke-width="3"/><text y="5" font-size="16" font-weight="700" fill="var(--accent)">0</text><text y="48" fill="currentColor">Phạm vi</text><text y="64" class="mo" font-size="10" fill="currentColor" opacity=".7">SCOPE</text></g>
+        <g class="go" data-go="1" transform="translate(200,130)"><circle r="22" fill="var(--surface)" stroke="var(--accent)" stroke-width="3"/><text y="5" font-size="16" font-weight="700" fill="var(--accent)">1</text><text y="48" fill="currentColor">SRS</text><text y="64" class="mo" font-size="10" fill="currentColor" opacity=".7">SPEC · BACKLOG</text></g>
+        <g class="go" data-go="2" transform="translate(300,130)"><circle r="22" fill="var(--surface)" stroke="var(--accent)" stroke-width="3"/><text y="5" font-size="16" font-weight="700" fill="var(--accent)">2</text><text y="48" fill="currentColor">Module</text><text y="64" class="mo" font-size="10" fill="currentColor" opacity=".7">MODULEMAP</text></g>
+        <g class="go" data-go="3" transform="translate(400,130)"><circle r="22" fill="var(--surface)" stroke="var(--accent)" stroke-width="3"/><text y="5" font-size="16" font-weight="700" fill="var(--accent)">3</text><text y="48" fill="currentColor">Kiến trúc</text><text y="64" class="mo" font-size="10" fill="currentColor" opacity=".7">ARCH</text></g>
+        <g class="go" data-go="4" transform="translate(500,130)"><circle r="22" fill="var(--surface)" stroke="var(--accent)" stroke-width="3"/><text y="5" font-size="16" font-weight="700" fill="var(--accent)">4</text><text y="48" fill="currentColor">WBS</text><text y="64" class="mo" font-size="10" fill="currentColor" opacity=".7">WBS · TASKLIST</text></g>
+        <g class="go" data-go="5" transform="translate(600,130)"><circle r="22" fill="var(--surface)" stroke="var(--accent)" stroke-width="3"/><text y="5" font-size="16" font-weight="700" fill="var(--accent)">5</text><text y="48" fill="currentColor">Ước lượng</text><text y="64" class="mo" font-size="10" fill="currentColor" opacity=".7">EST</text></g>
+        <g class="go" data-go="6" transform="translate(700,130)"><circle r="22" fill="var(--surface)" stroke="var(--accent)" stroke-width="3"/><text y="5" font-size="16" font-weight="700" fill="var(--accent)">6</text><text y="48" fill="currentColor">Rủi ro · dây cương</text><text y="64" class="mo" font-size="10" fill="currentColor" opacity=".7">RISK · LEASH-BANG</text></g>
+        <g class="go" data-go="7" transform="translate(800,130)"><circle r="22" fill="var(--accent)" stroke="var(--accent)" stroke-width="3"/><text y="5" font-size="16" font-weight="700" fill="#fff">7</text><text y="48" fill="currentColor">DoR</text><text y="64" class="mo" font-size="10" fill="currentColor" opacity=".7">DOR</text></g>
+        <g class="go" data-go="8" transform="translate(900,130)"><circle r="22" fill="var(--surface)" stroke="var(--accent)" stroke-width="3"/><text y="5" font-size="16" font-weight="700" fill="var(--accent)">8</text><text y="48" fill="currentColor">Xây lát cắt</text><text y="64" class="mo" font-size="10" fill="currentColor" opacity=".7">App/ · DEVBOOK · PROOF</text></g>
+        <g class="go" data-go="9" transform="translate(1000,130)"><circle r="22" fill="var(--surface)" stroke="var(--accent)" stroke-width="3"/><text y="5" font-size="16" font-weight="700" fill="var(--accent)">9</text><text y="48" fill="currentColor">Kiểm thử · cổng</text><text y="64" class="mo" font-size="10" fill="currentColor" opacity=".7">SITUAT · tests/</text></g>
+        <g class="go" data-go="10" transform="translate(1100,130)"><circle r="22" fill="var(--surface)" stroke="var(--accent)" stroke-width="3"/><text y="5" font-size="16" font-weight="700" fill="var(--accent)">10</text><text y="48" fill="currentColor">Truy vết · báo cáo</text><text y="64" class="mo" font-size="10" fill="currentColor" opacity=".7">RTM · TELEMETRY</text></g>
+      </g>
+
+      <!-- V/R ticks mỗi Bước -->
+      <g font-size="9" text-anchor="middle" fill="currentColor" opacity=".75">
+        <g transform="translate(100,0)"><g class="ab" data-k="V"><rect x="-38" y="96" width="14" height="14" rx="2" fill="var(--accent-soft)" stroke="var(--accent)"/><text x="-31" y="106.5" font-weight="700" fill="var(--accent-ink)">V</text></g><g class="ab" data-k="R"><rect x="24" y="96" width="14" height="14" rx="2" fill="var(--accent-soft)" stroke="var(--accent)"/><text x="31" y="106.5" font-weight="700" fill="var(--accent-ink)">R</text></g></g>
+        <g transform="translate(200,0)"><g class="ab" data-k="V"><rect x="-38" y="96" width="14" height="14" rx="2" fill="var(--accent-soft)" stroke="var(--accent)"/><text x="-31" y="106.5" font-weight="700" fill="var(--accent-ink)">V</text></g><g class="ab" data-k="R"><rect x="24" y="96" width="14" height="14" rx="2" fill="var(--accent-soft)" stroke="var(--accent)"/><text x="31" y="106.5" font-weight="700" fill="var(--accent-ink)">R</text></g></g>
+        <g transform="translate(300,0)"><g class="ab" data-k="V"><rect x="-38" y="96" width="14" height="14" rx="2" fill="var(--accent-soft)" stroke="var(--accent)"/><text x="-31" y="106.5" font-weight="700" fill="var(--accent-ink)">V</text></g><g class="ab" data-k="R"><rect x="24" y="96" width="14" height="14" rx="2" fill="var(--accent-soft)" stroke="var(--accent)"/><text x="31" y="106.5" font-weight="700" fill="var(--accent-ink)">R</text></g></g>
+        <g transform="translate(400,0)"><g class="ab" data-k="V"><rect x="-38" y="96" width="14" height="14" rx="2" fill="var(--accent-soft)" stroke="var(--accent)"/><text x="-31" y="106.5" font-weight="700" fill="var(--accent-ink)">V</text></g><g class="ab" data-k="R"><rect x="24" y="96" width="14" height="14" rx="2" fill="var(--accent-soft)" stroke="var(--accent)"/><text x="31" y="106.5" font-weight="700" fill="var(--accent-ink)">R</text></g></g>
+        <g transform="translate(500,0)"><g class="ab" data-k="V"><rect x="-38" y="96" width="14" height="14" rx="2" fill="var(--accent-soft)" stroke="var(--accent)"/><text x="-31" y="106.5" font-weight="700" fill="var(--accent-ink)">V</text></g><g class="ab" data-k="R"><rect x="24" y="96" width="14" height="14" rx="2" fill="var(--accent-soft)" stroke="var(--accent)"/><text x="31" y="106.5" font-weight="700" fill="var(--accent-ink)">R</text></g></g>
+        <g transform="translate(600,0)"><g class="ab" data-k="V"><rect x="-38" y="96" width="14" height="14" rx="2" fill="var(--accent-soft)" stroke="var(--accent)"/><text x="-31" y="106.5" font-weight="700" fill="var(--accent-ink)">V</text></g><g class="ab" data-k="R"><rect x="24" y="96" width="14" height="14" rx="2" fill="var(--accent-soft)" stroke="var(--accent)"/><text x="31" y="106.5" font-weight="700" fill="var(--accent-ink)">R</text></g></g>
+        <g transform="translate(700,0)"><g class="ab" data-k="V"><rect x="-38" y="96" width="14" height="14" rx="2" fill="var(--accent-soft)" stroke="var(--accent)"/><text x="-31" y="106.5" font-weight="700" fill="var(--accent-ink)">V</text></g><g class="ab" data-k="R"><rect x="24" y="96" width="14" height="14" rx="2" fill="var(--accent-soft)" stroke="var(--accent)"/><text x="31" y="106.5" font-weight="700" fill="var(--accent-ink)">R</text></g></g>
+        <g transform="translate(800,0)"><g class="ab" data-k="V"><rect x="-38" y="96" width="14" height="14" rx="2" fill="var(--accent-soft)" stroke="var(--accent)"/><text x="-31" y="106.5" font-weight="700" fill="var(--accent-ink)">V</text></g><g class="ab" data-k="R"><rect x="24" y="96" width="14" height="14" rx="2" fill="var(--accent-soft)" stroke="var(--accent)"/><text x="31" y="106.5" font-weight="700" fill="var(--accent-ink)">R</text></g></g>
+        <g transform="translate(900,0)"><g class="ab" data-k="V"><rect x="-38" y="96" width="14" height="14" rx="2" fill="var(--accent-soft)" stroke="var(--accent)"/><text x="-31" y="106.5" font-weight="700" fill="var(--accent-ink)">V</text></g><g class="ab" data-k="R"><rect x="24" y="96" width="14" height="14" rx="2" fill="var(--accent-soft)" stroke="var(--accent)"/><text x="31" y="106.5" font-weight="700" fill="var(--accent-ink)">R</text></g></g>
+        <g transform="translate(1000,0)"><g class="ab" data-k="V"><rect x="-38" y="96" width="14" height="14" rx="2" fill="var(--accent-soft)" stroke="var(--accent)"/><text x="-31" y="106.5" font-weight="700" fill="var(--accent-ink)">V</text></g><g class="ab" data-k="R"><rect x="24" y="96" width="14" height="14" rx="2" fill="var(--accent-soft)" stroke="var(--accent)"/><text x="31" y="106.5" font-weight="700" fill="var(--accent-ink)">R</text></g></g>
+        <g transform="translate(1100,0)"><g class="ab" data-k="V"><rect x="-38" y="96" width="14" height="14" rx="2" fill="var(--accent-soft)" stroke="var(--accent)"/><text x="-31" y="106.5" font-weight="700" fill="var(--accent-ink)">V</text></g><g class="ab" data-k="R"><rect x="24" y="96" width="14" height="14" rx="2" fill="var(--accent-soft)" stroke="var(--accent)"/><text x="31" y="106.5" font-weight="700" fill="var(--accent-ink)">R</text></g></g>
+      </g>
+
+      <!-- R5 → RTM → V2 -->
+      <path d="M131 92 C150 70, 160 70, 169 92" fill="none" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arwA)"/>
+      <text x="150" y="66" font-size="10" text-anchor="middle" fill="var(--accent-ink)">R5 ghi RTM → V2 đọc</text>
+
+      <!-- Bước 6 trước Bước 8 -->
+      <path d="M700 205 C700 240, 900 240, 900 208" fill="none" stroke="var(--cho)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arwC)"/>
+      <text x="800" y="252" font-size="11" text-anchor="middle" fill="var(--cho)">Bước 6 phải đóng TRƯỚC Bước 8 (dây cương trống thì cổng A+ không bao giờ đòi cờ)</text>
+
+      <!-- DoR label -->
+      <text x="800" y="88" font-size="10" text-anchor="middle" fill="var(--accent-ink)" font-weight="600">cổng vào harness</text>
+
+      <!-- production -->
+      <g transform="translate(1160,100)">
+        <rect x="0" y="0" width="70" height="60" rx="6" fill="var(--surface-2)" stroke="var(--chan)" stroke-width="1.5"/>
+        <text x="35" y="22" font-size="10" text-anchor="middle" fill="var(--chan)" font-weight="700">UAT → PROD</text>
+        <text x="35" y="37" font-size="9" text-anchor="middle" fill="currentColor" class="mo">cong-uat-truoc-prod</text>
+        <text x="35" y="51" font-size="9" text-anchor="middle" fill="currentColor">Bước 9 đã đóng</text>
+      </g>
+
+      <!-- ghi chú review -->
+      <g font-size="10.5" fill="currentColor" transform="translate(40,290)">
+        <rect x="0" y="-9" width="12" height="12" rx="6" fill="var(--accent)"/><text x="18" y="1">review độc lập <tspan font-weight="700">mọi Round</tspan>: Bước 0 · 8 · 9</text>
+        <rect x="250" y="-9" width="12" height="12" rx="6" fill="var(--accent-soft)" stroke="var(--accent)"/><text x="268" y="1"><tspan font-weight="700">Round đầu</tspan>: Bước 1 · 2 · 3 · 6 · 7</text>
+        <rect x="480" y="-9" width="12" height="12" rx="6" fill="var(--surface-2)" stroke="currentColor" stroke-opacity=".4"/><text x="498" y="1"><tspan font-weight="700">không bắt buộc</tspan> (cổng máy + Done khi vẫn áp): Bước 4 · 5 · 10</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>Bấm số Bước để mở checklist, bấm ô V / R để xem cổng. Mỗi Bước kẹp giữa cổng vào V (6 mục) và cổng ra R (8 mục). Ràng buộc R5 của Bước trước phải được chép vào V2 của Bước sau; máy kiểm điều kiện (g). Đường ray chỉ kết thúc ở production khi Bước 9 đã có bản ghi đóng.</figcaption>
+  </figure>
+
+</section>
+
+<!-- ============ MA TRẬN ============ -->
+<section id="ma-tran">
+  <div class="sec-head">
+    <div class="eyebrow">Ma trận</div>
+    <h2>Mỗi cột một Bước, hàng giữa là pipeline, các hàng còn lại làm rõ cột</h2>
+    <p class="lead">Bấm số Bước hoặc bất kỳ ô nào để mở checklist phasegate đầy đủ của Bước đó. Tên tệp trỏ ra vị trí trong dự án sau khi cài (<code>Instructions/</code> · <code>Output/</code> · <code>Log/</code> · <code>.claude/</code>); nội dung kiểm nằm ngay trong tài liệu này.</p>
+  </div>
+  <div class="mx-wrap"><table class="mx" id="mx"></table></div>
+  <p class="hint" style="margin-top:8px">Cuộn ngang để xem đủ 11 cột. Hàng "Checklist riêng" là phần khác nhau giữa các Bước; 6 mục V và 8 mục R chung cho mọi Bước ở <a class="more" href="#cong">Phasegate →</a></p>
+</section>
+<!-- ============ QUY ĐỊNH ============ -->
+<section id="quy-dinh">
+  <div class="sec-head">
+    <div class="eyebrow">Quy định tổng thể</div>
+    <h2>Ai quyết gì, AI được tự chạy tới đâu</h2>
+    <p class="lead">Hai vai: <strong>Huynh</strong> là chủ dự án, người quyết và chịu trách nhiệm. <strong>CULI</strong> là AI thực thi. Harness là bộ yên cương lắp quanh AI; dây cương (leash) là AI được chạy xa tới đâu.</p>
+  </div>
+
+  <h4 style="margin-bottom:10px">Ba luật cứng — không câu lệnh nào trong phiên gỡ được</h4>
+  <div class="laws">
+    <div class="law"><b>Không tự đẩy / gộp / phát hành</b>Mọi thứ dừng ở bản nháp chờ duyệt. Cưỡng chế: skill <code>day-git</code> chế độ LOCAL, hook chặn <code>git commit</code> gõ tay, cổng UAT→Prod.</div>
+    <div class="law"><b>Không đụng bí mật / khoá</b><code>.env</code>, credential, API key, dữ liệu khách hàng không vào prompt. Cưỡng chế: chốt C1 của <code>day-git</code> + <code>kiem-khoa-lo.cjs</code>.</div>
+    <div class="law"><b>Chờ duyệt thì không tự đánh xong</b>Việc A+ xây xong chỉ được đánh 🔒 chờ xác nhận. Cưỡng chế: cổng đòi cờ <code>--huynh-xac-nhan &lt;ngày&gt;</code>, AI không tự cắm.</div>
+  </div>
+
+  <div class="grid2" style="margin-top:24px">
+    <div class="panel">
+      <h3>Thang tự hành L0–L5 và dây cương A / A+</h3>
+      <div class="ladder">
+        <div><b>L0</b><span>Observe — quan sát, không đổi gì</span><span></span></div>
+        <div><b>L1</b><span>Draft — nháp, người duyệt 100%</span><span></span></div>
+        <div><b>L2</b><span>Recommend — đề xuất kèm hệ quả, người chọn</span><span></span></div>
+        <div class="a"><b>L3</b><span>Execute — tự làm việc rủi ro thấp trong giới hạn</span><span class="badge qua">Leash A</span></div>
+        <div class="aplus"><b>L4</b><span>Operate — cả luồng có hàng rào + nhật ký; phần nguy hiểm người duyệt</span><span class="badge cho">Leash A+</span></div>
+        <div class="l5"><b>L5</b><span>Restricted — cố ý không cấp</span><span></span></div>
+      </div>
+      <p class="note" style="margin-top:12px"><strong>Vùng A+ mặc định:</strong> dữ liệu cá nhân · cấu trúc CSDL · khoá bí mật · phân quyền · phát hành ra môi trường thật · nội dung AI sinh cho người dùng cuối đọc. Nguồn sự thật duy nhất: <code>Instructions/LEASH-BANG.json</code>, cổng máy đọc thẳng.</p>
+    </div>
+    <div class="panel mech">
+      <h3>Ba cơ chế quản trị</h3>
+      <ul>
+        <li><strong>Fail-closed</strong> — không xác minh được = CHẶN. Mọi công cụ <code>Log/*.cjs</code> thoát 2 là chặn; đọc không được tệp bắt buộc cũng chặn, không rơi về mặc định.</li>
+        <li><strong>BUILT-flagged</strong> — làm xong ≠ được phát hành. Việc rủi ro cao dừng ở "đã xây, cổng xanh, chờ người duyệt" (trạng thái 🔒 trong TASKLIST).</li>
+        <li><strong>Hard-stop khi mâu thuẫn</strong> — spec mơ hồ thì dừng và phơi bày (mục V4 + sổ <code>CHO-QUYET.ndjson</code>), không đoán cho trôi việc.</li>
+      </ul>
+      <h3 style="margin-top:16px">Ba quy ước gác bằng máy</h3>
+      <ul>
+        <li>Mọi commit đi qua skill <code>day-git</code>; cấm gõ tay <code>git commit</code> (hook <code>chan-git-commit-tay.cjs</code>).</li>
+        <li>Chạm mã ⇒ tài liệu RTM liên quan nằm cùng commit (<code>kiem-c2-staged.cjs</code>). Cấm sửa tài liệu chỉ để cổng xanh.</li>
+        <li>Không tuyên bố "xong" khi chưa chạy một phép kiểm cụ thể và dán kết quả.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h4 style="margin:24px 0 10px">Bảy điều dừng — CULI dừng hỏi Huynh khi chạm đúng một trong bảy; ngoài đó tự làm tới bản nháp rồi báo</h4>
+  <div class="stops">
+    <div class="stop"><span class="n">1</span><div>Nguồn mâu thuẫn, không nguồn nào phân xử được<small>Dấu hiệu: sắp viết "chọn A vì đơn giản hơn", "chắc là do…"</small></div></div>
+    <div class="stop"><span class="n">2</span><div>Cần bằng chứng ngoài kho mã<small>Số liệu thật, tài liệu gốc, bảng giá, xác nhận bên thứ ba</small></div></div>
+    <div class="stop"><span class="n">3</span><div>Quyết định phạm vi<small>Làm hay không, rộng hay hẹp, hoãn sang Round sau. Phạm vi là của Huynh</small></div></div>
+    <div class="stop"><span class="n">4</span><div>"Đủ tốt để dùng chưa" là câu hỏi kinh doanh<small>Chấp nhận rủi ro còn lại, đặt ngưỡng, ca "gần đúng"</small></div></div>
+    <div class="stop"><span class="n">5</span><div>Sửa chính luật quản CULI<small>CULI có xung đột lợi ích, phải nói thẳng. Gồm cả hạ tầng gác: hook, settings, gate-check, config</small></div></div>
+    <div class="stop"><span class="n">6</span><div>Phát ra ngoài / không hoàn lại được<small>push · merge · release · xoá/ghi đè dữ liệu thật · khoá bí mật</small></div></div>
+    <div class="stop"><span class="n">7</span><div>Đưa mã bên thứ ba vào dự án<small>Báo trước: tên · giấy phép · phụ thuộc · nguồn gốc</small></div></div>
+  </div>
+
+  <div class="grid2" style="margin-top:24px">
+    <div class="panel">
+      <h3>Bốn câu hỏi phản xạ (= mục V5 của mọi cổng vào)</h3>
+      <ol>
+        <li>Việc này quyền tác động tới đâu? Chỉ đọc hay có quyền ghi / đổi hệ thống?</li>
+        <li>Mức L nào, Leash A hay A+?</li>
+        <li>Cổng nào gác đầu ra này?</li>
+        <li>Phần nguy hiểm ai đích thân duyệt trước khi dùng thật?</li>
+      </ol>
+    </div>
+    <div class="panel">
+      <h3>Phạm vi là của Huynh</h3>
+      <p>Mọi cổng khác đo <em>thứ đã khai</em>; chỉ <code>Instructions/PHAM-VI-MVP.json</code> đo <em>thứ chủ dự án đã yêu cầu</em>, mỗi mục một nguyên văn. Ba việc AI tuyệt đối không tự làm: đổi trạng thái một mục tiêu · chuyển mục tiêu sang Round sau · bỏ một mục tiêu. <code>kiem-pham-vi.cjs --truoc-prod</code> chặn đẩy nếu còn mục chưa giao mà chưa có chữ ký.</p>
+      <p class="note" style="margin-top:10px"><strong>Bốn việc Huynh không cần làm:</strong> đọc mã dò lỗi AI · duyệt từng lát cắt trong phạm vi đã chốt · duyệt test · duyệt tài liệu nội bộ chỉ ghi lại việc đã làm.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PHASEGATE ============ -->
+<section id="cong">
+  <div class="sec-head">
+    <div class="eyebrow">Phasegate</div>
+    <h2>Giải phẫu một Bước: cổng vào, 5 nhịp, cổng ra, 13 điều kiện máy</h2>
+    <p class="lead">Ba lớp của một phase gate hỏi ba câu khác nhau và không thay nhau: máy đếm sổ sách, người làm khai 13 mục, người đọc chấm "Done khi". <strong>Cổng xanh ≠ Bước đạt.</strong></p>
+  </div>
+
+  <figure>
+    <div class="fig-box">
+    <svg viewBox="0 0 1000 300" width="1000" role="img" aria-label="Một Bước: cổng vào V1–V6 khai vào bản khai cong-buoc, vòng đời 5 nhịp, cổng ra R1–R8, gate-check kiểm 13 điều kiện và chỉ ghi khi qua; ba lớp L1 máy, L2 lời khai, L3 nội dung">
+      <defs><marker id="arw2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker></defs>
+      <!-- Cổng VÀO -->
+      <g transform="translate(20,40)">
+        <rect width="150" height="190" rx="8" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="2"/>
+        <text x="75" y="22" text-anchor="middle" font-size="12" font-weight="700" fill="var(--accent-ink)">📥 CỔNG VÀO</text>
+        <g font-size="11" fill="currentColor" class="mo">
+          <g class="ab" data-k="V1"><text x="12" y="46"><tspan font-weight="700">V1</tspan> Bước trước = qua</text></g>
+          <g class="ab" data-k="V2"><text x="12" y="66"><tspan font-weight="700">V2</tspan> keThua[] từ R5</text></g>
+          <g class="ab" data-k="V3"><text x="12" y="86"><tspan font-weight="700">V3</tspan> nguồn có mặt</text></g>
+          <g class="ab" data-k="V4"><text x="12" y="106"><tspan font-weight="700">V4</tspan> điểm mơ hồ</text></g>
+          <g class="ab" data-k="V5"><text x="12" y="126"><tspan font-weight="700">V5</tspan> 4 câu phản xạ</text></g>
+          <g class="ab" data-k="V6"><text x="12" y="146"><tspan font-weight="700">V6</tspan> quyết định áp</text></g>
+        </g>
+        <text x="75" y="178" text-anchor="middle" font-size="10" fill="var(--chan)" font-weight="600">chưa đủ ⇒ KHÔNG mở</text>
+      </g>
+      <!-- 5 nhịp -->
+      <g font-size="11" text-anchor="middle" fill="currentColor">
+        <line x1="170" y1="135" x2="208" y2="135" stroke="currentColor" stroke-width="1.5" marker-end="url(#arw2)"/>
+        <g transform="translate(210,110)"><rect width="100" height="50" rx="6" fill="var(--surface)" stroke="currentColor" stroke-opacity=".5"/><text x="50" y="22" font-weight="600">MỞ BƯỚC</text><text x="50" y="38" font-size="10" opacity=".75">khai V1–V6</text></g>
+        <line x1="310" y1="135" x2="328" y2="135" stroke="currentColor" stroke-width="1.5" marker-end="url(#arw2)"/>
+        <g transform="translate(330,110)"><rect width="100" height="50" rx="6" fill="var(--surface)" stroke="currentColor" stroke-opacity=".5"/><text x="50" y="22" font-weight="600">CHẺ VIỆC</text><text x="50" y="38" font-size="10" opacity=".75">task cấp 3 có mã</text></g>
+        <line x1="430" y1="135" x2="448" y2="135" stroke="currentColor" stroke-width="1.5" marker-end="url(#arw2)"/>
+        <g transform="translate(450,110)"><rect width="110" height="50" rx="6" fill="var(--surface)" stroke="currentColor" stroke-opacity=".5"/><text x="55" y="22" font-weight="600">LÀM + GHI SỐ ĐO</text><text x="55" y="38" font-size="10" opacity=".75">telemetry · PROOF-LOG</text></g>
+        <line x1="560" y1="135" x2="578" y2="135" stroke="currentColor" stroke-width="1.5" marker-end="url(#arw2)"/>
+        <g transform="translate(580,110)"><rect width="100" height="50" rx="6" fill="var(--surface)" stroke="currentColor" stroke-opacity=".5"/><text x="50" y="22" font-weight="600">CỔNG RA</text><text x="50" y="38" font-size="10" opacity=".75">R1–R8 + 13 máy</text></g>
+        <line x1="680" y1="135" x2="698" y2="135" stroke="currentColor" stroke-width="1.5" marker-end="url(#arw2)"/>
+        <g transform="translate(700,110)"><rect width="100" height="50" rx="6" fill="var(--qua-soft)" stroke="var(--qua)"/><text x="50" y="22" font-weight="600" fill="var(--qua)">ĐÓNG BƯỚC</text><text x="50" y="38" font-size="10" opacity=".85">bản ghi qua</text></g>
+      </g>
+      <!-- bản khai -->
+      <g transform="translate(300,40)">
+        <rect width="310" height="44" rx="6" fill="var(--surface-2)" stroke="currentColor" stroke-opacity=".3" stroke-dasharray="4 3"/>
+        <text x="155" y="18" text-anchor="middle" font-size="10.5" fill="currentColor" class="mo">Log/cong-buoc/&lt;mvp&gt;[-R&lt;k&gt;]-B&lt;N&gt;.json</text>
+        <text x="155" y="34" text-anchor="middle" font-size="10" fill="currentColor" opacity=".8">13 mục V1–V6 · R1,R2,R3,R5,R6,R7,R8 — mỗi mục {dat, canCu}, dat:false bắt buộc lyDo</text>
+      </g>
+      <line x1="260" y1="110" x2="300" y2="84" stroke="currentColor" stroke-opacity=".5" stroke-dasharray="3 3"/>
+      <line x1="630" y1="110" x2="600" y2="84" stroke="currentColor" stroke-opacity=".5" stroke-dasharray="3 3"/>
+      <!-- gate-check -->
+      <g transform="translate(560,190)">
+        <rect width="240" height="56" rx="6" fill="var(--surface)" stroke="var(--accent)" stroke-width="1.5"/>
+        <text x="120" y="18" text-anchor="middle" font-size="10.5" fill="var(--accent-ink)" class="mo" font-weight="500">node Log/gate-check.cjs --buoc N --mvp nn [--round Rk]</text>
+        <text x="120" y="34" text-anchor="middle" font-size="10.5" fill="currentColor">13 điều kiện (0)(a)…(m) · thoát 0 qua · 2 chặn</text>
+        <text x="120" y="48" text-anchor="middle" font-size="10" fill="var(--chan)" font-weight="600">--ghi CHỈ ghi khi qua · đỏ thì in "XONG NGHĨA LÀ GÌ"</text>
+      </g>
+      <line x1="630" y1="160" x2="640" y2="190" stroke="currentColor" stroke-opacity=".5"/>
+      <!-- Cổng RA -->
+      <g transform="translate(830,40)">
+        <rect width="150" height="190" rx="8" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="2"/>
+        <text x="75" y="22" text-anchor="middle" font-size="12" font-weight="700" fill="var(--accent-ink)">📤 CỔNG RA</text>
+        <g font-size="10.5" fill="currentColor" class="mo">
+          <g class="ab" data-k="R1"><text x="10" y="44"><tspan font-weight="700">R1</tspan> Done khi PASS/FAIL</text></g>
+          <g class="ab" data-k="R2"><text x="10" y="62"><tspan font-weight="700">R2</tspan> bằng chứng chỉ được</text></g>
+          <g class="ab" data-k="R3"><text x="10" y="80"><tspan font-weight="700">R3</tspan> review theo chính sách</text></g>
+          <g class="ab" data-k="R4"><text x="10" y="98"><tspan font-weight="700">R4</tspan> 13 điều kiện máy</text></g>
+          <g class="ab" data-k="R5"><text x="10" y="116"><tspan font-weight="700">R5</tspan> ràng buộc → RTM</text></g>
+          <g class="ab" data-k="R6"><text x="10" y="134"><tspan font-weight="700">R6</tspan> V4 đã giải / ghi nợ</text></g>
+          <g class="ab" data-k="R7"><text x="10" y="152"><tspan font-weight="700">R7</tspan> 7 chỉ số đã đo</text></g>
+          <g class="ab" data-k="R8"><text x="10" y="170"><tspan font-weight="700">R8</tspan> đã đẩy git</text></g>
+        </g>
+      </g>
+      <line x1="800" y1="135" x2="828" y2="135" stroke="currentColor" stroke-width="1.5" marker-end="url(#arw2)"/>
+      <!-- 3 lớp -->
+      <g font-size="10.5" fill="currentColor" transform="translate(20,270)">
+        <text x="0" y="0"><tspan font-weight="700" fill="var(--accent-ink)">L1 Kế toán</tspan> máy: gate-check 13 điều kiện</text>
+        <text x="240" y="0"><tspan font-weight="700" fill="var(--accent-ink)">L2 Lời khai</tspan> người làm: bản khai 13 mục cổng</text>
+        <text x="500" y="0"><tspan font-weight="700" fill="var(--accent-ink)">L3 Nội dung</tspan> người đọc: "Done khi" của Bước trong PLAYBOOK</text>
+        <text x="840" y="0" fill="var(--chan)" font-weight="600">Cổng xanh ≠ Bước đạt</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>Bốn Bước từng được "đóng" trong 0,7 giây bằng một vòng lặp shell với cổng máy xanh thật; chỉ dấu thời gian phát hiện ra. Vì thế L3 (người đọc Done khi) không được bỏ.</figcaption>
+  </figure>
+
+  <div class="grid2">
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Cổng vào</th><th>Mục kiểm — chung mọi Bước</th><th>Không đạt</th></tr></thead>
+      <tbody>
+        <tr><td class="k">V1</td><td>Artefact Bước trước đã đóng: bản ghi mới nhất trong <code>PHASE-GATE-LOG.ndjson</code> là <code>qua</code>, không phải <code>huy</code> (trừ Bước Round khai <code>khong-cham</code>/<code>ke-thua</code>)</td><td><span class="badge chan">không mở</span></td></tr>
+        <tr><td class="k">V2</td><td>Đã đọc <code>RTM.md</code> và chép sang mảng <code>V2.keThua</code> từng ràng buộc R5 của Bước trước. Máy kiểm (g): thiếu hoặc rỗng ⇒ chặn; 0 từ khoá chung ⇒ cảnh báo</td><td><span class="badge chan">không mở</span></td></tr>
+        <tr><td class="k">V3</td><td>Nguồn dữ liệu cần có đã có mặt: đường dẫn, ai xác nhận. Thiếu thì nêu tên, không lấp bằng suy đoán</td><td><span class="badge cho">dừng hỏi</span></td></tr>
+        <tr><td class="k">V4</td><td>Danh sách điểm mơ hồ viết TRƯỚC khi làm; mỗi điểm gắn "tự quyết" hoặc "hỏi Huynh (điều dừng số mấy)" → vào <code>CHO-QUYET.ndjson</code> kèm điều kiện bung</td><td><span class="badge cho">dừng hỏi</span></td></tr>
+        <tr><td class="k">V5</td><td>Trả lời 4 câu phản xạ: quyền tác động · mức L, A/A+ · cổng nào gác · ai duyệt phần nguy hiểm</td><td><span class="badge chan">không mở</span></td></tr>
+        <tr><td class="k">V6</td><td>Quyết định đã chốt áp cho Bước (<code>D-…</code>, <code>NFR-…</code>, <code>M…</code>) đã liệt kê; cái chưa có ghi ở <code>chuaQuyet</code></td><td><span class="badge chan">không mở</span></td></tr>
+      </tbody>
+    </table></div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Cổng ra</th><th>Mục kiểm — chung mọi Bước</th></tr></thead>
+      <tbody>
+        <tr><td class="k">R1</td><td>"Done khi" của Bước: từng tiêu chí PASS/FAIL, không có "gần đúng"</td></tr>
+        <tr><td class="k">R2</td><td>Mỗi PASS có bằng chứng chỉ được: đường dẫn · lệnh chạy lại được · dòng sổ bằng chứng, đúng một trong 5 loại (<code>http</code> · <code>sql</code> · <code>ma-thoat</code> · <code>doi-chieu-tep</code> · <code>nguoi-quyet</code>)</td></tr>
+        <tr><td class="k">R3</td><td>Đã qua review theo REVIEW-POLICY: <code>lopReview</code> (<code>doc-lap</code>/<code>tu-soi</code>) · ai review · <code>phatHien[]</code> · <code>quyetDinh</code> nguyên văn Huynh → Dev Book</td></tr>
+        <tr><td class="k">R4</td><td>13 điều kiện máy của <code>gate-check.cjs</code> (máy, không khai tay)</td></tr>
+        <tr><td class="k">R5</td><td>Ràng buộc phát sinh cho Bước sau đã ghi vào <code>RTM.md</code> khối RÀNG BUỘC THEO BƯỚC</td></tr>
+        <tr><td class="k">R6</td><td>Mọi điểm mơ hồ ở V4 đã giải quyết hoặc chuyển thành ràng buộc / mục chờ quyết. Không giải ⇒ <code>dat:false</code> + <code>lyDo</code> = nợ đã ghi</td></tr>
+        <tr><td class="k">R7</td><td>7 chỉ số sức khoẻ tài liệu đã đo (<code>doc-health.cjs</code>), <code>R7.canCu</code> dẫn đủ c1…c7; không đo được thì ghi rõ, không bịa</td></tr>
+        <tr><td class="k">R8</td><td>Đã đẩy git: <code>thuMuc.gacGit</code> không còn file dở. File của phiên song song: khai <code>R8:{dat:false, lyDo}</code>, chặn → cảnh báo</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <h4 style="margin:24px 0 10px">13 điều kiện máy — <span class="mono" style="text-transform:none;letter-spacing:0">gate-check.cjs --buoc N</span></h4>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>#</th><th>Điều kiện</th><th>Xong nghĩa là gì</th></tr></thead>
+    <tbody>
+      <tr><td class="k">(0)</td><td>Round đã mở</td><td>Có bản ghi <code>mo-round</code>, bảng khai đủ 11 Bước (Round 1 ngầm định miễn)</td></tr>
+      <tr><td class="k">(a)</td><td>Task cấp 3</td><td>Mọi task của Bước bắt đầu bằng ✅ hoặc ghi lý do gác lại; đọc theo ký tự đầu</td></tr>
+      <tr><td class="k">(b)</td><td>Bằng chứng chạy thật</td><td>Mỗi task <code>.BUILD.</code> ✅ có dòng <code>PROOF-LOG.ndjson</code> đúng 1 trong 5 loại; khác <code>http</code> cần <code>lyDoKhongHttp</code> ≥30 ký tự</td></tr>
+      <tr><td class="k">(c)</td><td>c2 staged</td><td><code>kiem-c2-staged.cjs</code> thoát 0: tài liệu RTM liên quan nằm cùng change set</td></tr>
+      <tr><td class="k">(d)</td><td>Telemetry</td><td>Mỗi task ✅ có dòng <code>**[mã]**</code> trong <code>TELEMETRY.md</code></td></tr>
+      <tr><td class="k">(e)</td><td>Thứ tự</td><td>Mọi Bước trước có bản ghi <code>qua</code>, trừ Bước Round khai <code>khong-cham</code>/<code>ke-thua</code></td></tr>
+      <tr><td class="k">(f)</td><td>Bản khai cổng</td><td>File <code>cong-buoc/…-B&lt;n&gt;.json</code> đủ 13 mục; có <code>--round</code> thì bắt buộc file của chính Round đó</td></tr>
+      <tr><td class="k">(g)</td><td>Khép vòng RTM</td><td><code>V2.keThua</code> không rỗng khi Bước trước có <code>R5.canCu</code></td></tr>
+      <tr><td class="k">(h)</td><td>Bộ 7 chỉ số</td><td><code>doc-health.cjs</code> chạy được và <code>R7.canCu</code> dẫn đủ 7 mã; không đặt ngưỡng (ngưỡng = điều dừng 4)</td></tr>
+      <tr><td class="k">(i)</td><td>Đã đẩy git</td><td><code>git status --porcelain</code> trên <code>thuMuc.gacGit</code> rỗng, hoặc <code>R8:{dat:false, lyDo}</code> liệt kê tên file</td></tr>
+      <tr><td class="k">(j)</td><td>Sổ chờ quyết</td><td>Mọi mục <code>CHO-QUYET.ndjson</code> đến hạn ở Bước này mang <code>chan:true</code> đã được Huynh quyết bằng nguyên văn</td></tr>
+      <tr><td class="k">(k)</td><td>rtm-check</td><td><code>rtm-check.cjs</code> thoát 0: không story mồ côi · số ca test khớp · mọi tệp test được RTM nhắc</td></tr>
+      <tr><td class="k">(l)</td><td>Review theo chính sách</td><td>Nếu <code>reviewPolicy</code> đòi độc lập: <code>R3.lopReview === "doc-lap"</code>, có <code>nguoiReview</code>, <code>phatHien</code> là mảng, <code>quyetDinh</code> ≥20 ký tự</td></tr>
+      <tr><td class="k">(m)</td><td>Cổng RA riêng của Bước</td><td>Mọi lệnh trong <code>congRaRieng[n]</code> thoát 0: Bước 1 backlog · Bước 9 phủ môi trường · Bước 10 phạm vi</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3 style="margin:28px 0 4px">Checklist phasegate theo từng Bước</h3>
+  <p class="lead" style="font-size:14px">Chọn Bước trên ma trận, hoặc bấm số bên dưới. Nội dung lấy từ PLAYBOOK mục Bước và checklist B00–B10.</p>
+  <div class="rail" id="rail2" role="group" aria-label="Chọn Bước" style="grid-template-columns:repeat(11,minmax(44px,1fr));gap:6px"></div>
+  <div class="detail" id="detail" aria-live="polite"></div>
+</section>
+
+<!-- ============ MVP × ROUND ============ -->
+<section id="mvp-round">
+  <div class="sec-head">
+    <div class="eyebrow">Ba tầng</div>
+    <h2>Nhiều MVP, mỗi MVP nhiều Round, mỗi Round chạm một tập Bước</h2>
+    <p class="lead">MVP phải đi hết 11 Bước. Round được bắt đầu ở Bước bất kỳ, đổi lại phải khai đủ 11 Bước lúc mở: <code>cham</code> / <code>khong-cham</code> / <code>ke-thua</code>, hai cái sau bắt buộc lý do. Mở Round là hành vi có cổng, không phải gõ mã <code>.R&lt;k&gt;.</code> vào TASKLIST.</p>
+  </div>
+
+  <figure>
+    <div class="fig-box">
+    <svg viewBox="0 0 1060 420" width="1060" role="img" aria-label="Ma trận MVP × Round × Bước: MVP_01 có ba Round, Round 1 chạm đủ 11 Bước, Round 2 kế thừa Bước 0–2 và chạm từ Bước 3, Round 3 chỉ chạm Bước 8–10; mỗi cột Bước phải có ít nhất một ô chạm thì mới đóng MVP; MVP_02 bắt đầu sau khi MVP_01 đóng">
+      <defs>
+        <pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="currentColor" stroke-opacity=".35" stroke-width="1.5"/></pattern>
+        <marker id="arw3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker>
+      </defs>
+      <!-- header cột Bước: x0=250, w=60 -->
+      <g font-size="11" text-anchor="middle" fill="currentColor" font-weight="600">
+        <text x="280" y="40">B0</text><text x="340" y="40">B1</text><text x="400" y="40">B2</text><text x="460" y="40">B3</text><text x="520" y="40">B4</text><text x="580" y="40">B5</text><text x="640" y="40">B6</text><text x="700" y="40">B7</text><text x="760" y="40">B8</text><text x="820" y="40">B9</text><text x="880" y="40">B10</text>
+      </g>
+      <text x="250" y="22" font-size="11" fill="currentColor" opacity=".7">Bước →</text>
+
+      <!-- MVP_01 -->
+      <g>
+        <rect x="20" y="52" width="920" height="178" rx="10" fill="none" stroke="var(--accent)" stroke-width="2"/>
+        <text x="34" y="74" font-size="13" font-weight="700" fill="var(--accent-ink)" class="mo">MVP_01</text>
+        <text x="34" y="90" font-size="10" fill="currentColor" opacity=".75">PHAM-VI-MVP.json: 7 mục tiêu nguyên văn</text>
+        <!-- R1 -->
+        <g transform="translate(0,104)">
+          <text x="34" y="18" font-size="12" font-weight="600" fill="currentColor" class="mo">R1</text><text x="58" y="18" font-size="10" fill="currentColor" opacity=".8">ngầm định, miễn (0)</text>
+          <text x="34" y="32" font-size="9" fill="currentColor" opacity=".7" class="mo">cong-buoc/MVP_01-B&lt;n&gt;.json</text>
+          <g fill="var(--accent)">
+            <rect x="256" y="8" width="48" height="26" rx="4"/><rect x="316" y="8" width="48" height="26" rx="4"/><rect x="376" y="8" width="48" height="26" rx="4"/><rect x="436" y="8" width="48" height="26" rx="4"/><rect x="496" y="8" width="48" height="26" rx="4"/><rect x="556" y="8" width="48" height="26" rx="4"/><rect x="616" y="8" width="48" height="26" rx="4"/><rect x="676" y="8" width="48" height="26" rx="4"/><rect x="736" y="8" width="48" height="26" rx="4"/><rect x="796" y="8" width="48" height="26" rx="4"/><rect x="856" y="8" width="48" height="26" rx="4"/>
+          </g>
+        </g>
+        <!-- R2 -->
+        <g transform="translate(0,144)">
+          <text x="34" y="18" font-size="12" font-weight="600" fill="currentColor" class="mo">R2</text><text x="58" y="18" font-size="10" fill="currentColor" opacity=".8">moVi: thiếu phân quyền</text>
+          <text x="34" y="32" font-size="9" fill="currentColor" opacity=".7" class="mo">khai-round/MVP_01-R2.json · --mo-round R2</text>
+          <rect x="256" y="8" width="48" height="26" rx="4" fill="var(--surface-2)" stroke="currentColor" stroke-opacity=".4" stroke-dasharray="3 2"/>
+          <rect x="316" y="8" width="48" height="26" rx="4" fill="var(--surface-2)" stroke="currentColor" stroke-opacity=".4" stroke-dasharray="3 2"/>
+          <rect x="376" y="8" width="48" height="26" rx="4" fill="var(--surface-2)" stroke="currentColor" stroke-opacity=".4" stroke-dasharray="3 2"/>
+          <rect x="436" y="8" width="48" height="26" rx="4" fill="var(--accent)"/>
+          <rect x="496" y="8" width="48" height="26" rx="4" fill="url(#hatch)" stroke="currentColor" stroke-opacity=".4"/>
+          <rect x="556" y="8" width="48" height="26" rx="4" fill="url(#hatch)" stroke="currentColor" stroke-opacity=".4"/>
+          <rect x="616" y="8" width="48" height="26" rx="4" fill="var(--accent)"/>
+          <rect x="676" y="8" width="48" height="26" rx="4" fill="url(#hatch)" stroke="currentColor" stroke-opacity=".4"/>
+          <rect x="736" y="8" width="48" height="26" rx="4" fill="var(--accent)"/>
+          <rect x="796" y="8" width="48" height="26" rx="4" fill="var(--accent)"/>
+          <rect x="856" y="8" width="48" height="26" rx="4" fill="var(--accent)"/>
+        </g>
+        <!-- R3 -->
+        <g transform="translate(0,184)">
+          <text x="34" y="18" font-size="12" font-weight="600" fill="currentColor" class="mo">R3</text><text x="58" y="18" font-size="10" fill="currentColor" opacity=".8">moVi: UAT lượt 2 trượt AC4</text>
+          <text x="34" y="32" font-size="9" fill="currentColor" opacity=".7" class="mo">khai-round/MVP_01-R3.json · --mo-round R3</text>
+          <rect x="256" y="8" width="48" height="26" rx="4" fill="var(--surface-2)" stroke="currentColor" stroke-opacity=".4" stroke-dasharray="3 2"/>
+          <rect x="316" y="8" width="48" height="26" rx="4" fill="var(--surface-2)" stroke="currentColor" stroke-opacity=".4" stroke-dasharray="3 2"/>
+          <rect x="376" y="8" width="48" height="26" rx="4" fill="var(--surface-2)" stroke="currentColor" stroke-opacity=".4" stroke-dasharray="3 2"/>
+          <rect x="436" y="8" width="48" height="26" rx="4" fill="var(--surface-2)" stroke="currentColor" stroke-opacity=".4" stroke-dasharray="3 2"/>
+          <rect x="496" y="8" width="48" height="26" rx="4" fill="var(--surface-2)" stroke="currentColor" stroke-opacity=".4" stroke-dasharray="3 2"/>
+          <rect x="556" y="8" width="48" height="26" rx="4" fill="var(--surface-2)" stroke="currentColor" stroke-opacity=".4" stroke-dasharray="3 2"/>
+          <rect x="616" y="8" width="48" height="26" rx="4" fill="var(--surface-2)" stroke="currentColor" stroke-opacity=".4" stroke-dasharray="3 2"/>
+          <rect x="676" y="8" width="48" height="26" rx="4" fill="var(--surface-2)" stroke="currentColor" stroke-opacity=".4" stroke-dasharray="3 2"/>
+          <rect x="736" y="8" width="48" height="26" rx="4" fill="var(--accent)"/>
+          <rect x="796" y="8" width="48" height="26" rx="4" fill="var(--accent)"/>
+          <rect x="856" y="8" width="48" height="26" rx="4" fill="var(--accent)"/>
+        </g>
+        <!-- cổng mở round -->
+      </g>
+      <!-- đóng MVP -->
+      <g transform="translate(950,52)">
+        <rect width="96" height="178" rx="8" fill="var(--qua-soft)" stroke="var(--qua)" stroke-width="1.5"/>
+        <text x="48" y="22" text-anchor="middle" font-size="11" font-weight="700" fill="var(--qua)">ĐÓNG MVP</text>
+        <text x="48" y="40" text-anchor="middle" font-size="8.5" class="mo" fill="currentColor">gate-check --dong-mvp 01</text>
+        <text x="48" y="66" text-anchor="middle" font-size="9.5" fill="currentColor">mọi cột Bước</text>
+        <text x="48" y="79" text-anchor="middle" font-size="9.5" fill="currentColor">có ≥1 ô chạm</text>
+        <text x="48" y="92" text-anchor="middle" font-size="9.5" fill="currentColor">đã đóng</text>
+        <text x="48" y="118" text-anchor="middle" font-size="9.5" fill="currentColor">+ kiem-pham-vi:</text>
+        <text x="48" y="131" text-anchor="middle" font-size="9.5" fill="currentColor">7/7 mục tiêu giao</text>
+        <text x="48" y="144" text-anchor="middle" font-size="9.5" fill="currentColor">hoặc Huynh ký hoãn</text>
+      </g>
+      <!-- mũi tên kiểm cột -->
+      <g stroke="var(--qua)" stroke-width="1.5" fill="none">
+        <path d="M280 236 v14" marker-end="url(#arw3)"/><path d="M880 236 v14" marker-end="url(#arw3)"/>
+      </g>
+      <text x="580" y="262" font-size="10.5" text-anchor="middle" fill="var(--qua)" font-weight="600">mỗi cột: ít nhất một Round chạm và đóng — Bước nào không Round nào chạm ⇒ MVP chưa xong, bất kể mọi Round đều xanh</text>
+
+      <!-- MVP_02 -->
+      <g transform="translate(0,278)">
+        <rect x="20" y="0" width="920" height="80" rx="10" fill="none" stroke="currentColor" stroke-opacity=".4" stroke-width="1.5" stroke-dasharray="6 4"/>
+        <text x="34" y="22" font-size="13" font-weight="700" fill="currentColor" class="mo" opacity=".8">MVP_02</text>
+        <text x="34" y="38" font-size="10" fill="currentColor" opacity=".7">mở sau khi MVP_01 đóng · Bước 0 lại từ đầu</text>
+        <g transform="translate(0,30)">
+          <text x="34" y="22" font-size="12" font-weight="600" fill="currentColor" class="mo" opacity=".8">R1</text>
+          <g fill="var(--accent)" opacity=".45">
+            <rect x="256" y="8" width="48" height="26" rx="4"/><rect x="316" y="8" width="48" height="26" rx="4"/><rect x="376" y="8" width="48" height="26" rx="4"/><rect x="436" y="8" width="48" height="26" rx="4"/><rect x="496" y="8" width="48" height="26" rx="4"/><rect x="556" y="8" width="48" height="26" rx="4"/><rect x="616" y="8" width="48" height="26" rx="4"/><rect x="676" y="8" width="48" height="26" rx="4"/><rect x="736" y="8" width="48" height="26" rx="4"/><rect x="796" y="8" width="48" height="26" rx="4"/><rect x="856" y="8" width="48" height="26" rx="4"/>
+          </g>
+        </g>
+      </g>
+      <path d="M950 141 h30 v137 h-30" fill="none" stroke="currentColor" stroke-opacity=".5" stroke-width="1.5" marker-end="url(#arw3)"/>
+
+      <!-- legend -->
+      <g font-size="10.5" fill="currentColor" transform="translate(250,392)">
+        <rect x="0" y="-10" width="22" height="14" rx="3" fill="var(--accent)"/><text x="28" y="1"><tspan class="mo" font-weight="600">cham</tspan> — Round này có việc ở Bước, cổng V/R riêng, tên tệp mang mã Round</text>
+        <rect x="430" y="-10" width="22" height="14" rx="3" fill="url(#hatch)" stroke="currentColor" stroke-opacity=".4"/><text x="458" y="1"><tspan class="mo" font-weight="600">khong-cham</tspan> — không làm, bắt buộc lý do</text>
+        <rect x="690" y="-10" width="22" height="14" rx="3" fill="var(--surface-2)" stroke="currentColor" stroke-opacity=".4" stroke-dasharray="3 2"/><text x="718" y="1"><tspan class="mo" font-weight="600">ke-thua</tspan> — dùng kết quả Round trước, bắt buộc lý do</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>R2 chạm lại Bước 3 (đổi lược đồ) nên khai <code>doiThietKe:true</code> và review Bước 3 quay về <code>doc-lap</code> dù là Round sau. Lời khai Round phải có việc cụ thể kể cả Bước khai <code>cham</code>. Khai cả 11 Bước = <code>cham</code> với lý do trống rồi 4 Bước không làm gì là ca đã xảy ra. Khai <code>ke-thua</code> Bước 9 khi chưa Round nào từng đóng Bước 9 thì <code>cong-uat-truoc-prod</code> vẫn chặn.</figcaption>
+  </figure>
+
+  <div class="grid3">
+    <div class="panel">
+      <h3>Ba tầng, ba nghĩa vụ</h3>
+      <div class="tbl-wrap" style="border:none"><table style="min-width:0">
+        <thead><tr><th>Tầng</th><th>Nghĩa vụ</th><th>Ai gác</th></tr></thead>
+        <tbody>
+          <tr><td><strong>MVP</strong></td><td>Chạy đủ 11 Bước</td><td class="c">--dong-mvp</td></tr>
+          <tr><td><strong>Round</strong></td><td>Bắt đầu ở Bước bất kỳ, khai đủ 11</td><td class="c">--mo-round + (0)(e)</td></tr>
+          <tr><td><strong>Bước</strong></td><td>V1–V6 · R1–R8 · 13 điều kiện</td><td class="c">--buoc</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+    <div class="panel">
+      <h3>Năm luật Round</h3>
+      <ol>
+        <li>Mỗi Round có mốc bắt đầu ghi rõ (bản ghi <code>mo-round</code>) và cổng riêng cho từng Bước nó chạm.</li>
+        <li>Round sau được phép không chạy hết 11 Bước; cái không được rút gọn là lời khai.</li>
+        <li>Không dùng Round để lách cổng: mở Round mới khi Bước Round trước còn treo phải ghi lý do ở <code>moVi</code>.</li>
+        <li>Mở Round là hành vi có cổng. Task mang <code>.R&lt;k&gt;.</code> mà Round chưa có bản ghi mở ⇒ cổng Bước chặn (0).</li>
+        <li>Khai đủ 11 Bước, mỗi Bước đúng một trạng thái, kèm <code>moVi</code>: Round này mở vì khoảng cách nào của Round trước.</li>
+      </ol>
+    </div>
+    <div class="panel">
+      <h3>Mã task cấp 3 — Round chèn sau số Bước</h3>
+      <pre class="mono" style="margin:0 0 10px;background:var(--surface-2);padding:10px 12px;border-radius:6px;font-size:12.5px;overflow-x:auto">MVP_01.8.A.BUILD.1      Round 1 ngầm định
+MVP_02.8.R2.B.BUILD.3   Round 2, MVP 2, Bước 8
+MVP_02.6a.RISK.C.1      hậu tố a tách nhánh</pre>
+      <p style="font-size:14px">Loại: <code>BUILD</code> sinh mã, bắt buộc bằng chứng · <code>C</code> tạo · <code>R</code> review · <code>U</code> cập nhật · <code>D</code> quyết định. Mỗi việc rõ ràng · trọn vẹn · độc lập · ≤ 2 ngày. Không có mã = vô hình với hệ thống đo.</p>
+      <p style="font-size:14px;margin-top:8px">Trạng thái đọc theo ký tự đầu: ✅ xong · 🔒 chờ duyệt · 🔄 đang làm · ⬜ chưa làm · ⛔ chặn.</p>
+    </div>
+  </div>
+
+  <div class="grid2" style="margin-top:16px">
+    <div class="panel">
+      <h3>Review theo Round — điều kiện (l)</h3>
+      <pre class="mono" style="margin:0 0 10px;background:var(--surface-2);padding:10px 12px;border-radius:6px;font-size:12.5px;overflow-x:auto">yêuCầu = reviewPolicy.buoc[n] ?? macDinh
+moi-round                 ⇒ R3 PHẢI doc-lap
+round-dau &amp;&amp; round == R1  ⇒ R3 PHẢI doc-lap
+round-dau &amp;&amp; round &gt; R1   ⇒ tu-soi được,
+                            TRỪ KHI V4/V6 doiThietKe:true
+khong                     ⇒ tu-soi được</pre>
+      <p style="font-size:14px"><code>doc-lap</code> = Tester độc lập (subagent không thấy hội thoại) hoặc Huynh, nhiệm vụ đi tìm chỗ sai; <code>phatHien[]</code> rỗng phải kèm lời khai đã soi gì. Tester chạy cùng dòng model nên là lớp phòng vệ tương quan; lớp độc lập thật chỉ có nguồn đối chứng ngoài và con người.</p>
+    </div>
+    <div class="panel">
+      <h3>Sau Bước 10 — đẩy lên môi trường có người dùng thật (điều dừng 6)</h3>
+      <ul>
+        <li><code>Log/cong-uat-truoc-prod.cjs</code>: CHẶN nếu Bước 9 chưa đóng; khai <code>ke-thua</code> mà chưa Round nào đóng Bước 9 cũng chặn.</li>
+        <li><code>Log/day-len-may-chu.sh</code> chặng 1: cổng tài liệu · backlog · phủ môi trường · phạm vi <code>--truoc-prod</code> · UAT→Prod, mỗi cổng là <code>if/else</code> tường minh.</li>
+        <li>Ngoại lệ: <code>--ngoai-le "&lt;lý do ≥25 ký tự&gt;" --huynh-xac-nhan &lt;hôm nay&gt;</code>, ghi vết <code>NGOAI-LE-PRODUCTION.ndjson</code>; AI không tự cắm, ngày cũ không dùng lại.</li>
+        <li>Khói sau đẩy: chỉ phép kiểm đọc trên production chạy tự động.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============ MÔ HÌNH DỰ ÁN ============ -->
+<section id="mo-hinh">
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="ic-vscode" viewBox="0 0 32 32"><path fill="#2F9BF2" d="M23 3 10 15 5 11 2 12.5v7L5 21l5-4 13 12 7-3V6z"/><path fill="#1F7ACF" d="M23 3v26l7-3V6z"/></symbol>
+      <symbol id="ic-github" viewBox="0 0 32 32"><circle cx="16" cy="16" r="15" fill="#24292F" stroke="#fff" stroke-width="1"/><path fill="#fff" d="M16 7a9 9 0 0 0-2.8 17.5c.4.1.6-.2.6-.4v-1.6c-2.5.5-3-1.1-3-1.1-.4-1-1-1.3-1-1.3-.8-.6.1-.6.1-.6.9.1 1.4.9 1.4.9.8 1.4 2.1 1 2.6.8.1-.6.3-1 .6-1.2-2-.2-4.1-1-4.1-4.4 0-1 .3-1.8.9-2.4-.1-.2-.4-1.2.1-2.4 0 0 .8-.2 2.5.9a8.7 8.7 0 0 1 4.6 0c1.7-1.1 2.5-.9 2.5-.9.5 1.2.2 2.2.1 2.4.6.6.9 1.4.9 2.4 0 3.4-2.1 4.2-4.1 4.4.3.3.6.8.6 1.6v2.4c0 .2.2.5.6.4A9 9 0 0 0 16 7z"/></symbol>
+      <symbol id="ic-git" viewBox="0 0 32 32"><rect x="6" y="6" width="20" height="20" rx="3" transform="rotate(45 16 16)" fill="#F05033"/><circle cx="11" cy="11" r="2.2" fill="#fff"/><circle cx="21" cy="21" r="2.2" fill="#fff"/><circle cx="16" cy="16" r="2.2" fill="#fff"/><path d="M12.5 12.5l2 2M16 18v3" stroke="#fff" stroke-width="2"/></symbol>
+      <symbol id="ic-claude" viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#D97757"/><path d="M9 11l6 5-6 5M17 21h7" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="ic-python" viewBox="0 0 32 32"><path fill="#3776AB" d="M15.5 3c-5 0-5 2.2-5 2.2v3.5h5.2v.9H8.3S4 9.2 4 15.7s3.8 6.3 3.8 6.3h2.3v-3.3s-.1-3.8 3.7-3.8h5.6s3.5.1 3.5-3.4V6s.6-3-7.4-3zm-2.6 2.2a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/><path fill="#FFD43B" d="M16.5 29c5 0 5-2.2 5-2.2v-3.5h-5.2v-.9h7.4s4.3.4 4.3-6.1-3.8-6.3-3.8-6.3h-2.3v3.3s.1 3.8-3.7 3.8h-5.6s-3.5-.1-3.5 3.4V26s-.6 3 7.4 3zm2.6-2.2a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/></symbol>
+      <symbol id="ic-fastapi" viewBox="0 0 32 32"><circle cx="16" cy="16" r="15" fill="#009688"/><path fill="#fff" d="M17.5 5 8 18h7l-1.5 9L24 14h-7z"/></symbol>
+      <symbol id="ic-db" viewBox="0 0 32 32"><path d="M5 8v16c0 2.2 4.9 4 11 4s11-1.8 11-4V8" fill="#1a9bdc"/><ellipse cx="16" cy="8" rx="11" ry="4" fill="#0F80CC"/><path d="M5 14c0 2.2 4.9 4 11 4s11-1.8 11-4M5 20c0 2.2 4.9 4 11 4s11-1.8 11-4" stroke="#0a5a8f" stroke-width="1.2" fill="none"/></symbol>
+      <symbol id="ic-tauri" viewBox="0 0 32 32"><circle cx="13" cy="19" r="9" fill="none" stroke="#FFC131" stroke-width="3"/><circle cx="19" cy="13" r="9" fill="none" stroke="#24C8DB" stroke-width="3"/><circle cx="19" cy="13" r="3" fill="#24C8DB"/></symbol>
+      <symbol id="ic-rust" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="#fff"/><circle cx="16" cy="16" r="11" fill="none" stroke="#000" stroke-width="5" stroke-dasharray="4 4.6"/><circle cx="16" cy="16" r="7.5" fill="#000"/><text x="16" y="20" font-size="10" font-weight="700" text-anchor="middle" fill="#fff" font-family="sans-serif">R</text></symbol>
+      <symbol id="ic-windows" viewBox="0 0 32 32"><path fill="#0078D4" d="M3 5.5 14 4v11H3zM16 3.7 29 2v13H16zM3 17h11v11L3 26.5zM16 17h13v13l-13-1.7z"/></symbol>
+      <symbol id="ic-cloud" viewBox="0 0 32 32"><path fill="#4A90E2" d="M9 26a6 6 0 0 1-.7-12 8 8 0 0 1 15.4-1.5A5.5 5.5 0 0 1 24 26z"/></symbol>
+      <symbol id="ic-onedrive" viewBox="0 0 32 32"><path fill="#0364B8" d="M9 25a6 6 0 0 1-.7-12 8 8 0 0 1 15.4-1.5A5.5 5.5 0 0 1 24 25z"/><path fill="#28A8EA" d="M12 25h12a5.5 5.5 0 0 0 .3-11 8 8 0 0 0-8-3.5A7.7 7.7 0 0 0 12 25z"/></symbol>
+      <symbol id="ic-mobile" viewBox="0 0 32 32"><rect x="9" y="2" width="14" height="28" rx="3" fill="#6C63FF"/><rect x="11" y="5" width="10" height="20" rx="1" fill="#fff"/><circle cx="16" cy="27.5" r="1.3" fill="#fff"/></symbol>
+      <symbol id="ic-node" viewBox="0 0 32 32"><path fill="#539E43" d="M16 2 3.9 9v14L16 30l12.1-7V9z"/><text x="16" y="20" font-size="9" font-weight="700" text-anchor="middle" fill="#fff" font-family="sans-serif">JS</text></symbol>
+      <symbol id="ic-pwsh" viewBox="0 0 32 32"><rect x="2" y="5" width="28" height="22" rx="3" fill="#012456" stroke="#5391FE" stroke-width="1"/><path d="M8 11l7 5-7 5M17 21h7" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round"/></symbol>
+      <symbol id="ic-web" viewBox="0 0 32 32"><path fill="#E44D26" d="M4 3l2.2 25L16 31l9.8-3L28 3z"/><path fill="#fff" d="M16 8H9.5l.3 3H16v3h-5.9l.3 3H16v3.2l-3.5-1-.2-2.3H9.3l.4 4.6L16 24.6V8z"/><path fill="#EBEBEB" d="M16 8h6.6l-.3 3H16v3h6l-.7 7.6L16 24.6v-3.2l3.5-1 .3-3.4H16v-3h4.1l.3-3H16z"/></symbol>
+      <symbol id="ic-bash" viewBox="0 0 32 32"><rect x="2" y="5" width="28" height="22" rx="3" fill="#293137"/><path d="M8 11l6 5-6 5" stroke="#4EAA25" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M16 21h8" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></symbol>
+      <symbol id="ic-harness" viewBox="0 0 32 32"><rect x="3" y="3" width="26" height="26" rx="6" fill="#0f6e69"/><path d="M8 16h16M8 11h16M8 21h10" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><circle cx="23" cy="21" r="2.4" fill="#fff"/></symbol>
+      <symbol id="ic-tester" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="#2a7a48"/><path d="M9 16.5l4.5 4.5L23 11" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    </defs>
+  </svg>
+  <div class="sec-head">
+    <div class="eyebrow">Mô hình</div>
+    <h2>Một dự án áp dụng harness: công cụ, kho mã, môi trường chạy</h2>
+    <p class="lead">Harness nằm ở một kho riêng, được <em>cài</em> vào từng dự án thành bốn vùng (<code>Instructions/</code> · <code>Output/</code> · <code>Log/</code> · <code>.claude/</code>). Claude Code chạy trong VS Code đọc <code>CLAUDE.md</code> và chịu hook; mọi commit đi qua skill <span class="ab" data-k="day-git">day-git</span> rồi mới lên GitHub; đích triển khai khác nhau theo loại dự án nhưng cổng <span class="ab" data-k="UAT">UAT</span>→Prod là chung.</p>
+  </div>
+  <figure>
+    <div class="fig-box">
+    <svg viewBox="0 0 1180 600" width="1180" role="img" aria-label="Kho Harness cài vào từng dự án; dự án mở trong VS Code với Claude Code, có CLAUDE.md, hook, công cụ cổng, sổ ghi; commit qua skill day-git lên GitHub; ba loại đích chạy: cloud cho Thiên Số, bản cài exe cho Mười Ngón, app mobile trong tương lai; phiên điện thoại chạy trên máy ảo đám mây clone từ GitHub">
+      <defs><marker id="mh" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker>
+      <marker id="mhA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--accent)"/></marker>
+      <marker id="mhC" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--cho)"/></marker></defs>
+
+      <!-- KHO HARNESS -->
+      <g transform="translate(20,30)">
+        <rect width="230" height="200" rx="10" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="2"/>
+        <use href="#ic-harness" x="14" y="12" width="28" height="28"/>
+        <text x="52" y="26" font-size="13" font-weight="700" fill="var(--accent-ink)">KHO HARNESS</text>
+        <text x="52" y="40" font-size="9.5" class="mo" fill="currentColor">cuongtmvn/Harness · VERSION 1.1.0</text>
+        <use href="#ic-onedrive" x="14" y="50" width="18" height="18"/><text x="38" y="63" font-size="10" fill="currentColor">D:\OneDrive\AI\Harness</text>
+        <g font-size="10" fill="currentColor" class="mo">
+          <text x="14" y="86">00 nguyên tắc · 01 playbook</text>
+          <text x="14" y="101">02 truy vết · 03 kiểm thử</text>
+          <text x="14" y="116">04 cổng máy: 17 .cjs</text>
+          <text x="14" y="131">05 hook ×7 · skill ×3</text>
+          <text x="14" y="146">06 sổ ghi · 07 cài · 08 cập nhật</text>
+        </g>
+        <rect x="14" y="158" width="202" height="30" rx="5" fill="var(--surface)" stroke="var(--accent)"/>
+        <use href="#ic-node" x="20" y="164" width="18" height="18"/>
+        <text x="44" y="177" font-size="10" class="mo" fill="var(--accent-ink)">node 07-cai-dat/cai-dat.cjs</text>
+      </g>
+      <g stroke="var(--accent)" stroke-width="2" fill="none">
+        <path d="M250 130 H300 V100 H330" marker-end="url(#mhA)"/>
+        <path d="M300 130 V330 H330" marker-end="url(#mhA)"/>
+        <path d="M300 330 V500 H330" marker-end="url(#mhA)" stroke-dasharray="5 4"/>
+      </g>
+      <text x="275" y="122" font-size="10" fill="var(--accent-ink)" text-anchor="middle">cài</text>
+
+      <!-- DỰ ÁN -->
+      <g transform="translate(335,30)">
+        <rect width="560" height="230" rx="10" fill="var(--surface)" stroke="currentColor" stroke-opacity=".5" stroke-width="1.5"/>
+        <text x="14" y="22" font-size="13" font-weight="700" fill="currentColor">MỘT DỰ ÁN SAU KHI CÀI</text>
+        <text x="200" y="22" font-size="10" fill="currentColor" opacity=".7">workspace mở đúng gốc repo, nếu không CLAUDE.md và hook không nạp</text>
+        <!-- VS Code + Claude Code -->
+        <g transform="translate(14,34)">
+          <rect width="170" height="180" rx="6" fill="var(--surface-2)" stroke="currentColor" stroke-opacity=".4"/>
+          <use href="#ic-vscode" x="10" y="10" width="26" height="26"/>
+          <use href="#ic-claude" x="42" y="10" width="26" height="26"/>
+          <text x="76" y="22" font-size="11" font-weight="600" fill="currentColor">VS Code</text>
+          <text x="76" y="34" font-size="10" fill="currentColor">+ ext Claude Code</text>
+          <g font-size="10" fill="currentColor">
+            <text x="10" y="58" font-weight="600">CLAUDE.md</text><text x="72" y="58" opacity=".75">tự nạp mọi phiên</text>
+            <text x="10" y="76" font-weight="600">.claude/</text>
+            <text x="18" y="90">settings.json · hook ×7</text>
+            <text x="18" y="104">skills: day-git · cap-nhat · dua-vao</text>
+            <text x="18" y="118">agents/ 5 vai *</text>
+            <text x="10" y="140" font-weight="600">Cần điều khiển</text>
+            <text x="18" y="154">Plan mode · permissions</text>
+            <text x="18" y="168">subagent Tester</text>
+          </g>
+          <use href="#ic-tester" x="140" y="150" width="20" height="20"/>
+        </g>
+        <!-- 4 vùng -->
+        <g transform="translate(196,34)" font-size="10" fill="currentColor">
+          <rect width="172" height="84" rx="6" fill="var(--accent-soft)" stroke="var(--accent)"/>
+          <text x="8" y="16" font-weight="700" fill="var(--accent-ink)">Instructions/ · luật</text>
+          <text x="8" y="31">PLAYBOOK · PHASEGATE</text>
+          <text x="8" y="45">REVIEW-POLICY · TRACEABILITY</text>
+          <text x="8" y="59">LEASH-BANG · PHAM-VI-MVP</text>
+          <text x="8" y="73">LUAT-DANGKY · PHU-MOI-TRUONG</text>
+          <rect y="96" width="172" height="84" rx="6" fill="var(--surface-2)" stroke="currentColor" stroke-opacity=".4"/>
+          <text x="8" y="112" font-weight="700">Output/ · 15 artefact</text>
+          <text x="8" y="127">SCOPE · SPEC · MODULEMAP</text>
+          <text x="8" y="141">ARCH · WBS · EST · RISK · DOR</text>
+          <text x="8" y="155">DEVBOOK · SITUAT · RTM</text>
+          <text x="8" y="169">TELEMETRY · WEEKLY · BACKLOG</text>
+        </g>
+        <g transform="translate(380,34)" font-size="10" fill="currentColor">
+          <rect width="166" height="84" rx="6" fill="var(--surface-2)" stroke="currentColor" stroke-opacity=".4"/>
+          <text x="8" y="16" font-weight="700">Log/ · 17 công cụ + sổ</text>
+          <text x="8" y="31">gate-check · rtm-check · …</text>
+          <text x="8" y="45">TASKLIST · PHASE-GATE-LOG</text>
+          <text x="8" y="59">PROOF-LOG · CHO-QUYET</text>
+          <text x="8" y="73">cong-buoc/ · khai-round/</text>
+          <rect y="96" width="166" height="84" rx="6" fill="var(--surface-2)" stroke="currentColor" stroke-opacity=".4"/>
+          <text x="8" y="112" font-weight="700">App/ · mã sản phẩm</text>
+          <text x="8" y="127">routes/ · db/ · tests/</text>
+          <text x="8" y="145" font-weight="600">harness.config.json</text>
+          <text x="8" y="159">ở gốc: route · kiemThu</text>
+          <text x="8" y="173">moiTruong · csdlThat · reviewPolicy</text>
+        </g>
+      </g>
+
+      <!-- GIT / GITHUB -->
+      <g transform="translate(920,30)">
+        <rect width="240" height="110" rx="10" fill="var(--surface-2)" stroke="currentColor" stroke-opacity=".5" stroke-width="1.5"/>
+        <use href="#ic-git" x="12" y="10" width="26" height="26"/>
+        <use href="#ic-github" x="44" y="10" width="26" height="26"/>
+        <text x="80" y="28" font-size="13" font-weight="700" fill="currentColor">GIT · GITHUB</text>
+        <g font-size="10" fill="currentColor">
+          <text x="12" y="54"><tspan font-weight="600">"đẩy git đi"</tspan> → commit máy</text>
+          <text x="12" y="68"><tspan font-weight="600">"đẩy GitHub đi"</tspan> → push</text>
+          <text x="12" y="84">hook chặn commit tay · mốc 3 cổng</text>
+          <text x="12" y="100" fill="var(--chan)" font-weight="600">không merge · rebase · force</text>
+        </g>
+      </g>
+      <path d="M895 85 H915" stroke="currentColor" stroke-width="1.5" fill="none" marker-end="url(#mh)"/>
+      <text x="905" y="76" font-size="9" text-anchor="middle" fill="currentColor">day-git</text>
+
+      <!-- MÔI TRƯỜNG CHẠY -->
+      <g transform="translate(920,160)">
+        <rect width="240" height="100" rx="10" fill="var(--surface)" stroke="var(--chan)" stroke-width="1.5"/>
+        <text x="12" y="22" font-size="12" font-weight="700" fill="var(--chan)">CỔNG CHUNG TRƯỚC PHÁT HÀNH</text>
+        <g font-size="10" fill="currentColor">
+          <text x="12" y="42">Bước 9 đã đóng (điều dừng 6)</text>
+          <text x="12" y="56" class="mo">cong-uat-truoc-prod.cjs</text>
+          <text x="12" y="70" class="mo">kiem-pham-vi --truoc-prod</text>
+          <text x="12" y="84">ngoại lệ phải có chữ ký Huynh hôm nay</text>
+        </g>
+      </g>
+      <path d="M1040 140 V155" stroke="currentColor" stroke-opacity=".5" stroke-width="1.5" fill="none" marker-end="url(#mh)"/>
+
+      <!-- 3 dự án -->
+      <g transform="translate(335,280)">
+        <rect width="270" height="110" rx="10" fill="var(--surface)" stroke="currentColor" stroke-opacity=".5" stroke-width="1.5"/>
+        <use href="#ic-cloud" x="12" y="10" width="26" height="26"/>
+        <text x="46" y="22" font-size="12.5" font-weight="700" fill="currentColor">Thiên Số · web trên cloud</text>
+        <text x="46" y="36" font-size="9.5" fill="currentColor" opacity=".75">dự án gốc sinh ra harness · 4 MVP</text>
+        <use href="#ic-python" x="12" y="48" width="20" height="20"/><use href="#ic-fastapi" x="36" y="48" width="20" height="20"/><use href="#ic-db" x="60" y="48" width="20" height="20"/><use href="#ic-bash" x="84" y="48" width="20" height="20"/>
+        <text x="112" y="62" font-size="10" fill="currentColor">Python · FastAPI · SQLite · bash</text>
+        <g font-size="10" fill="currentColor">
+          <text x="12" y="86">UAT <tspan class="mo">127.0.0.1</tspan> → PROD <tspan class="mo">https://…</tspan></text>
+          <text x="12" y="100">đẩy: day-len-may-chu.sh (4 cổng if/else)</text>
+        </g>
+      </g>
+      <g transform="translate(625,280)">
+        <rect width="270" height="110" rx="10" fill="var(--surface)" stroke="currentColor" stroke-opacity=".5" stroke-width="1.5"/>
+        <use href="#ic-windows" x="12" y="10" width="26" height="26"/>
+        <text x="46" y="22" font-size="12.5" font-weight="700" fill="currentColor">Mười Ngón · bản cài .exe</text>
+        <text x="46" y="36" font-size="9.5" fill="currentColor" opacity=".75">harness rút gọn tay · chưa qua bộ cài</text>
+        <use href="#ic-tauri" x="12" y="48" width="20" height="20"/><use href="#ic-rust" x="36" y="48" width="20" height="20"/><use href="#ic-web" x="60" y="48" width="20" height="20"/><use href="#ic-pwsh" x="84" y="48" width="20" height="20"/>
+        <text x="112" y="62" font-size="10" fill="currentColor">Tauri · Rust · HTML/JS · PowerShell</text>
+        <g font-size="10" fill="currentColor">
+          <text x="12" y="86">UAT = cài thật trên máy · LAN đấu trường</text>
+          <text x="12" y="100">gói riêng desktop-tauri: CSP nonce, tường lửa</text>
+        </g>
+      </g>
+      <g transform="translate(335,410)">
+        <rect width="560" height="56" rx="10" fill="none" stroke="currentColor" stroke-opacity=".4" stroke-width="1.5" stroke-dasharray="6 4"/>
+        <use href="#ic-mobile" x="12" y="14" width="26" height="26" opacity=".8"/>
+        <text x="46" y="24" font-size="12.5" font-weight="700" fill="currentColor" opacity=".8">Dự án tương lai · app mobile</text>
+        <text x="46" y="42" font-size="10" fill="currentColor" opacity=".8">cùng lõi chung · gói theo loại "mobile" · bằng chứng chạy thật trên thiết bị / giả lập · phát hành qua store</text>
+      </g>
+      <path d="M895 335 H915" stroke="currentColor" stroke-width="1.5" fill="none" marker-end="url(#mh)"/>
+      <path d="M605 335 H620" stroke="currentColor" stroke-opacity=".4" stroke-width="1.5" fill="none"/>
+      <path d="M915 335 V260" stroke="currentColor" stroke-opacity=".5" stroke-width="1.5" fill="none" marker-end="url(#mh)"/>
+
+      <!-- Phiên điện thoại -->
+      <g transform="translate(920,280)">
+        <rect width="240" height="110" rx="10" fill="var(--surface-2)" stroke="currentColor" stroke-opacity=".4" stroke-dasharray="5 4"/>
+        <use href="#ic-mobile" x="12" y="10" width="22" height="22"/><use href="#ic-cloud" x="36" y="10" width="22" height="22"/>
+        <text x="64" y="26" font-size="12" font-weight="700" fill="currentColor">Phiên điện thoại</text>
+        <g font-size="10" fill="currentColor">
+          <text x="12" y="52">Claude Code trên máy ảo đám mây</text>
+          <text x="12" y="66">clone từ GitHub, không có ổ D:\</text>
+          <text x="12" y="80">"đẩy git đi" = commit + push cả hai</text>
+          <text x="12" y="94" fill="var(--cho)">hook đọc VERSION từ GitHub raw</text>
+        </g>
+      </g>
+      <path d="M1040 140 C1175 140 1175 275 1165 285" stroke="currentColor" stroke-opacity=".4" stroke-width="1.5" fill="none" stroke-dasharray="4 3"/>
+
+      <!-- cơ chế 2 chiều (đề xuất) -->
+      <g transform="translate(20,280)">
+        <rect width="270" height="186" rx="10" fill="none" stroke="var(--cho)" stroke-width="1.5" stroke-dasharray="6 4"/>
+        <text x="14" y="24" font-size="12" font-weight="700" fill="var(--cho)">HAI CƠ CHẾ CẬP NHẬT · bản 1.1.0</text>
+        <g font-size="10" fill="currentColor">
+          <text x="14" y="48" font-weight="600">① Dự án → harness</text>
+          <text x="14" y="62">skill "đưa vào harness": pull → viết chung</text>
+          <text x="14" y="76">→ chọn lớp lõi / gói / riêng → cài thử</text>
+          <text x="14" y="90">→ VERSION + CHANGELOG → push</text>
+          <text x="14" y="114" font-weight="600">② Harness → dự án</text>
+          <text x="14" y="128">hook SessionStart so .harness-manifest</text>
+          <text x="14" y="142">với VERSION mới → chỉ nhắc, không sửa</text>
+          <text x="14" y="156">skill "cập nhật harness": tệp đã sửa</text>
+          <text x="14" y="170">riêng chỉ hiện diff, không ghi đè</text>
+        </g>
+      </g>
+      <path d="M290 320 H335" stroke="var(--cho)" stroke-width="1.5" fill="none" stroke-dasharray="5 4" marker-start="url(#mhC)"/>
+      <path d="M290 420 H335" stroke="var(--cho)" stroke-width="1.5" fill="none" stroke-dasharray="5 4" marker-end="url(#mhC)"/>
+
+      <!-- chú thích -->
+      <g font-size="10" fill="currentColor" transform="translate(20,500)">
+        <text x="0" y="0" fill="var(--cho)">* còn chờ Huynh quyết (tomtat.md mục 8): 5 vai trợ lý trong .claude/agents · gói desktop-tauri với 8 bài học Mười Ngón · bố cục workspace · đăng ký Thiên Số và Mười Ngón</text>
+        <text x="0" y="18" opacity=".8">Có từ bản 1.1.0: VERSION · CHANGELOG · .harness-manifest.json (bộ cài ghi) · cap-nhat.cjs · hook SessionStart nhắc · skill cap-nhat-harness, dua-vao-harness · sổ DU-AN-DANG-KY.json. Tech stack ở bảng dưới.</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>Bộ cài chép harness vào dự án và ghi bảng kê mã băm; chiều ngược (skill <code>dua-vao-harness</code>) và chiều nhắc + kéo về (hook SessionStart, skill <code>cap-nhat-harness</code>, <code>cap-nhat.cjs</code>) có từ bản 1.1.0. Phần đánh dấu * còn chờ quyết. Đích chạy khác nhau nhưng mọi dự án đều phải đóng Bước 9 mới được phát hành. <a class="more" href="#can-thiep">Điểm can thiệp →</a></figcaption>
+  </figure>
+
+  <h3 style="margin:8px 0 10px">Tech stack đã làm việc với harness</h3>
+  <div class="tbl-wrap"><table class="stack">
+    <thead><tr><th>Lớp</th><th>Nền harness (mọi dự án)</th><th>Thiên Số · web / cloud</th><th>Mười Ngón · desktop .exe</th><th>Mobile (sau)</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Soạn thảo · AI</strong></td>
+        <td><span class="ic"><svg><use href="#ic-vscode"/></svg>VS Code</span> <span class="ic"><svg><use href="#ic-claude"/></svg>Claude Code (ext + CLI)</span><br><span class="hint">Opus phiên chính · Sonnet/Haiku cho vai trợ lý · Plan mode · subagent</span></td>
+        <td>như nền</td><td>như nền</td><td>như nền</td></tr>
+      <tr><td><strong>Chạy harness</strong></td>
+        <td><span class="ic"><svg><use href="#ic-node"/></svg>Node ≥ 18</span> <span class="ic"><svg><use href="#ic-git"/></svg>Git</span> <span class="ic"><svg><use href="#ic-github"/></svg>GitHub</span> <span class="ic"><svg><use href="#ic-onedrive"/></svg>OneDrive (tài liệu)</span><br><span class="hint">không cài gói npm nào · 17 .cjs chạy thẳng · shell: Git Bash hoặc PowerShell</span></td>
+        <td>bash <code>day-len-may-chu.sh</code></td><td><span class="ic"><svg><use href="#ic-pwsh"/></svg>PowerShell</span> (tường lửa, đóng gói)</td><td>—</td></tr>
+      <tr><td><strong>Ngôn ngữ · khung</strong></td>
+        <td>—</td>
+        <td><span class="ic"><svg><use href="#ic-python"/></svg>Python</span> <span class="ic"><svg><use href="#ic-fastapi"/></svg>FastAPI</span><br><span class="hint">route <code>@router.get(...)</code> trong <code>App/routes</code> (cấu hình mẫu)</span></td>
+        <td><span class="ic"><svg><use href="#ic-tauri"/></svg>Tauri</span> <span class="ic"><svg><use href="#ic-rust"/></svg>Rust</span> <span class="ic"><svg><use href="#ic-web"/></svg>HTML/CSS/JS</span><br><span class="hint">webview Chromium · CSP nonce</span></td>
+        <td>chưa chọn</td></tr>
+      <tr><td><strong>Dữ liệu</strong></td>
+        <td>sổ ndjson/json chỉ append</td>
+        <td><span class="ic"><svg><use href="#ic-db"/></svg>SQLite</span> <code>App/db/*.db</code> · sao lưu <code>.db.bak</code> trong 120 phút mới được ghi</td>
+        <td>tệp cục bộ trong app · LAN đấu trường</td><td>—</td></tr>
+      <tr><td><strong>Kiểm thử</strong></td>
+        <td>5 loại bằng chứng chạy thật · Tester độc lập</td>
+        <td>pytest (<code>kiemThu.lenhChayBo</code>) · <code>TestClient</code>/<code>127.0.0.1</code> cho UAT · khói chỉ đọc trên prod</td>
+        <td>kiểm trong <strong>app cài thật</strong> (Chromium <code>file://</code> xanh không tính) · script <code>e2e/csp-tauri.py</code></td><td>thiết bị / giả lập</td></tr>
+      <tr><td><strong>Đích chạy</strong></td>
+        <td>—</td>
+        <td><span class="ic"><svg><use href="#ic-cloud"/></svg>máy chủ cloud</span> UAT → PROD <code>https://…</code></td>
+        <td><span class="ic"><svg><use href="#ic-windows"/></svg>Windows</span> bản cài .exe · firewall Private</td>
+        <td><span class="ic"><svg><use href="#ic-mobile"/></svg>store</span></td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="grid2" style="margin-top:16px">
+    <div class="panel">
+      <h3>Cài gì để harness chạy được trên một máy</h3>
+      <ul>
+        <li><strong>VS Code</strong> + extension <strong>Claude Code</strong> (hoặc CLI <code>claude</code>); mở workspace đúng gốc repo</li>
+        <li><strong>Git</strong>; GitHub remote; <code>gh</code> CLI tuỳ chọn (trên máy này chưa đăng nhập)</li>
+        <li><strong>Node ≥ 18</strong> để chạy 18 công cụ <code>.cjs</code> và 7 hook; không cần <code>npm install</code></li>
+        <li>Dự án Python: <strong>Python + pytest</strong>; dự án desktop: <strong>Rust + Tauri CLI</strong>; mobile: tuỳ chọn sau</li>
+        <li>Chạy <code>node Log/kiem-harness.cjs</code> sau khi cài — "HARNESS ĐỦ" là xong</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h3>Skill · hook · vai cần có trong dự án</h3>
+      <ul>
+        <li><strong>3 skill</strong> <code>.claude/skills/</code>: <code>day-git</code> · <code>cap-nhat-harness</code> · <code>dua-vao-harness</code> — bộ cài chép mọi thư mục skill</li>
+        <li><strong>7 hook</strong> trong <code>.claude/settings.json</code> (3 chặn · 2 ghi/kiểm · 1 usage · 1 nhắc bản mới) — AI không được sửa/tắt</li>
+        <li><strong>Permissions</strong> cho 17 lệnh cổng + <code>git status/diff/log</code> — có sẵn</li>
+        <li><strong>Tester độc lập</strong> — subagent, gọi ở Bước 8–9 theo REVIEW-POLICY</li>
+        <li><strong>Bảng kê</strong> <code>.harness-manifest.json</code> ở gốc dự án — bộ cài ghi, phải commit; dự án cài tay chạy <code>cap-nhat.cjs --dang-ky</code></li>
+        <li><strong>5 vai trợ lý</strong> (<code>.claude/agents/</code>) — còn là đề xuất, xem <a class="more" href="#skill">Skill · hook · vai →</a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ĐIỂM CAN THIỆP ============ -->
+<section id="can-thiep">
+  <div class="sec-head">
+    <div class="eyebrow">Điểm can thiệp</div>
+    <h2>Harness chạm vào đâu trong một phiên làm việc</h2>
+    <p class="lead">Năm loại (bản 1.1.0: 18 công cụ · 7 hook · 3 skill): <strong style="color:var(--chan)">Hook</strong> chạy bất kể AI nghĩ gì (kích hoạt cứng) · <strong style="color:var(--accent-ink)">Công cụ cổng</strong> AI phải gọi và trả mã thoát · <strong style="color:var(--qua)">Skill</strong> AI tự gọi khi câu lệnh khớp (kích hoạt mềm) · <strong style="color:var(--cho)">Sổ ghi</strong> máy đọc được · <strong style="color:var(--muted)">Cấu hình</strong> một tệp mọi công cụ đọc. Đọc hết mục này là biết mỗi luật được cưỡng chế ở đâu.</p>
+  </div>
+  <div class="iv" id="iv"></div>
+  <div class="legend" style="margin-top:14px"><span style="--x:var(--chan)">Hook: AI không sửa/tắt được (điều dừng 5)</span><span style="--x:var(--accent)">Công cụ: thoát 0 qua · 2 chặn · 1 dùng sai</span><span style="--x:var(--qua)">Skill</span><span style="--x:var(--cho)">Sổ ghi ndjson/json chỉ append</span></div>
+</section>
+
+<!-- ============ SKILL ============ -->
+<section id="skill">
+  <div class="sec-head">
+    <div class="eyebrow">Skill · hook · vai trợ lý</div>
+    <h2>Tám cần điều khiển của Claude Code và harness dùng cái nào</h2>
+  </div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Cần</th><th>Kích hoạt</th><th>Khi nào dùng</th><th>Trong harness</th><th>Trạng thái</th></tr></thead>
+    <tbody>
+      <tr><td><strong>CLAUDE.md</strong></td><td>tự nạp mọi phiên</td><td>luật ngắn, luôn đúng + bảng chỉ đường 8 mục</td><td><code>CLAUDE.template.md</code> → <code>&lt;gốc&gt;/CLAUDE.md</code></td><td><span class="chip ok">có</span></td></tr>
+      <tr><td><strong>Skill</strong></td><td>mềm: AI tự gọi khi câu khớp</td><td>quy trình nhiều bước có kiểm chứng</td><td><code>day-git</code> 5 bước, chốt C1–C4, cảnh báo W1–W4</td><td><span class="chip ok">có</span></td></tr>
+      <tr><td></td><td></td><td>đưa bài học dự án vào harness (cơ chế 1)</td><td><code>dua-vao-harness</code>: pull --ff-only → viết chung → chọn lớp → cài thử dự án trống → VERSION + CHANGELOG → đẩy GitHub kèm ghi chú → Dev Book</td><td><span class="chip ok">có · 1.1.0</span></td></tr>
+      <tr><td></td><td></td><td>kéo bản harness mới về dự án (cơ chế 2)</td><td><code>cap-nhat-harness</code>: đọc CHANGELOG → <code>cap-nhat.cjs</code> chạy khô → Huynh gật → <code>--ap-dung</code>; tệp đã sửa riêng chỉ hiện diff</td><td><span class="chip ok">có · 1.1.0</span></td></tr>
+      <tr><td><strong>Hook</strong></td><td>cứng: theo sự kiện công cụ</td><td>việc AI có thể quên mà hậu quả không hoàn lại</td><td>PreToolUse ×3 chặn · PostToolUse ×2 ghi/kiểm · Stop ×1 ghi usage · SessionStart ×1 nhắc</td><td><span class="chip ok">7 hook</span></td></tr>
+      <tr><td></td><td>SessionStart</td><td>nhắc harness có bản mới</td><td><code>nhac-cap-nhat-harness.cjs</code>: so <code>.harness-manifest.json</code> với <code>VERSION</code> (ổ máy, không có thì GitHub raw ≤2,5 s); chỉ nhắc</td><td><span class="chip ok">có · 1.1.0</span></td></tr>
+      <tr><td><strong>Subagent</strong></td><td>AI gọi, không thấy hội thoại</td><td>lớp kiểm độc lập; việc lớn chạy song song</td><td>Tester Middle/Senior (PHASEGATE §8) · 5 vai: tester · dung-tai-nguyen · viet-noi-dung · ve-hinh · tra-cuu kèm model + effort</td><td><span class="chip ok">Tester</span> <span class="chip plan">5 vai</span></td></tr>
+      <tr><td><strong>Plan mode</strong></td><td>Huynh/AI bật</td><td>việc nhiều bước, rủi ro</td><td>mọi lát cắt Bước 8 trình kế hoạch trước</td><td><span class="chip ok">luật</span></td></tr>
+      <tr><td><strong>Permission</strong></td><td>settings.json</td><td>đặt đúng dây cương</td><td>allow sẵn 17 lệnh <code>node Log/*.cjs</code> + <code>git status/diff/log</code></td><td><span class="chip ok">có</span></td></tr>
+      <tr><td><strong>MCP tools</strong></td><td>cắm công cụ ngoài</td><td>đụng hệ thống thật</td><td>tuỳ dự án</td><td><span class="chip">tuỳ</span></td></tr>
+      <tr><td><strong>Memory</strong></td><td>qua phiên</td><td>cách Huynh muốn làm việc</td><td>memory của Claude Code</td><td><span class="chip">tuỳ</span></td></tr>
+    </tbody>
+  </table></div>
+  <div class="grid2" style="margin-top:16px">
+    <div class="panel">
+      <h3>Vòng 7 nhịp — dùng cho mọi việc (RUNBOOK §1)</h3>
+      <ol>
+        <li><strong>Context</strong> — CLAUDE.md tự nạp; "nạp context" đọc bàn giao → TASKLIST → mục Bước đang mở</li>
+        <li><strong>Plan</strong> — Plan mode, chờ duyệt kế hoạch (V4/V5 là kế hoạch tối thiểu)</li>
+        <li><strong>Delegate</strong> — ranh giới A / A+ theo LEASH-BANG, 7 điều dừng</li>
+        <li><strong>Execute</strong> — AI chạy trọn bước theo task cấp 3, không micromanage</li>
+        <li><strong>Gate</strong> — gate-check + Done khi + Tester độc lập; không xác minh được = chặn</li>
+        <li><strong>Log</strong> — ghi ngay trong lượt: DEVBOOK · TELEMETRY · PROOF-LOG</li>
+        <li><strong>Iterate</strong></li>
+      </ol>
+    </div>
+    <div class="panel">
+      <h3>Vai trợ lý đề xuất đưa vào lõi chung (từ Mười Ngón)</h3>
+      <div class="tbl-wrap" style="border:none"><table style="min-width:0;font-size:13px">
+        <thead><tr><th>Vai</th><th>Việc</th><th>Model</th><th>Effort</th></tr></thead>
+        <tbody>
+          <tr><td class="c">tester</td><td>kiểm sản phẩm độc lập</td><td>Sonnet</td><td>medium</td></tr>
+          <tr><td class="c">dung-tai-nguyen</td><td>dựng tài nguyên hàng loạt, script rõ đầu bài</td><td>Sonnet</td><td>medium</td></tr>
+          <tr><td class="c">viet-noi-dung</td><td>nội dung, tài liệu, hướng dẫn</td><td>Sonnet</td><td>medium</td></tr>
+          <tr><td class="c">ve-hinh</td><td>vẽ hình, thiết kế, chấm thẩm mỹ</td><td>Opus</td><td>high</td></tr>
+          <tr><td class="c">tra-cuu</td><td>tra cứu nhanh</td><td>Haiku</td><td>low</td></tr>
+          <tr><td>phiên chính</td><td>lõi, tích hợp, gỡ lỗi khó</td><td>Opus</td><td>high</td></tr>
+        </tbody>
+      </table></div>
+      <p class="hint" style="margin-top:8px">Công cụ giao việc chỉ cho AI đặt effort khi CLAUDE.md yêu cầu rõ; model phiên chính chỉ Huynh đổi được (<code>/model</code>). Vai mới có ở Mười Ngón, chưa commit, chưa vào harness.</p>
+    </div>
+  </div>
+</section>
+<!-- ============ LỆNH ============ -->
+<section id="lenh">
+  <div class="sec-head">
+    <div class="eyebrow">Bảng lệnh</div>
+    <h2>Huynh gõ gì, CULI làm gì</h2>
+  </div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Huynh gõ</th><th>CULI làm</th></tr></thead>
+    <tbody>
+      <tr><td class="k">nạp context</td><td>Đọc theo thứ tự: bàn giao mới nhất trong <code>Log/</code> → <code>Log/TASKLIST.md</code> (nguồn trạng thái duy nhất) → <code>CLAUDE.md</code> → mục Bước đang mở trong PLAYBOOK</td></tr>
+      <tr><td class="k">mở Bước N</td><td>Đọc mục Bước N → chạy cổng VÀO → khai V1–V6 vào <code>Log/cong-buoc/&lt;mvp&gt;[-&lt;round&gt;]-B&lt;N&gt;.json</code> → chưa đủ thì KHÔNG mở</td></tr>
+      <tr><td class="k">đóng Bước N</td><td>Cổng RA R1–R8 → <code>node Log/gate-check.cjs --buoc N --mvp &lt;nn&gt; [--round R&lt;k&gt;]</code> → 13 điều kiện xanh và "Done khi" đạt mới <code>--ghi</code></td></tr>
+      <tr><td class="k">mở Round R&lt;k&gt;</td><td>Khai đủ 11 Bước ở <code>Log/khai-round/&lt;mvp&gt;-R&lt;k&gt;.json</code> → <code>node Log/gate-check.cjs --mo-round R&lt;k&gt; --mvp &lt;nn&gt; --ghi</code></td></tr>
+      <tr><td class="k">đóng MVP</td><td><code>node Log/gate-check.cjs --dong-mvp &lt;nn&gt; --ghi</code>: mọi Bước đã đóng hoặc mọi Round khai <code>ke-thua</code></td></tr>
+      <tr><td class="k">Bước N còn gì</td><td>Trả lời đủ ba tầng (13 điều kiện máy · 13 mục cổng · Done khi), không đếm task; mỗi mục chưa đạt kèm "xong nghĩa là gì"</td></tr>
+      <tr><td class="k">đẩy git đi</td><td>Skill <code>day-git</code>: trên PC = commit máy; <strong>đẩy github đi</strong> = đẩy GitHub; điện thoại thì cả hai</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ============ TỪ ĐIỂN ============ -->
+<section id="tu-dien">
+  <div class="sec-head">
+    <div class="eyebrow">Từ điển</div>
+    <h2>Mọi chữ viết tắt và mã dùng trong harness</h2>
+    <p class="lead">Cùng nội dung với popup khi bấm vào chữ có gạch chấm. Mỗi mục ghi tệp nguồn trong harness và mục chi tiết trên trang này.</p>
+  </div>
+  <div class="tbl-wrap"><table id="gloss-table">
+    <thead><tr><th>Viết tắt</th><th>Nghĩa</th><th>Tệp nguồn</th><th>Chi tiết</th></tr></thead>
+    <tbody></tbody>
+  </table></div>
+</section>
+
+<footer>Nguồn: <code>01-playbook/PLAYBOOK.md</code> · <code>PHASEGATE.md</code> · <code>REVIEW-POLICY.md</code> · <code>checklist/B00–B10.md</code> · <code>00-nguyen-tac/OPERATING-MODEL.md</code> · <code>RUNBOOK.md</code> · <code>05-hook-skill/settings.json</code> · <code>04-cong-may/*.cjs</code> · <code>harness.config.json</code> — repo Harness, bản đóng gói 2026-10-16; phần đánh dấu * là đề xuất trong <code>tomtat.md</code> 17/10/2026. Trang này tóm lược, không thay tệp luật.</footer>
+</div>
+<div class="pop" id="pop" hidden role="dialog" aria-modal="false" aria-labelledby="pop-ttl"><button class="x" type="button" aria-label="Đóng" id="pop-x">×</button><div class="ttl" id="pop-ttl"></div><div id="pop-body"></div><div class="src" id="pop-src"></div><a class="more" id="pop-more" href="#">Chi tiết →</a></div>
+<script>
+// ===== TỪ ĐIỂN: key → [tên đầy đủ, nghĩa, tệp nguồn, anchor chi tiết] =====
+const GLOSS={
+ ab:["Gạch chấm","Ký hiệu của trang này: chữ có gạch chấm là viết tắt hoặc mã, bấm vào để hiện giải thích. Mọi popup có liên kết tới mục chi tiết.","—","#tu-dien"],
+ MVP:["Minimum Viable Product — sản phẩm tối thiểu dùng được","Tầng cao nhất của harness. Một MVP PHẢI chạy đủ 11 Bước (qua một hoặc nhiều Round) và giao đủ mục tiêu nguyên văn trong PHAM-VI-MVP.json mới đóng được.","PLAYBOOK.md §0.1 · gate-check.cjs --dong-mvp","#mvp-round"],
+ Round:["Round — một lượt chạy qua pipeline trong MVP","Được bắt đầu ở Bước bất kỳ; đổi lại phải khai đủ 11 Bước lúc mở (cham / khong-cham / ke-thua). Mở Round là hành vi có cổng.","PLAYBOOK.md §0.4 · Log/khai-round/","#mvp-round"],
+ V:["V1–V6 — sáu mục cổng VÀO","V1 Bước trước đã đóng · V2 đọc RTM, chép keThua[] · V3 nguồn có mặt · V4 điểm mơ hồ viết trước · V5 bốn câu phản xạ · V6 quyết định áp. Khai trong Log/cong-buoc/…-B<N>.json.","PHASEGATE.md §1","#cong"],
+ R:["R1–R8 — tám mục cổng RA","R1 Done khi · R2 bằng chứng · R3 review · R4 13 điều kiện máy · R5 ràng buộc → RTM · R6 V4 đã giải · R7 7 chỉ số · R8 đã đẩy git.","PHASEGATE.md §2","#cong"],
+ V1:["V1 — Bước trước đã đóng","Bản ghi mới nhất của Bước N−1 trong PHASE-GATE-LOG.ndjson là qua, không phải huy (trừ Bước Round khai khong-cham/ke-thua). Không đạt ⇒ không mở Bước.","PHASEGATE.md §1","#cong"],
+ V2:["V2 — đã đọc RTM và chép keThua[]","Mảng V2.keThua chứa từng ràng buộc R5 của Bước trước. Điều kiện máy (g) chặn nếu rỗng khi Bước trước có R5.canCu.","PHASEGATE.md §1b","#cong"],
+ V3:["V3 — nguồn dữ liệu có mặt","Ghi đường dẫn và ai xác nhận. Thiếu thì nêu tên, không lấp bằng suy đoán ⇒ dừng hỏi Huynh.","PHASEGATE.md §1","#cong"],
+ V4:["V4 — danh sách điểm mơ hồ viết TRƯỚC khi làm","Mỗi điểm gắn 'tự quyết' hoặc 'hỏi Huynh (điều dừng số mấy)'; điểm phải hỏi vào CHO-QUYET.ndjson kèm điều kiện bung. Cờ doiThietKe:true ở đây nâng review lên doc-lap.","PHASEGATE.md §1 · REVIEW-POLICY §3","#cong"],
+ V5:["V5 — bốn câu hỏi phản xạ","(1) quyền tác động tới đâu (2) mức L nào, A hay A+ (3) cổng nào gác đầu ra (4) ai đích thân duyệt phần nguy hiểm.","OPERATING-MODEL.md §6","#quy-dinh"],
+ V6:["V6 — quyết định đã chốt áp cho Bước","Liệt kê D-…, NFR-…, M… áp cho Bước; cái chưa có ghi ở chuaQuyet.","PHASEGATE.md §1","#cong"],
+ R1:["R1 — Done khi, từng tiêu chí PASS/FAIL","Tiêu chí 'Done khi' của Bước trong PLAYBOOK; không có 'gần đúng'.","PLAYBOOK.md mục Bước","#cong"],
+ R2:["R2 — bằng chứng chỉ được","Đường dẫn · lệnh chạy lại được · dòng sổ bằng chứng; đúng một trong năm loại http · sql · ma-thoat · doi-chieu-tep · nguoi-quyet.","PHASEGATE.md §6","#cong"],
+ R3:["R3 — đã qua vòng review","lopReview doc-lap / tu-soi · nguoiReview · phatHien[] · quyetDinh nguyên văn Huynh → Dev Book. Điều kiện máy (l) kiểm theo reviewPolicy.","REVIEW-POLICY.md","#cong"],
+ R4:["R4 — 13 điều kiện máy","Do gate-check.cjs chạy, không khai tay.","PHASEGATE.md §3","#cong"],
+ R5:["R5 — ràng buộc cho Bước sau đã ghi vào RTM","Khối RÀNG BUỘC THEO BƯỚC trong Output/RTM.md; Bước sau phải chép vào V2.keThua.","PHASEGATE.md §2","#cong"],
+ R6:["R6 — mọi điểm V4 đã giải hoặc ghi nợ","Không mục nào bỏ lửng; không giải ⇒ dat:false + lyDo = nợ đã ghi, không phải việc đã làm.","PHASEGATE.md §2","#cong"],
+ R7:["R7 — 7 chỉ số sức khoẻ tài liệu đã đo","node Log/doc-health.cjs; R7.canCu dẫn đủ c1…c7. Không đo được thì ghi rõ, không bịa.","DOC-HEALTH-RULES.md · doc-health.cjs","#cong"],
+ R8:["R8 — đã đẩy git","Thư mục thuMuc.gacGit (App, Output) không còn file dở. File phiên song song: khai dat:false + lyDo, chặn → cảnh báo.","PHASEGATE.md §2 · harness.config.json › thuMuc.gacGit","#cong"],
+ RTM:["Requirements Traceability Matrix — ma trận truy vết yêu cầu","Output/RTM.md, xương sống truy vết: M → PB → US/AC → module → D-ARCH → work item → mã → test → UAT → môi trường → phát hành. rtm-check.cjs kiểm hai chiều.","TRACEABILITY.md §2 · rtm-check.cjs","#cong"],
+ SRS:["Software Requirements Specification — đặc tả yêu cầu","Bước 1: Output/SPEC.md (story, AC, NFR) + BACKLOG.md §ⓐ.","PLAYBOOK.md Bước 1","#cong"],
+ DoR:["Definition of Ready — điều kiện được phép bắt đầu viết mã","Bước 7, 'cổng vào harness': 6 câu đạt toàn bộ (đặc tả · dữ liệu · API · AC đo được · phân quyền · cổng kiểm) thì mới giao AI chạy tự hành.","PLAYBOOK.md Bước 7 · Output/DOR.md","#cong"],
+ WBS:["Work Breakdown Structure — chẻ việc","Bước 4: Output/WBS.md + Log/TASKLIST.md; task cấp 3 là đơn vị telemetry và cổng bám vào.","PLAYBOOK.md Bước 4","#cong"],
+ EST:["Estimate — ước lượng","Bước 5: Output/EST.md, giờ người thật, không suy từ token.","PLAYBOOK.md Bước 5","#cong"],
+ AC:["Acceptance Criteria — tiêu chí chấp nhận","Dạng Given/When/Then đo được, mỗi ca UAT = một AC. Mã AC<n> gắn với US-xx.","PLAYBOOK.md Bước 1 · UAT-RULES.md","#cong"],
+ NFR:["Non-Functional Requirement — yêu cầu phi chức năng","Phải có con số. Mã NFR-xx; cũng phải có PB-xxx trong backlog.","PLAYBOOK.md Bước 1","#cong"],
+ US:["User Story — tình huống dùng theo vai","Mã US-xx trong SPEC.md; mỗi story có AC kiểm được và trỏ về một PB-.","PLAYBOOK.md Bước 1","#cong"],
+ PB:["Product Backlog item — mã tính năng","PB-xxx trong BACKLOG.md §ⓐ. Hết Bước 1 mọi tính năng (chức năng + phi chức năng) có mã; kiem-backlog.cjs là cổng RA riêng Bước 1.","kiem-backlog.cjs","#cong"],
+ UAT:["User Acceptance Test — kiểm thử nghiệm thu","Hai lượt: Tester độc lập (BÁO CÁO) rồi Huynh tự bấm (PHÁN QUYẾT). Ba điều kiện nhị phân, không có ngưỡng %. CULI không được tuyên bố UAT đạt.","UAT-RULES.md · PLAYBOOK Bước 9","#cong"],
+ SIT:["System Integration Test — kiểm thử tích hợp hệ thống","Bộ ca ghép nối AI tự soạn, soạn xong trước khi chạy; ngưỡng % chỉ có nghĩa ở đây.","IT-SIT-RULES.md","#cong"],
+ IT:["Integration Test — kiểm thử tích hợp","Mã IT-Px; exit criteria trong IT-SIT-RULES.md.","IT-SIT-RULES.md","#cong"],
+ UT:["Unit Test — kiểm thử đơn vị","Tệp test_* theo UT-RULES.md; RTM phải nhắc mọi tệp test (điều kiện k).","UT-RULES.md","#cong"],
+ TD:["Test Data — dữ liệu kiểm giả có mã TD-xx","Bước 9 dùng dữ liệu giả có mã, không dùng dữ liệu người thật.","PLAYBOOK.md Bước 9","#cong"],
+ CULI:["CULI — vai AI thực thi","Tên đặt ở harness.config.json › vaiTro.ai. Huynh = chủ dự án, người quyết.","OPERATING-MODEL.md","#quy-dinh"],
+ Huynh:["Huynh — vai chủ dự án","Người quyết và chịu trách nhiệm. harness.config.json › vaiTro.chu.","OPERATING-MODEL.md","#quy-dinh"],
+ L:["L0–L5 — thang tự hành","L0 Observe · L1 Draft · L2 Recommend · L3 Execute (Leash A) · L4 Operate (Leash A+) · L5 Restricted, cố ý không cấp.","OPERATING-MODEL.md §1","#quy-dinh"],
+ "A+":["A+ — dây cương việc chạm vùng nhạy","≈ L4. Như A + cổng bảo mật thật + cờ --huynh-xac-nhan <ngày>; AI không tự cắm cờ. Vùng A+ trong Instructions/LEASH-BANG.json.","OPERATING-MODEL.md §2","#quy-dinh"],
+ "Leash A":["A — dây cương việc an toàn","≈ L3. Làm + tự kiểm tới bản nháp, không tự đẩy / gộp / phát hành; tự đóng khi cổng máy xanh.","OPERATING-MODEL.md §2","#quy-dinh"],
+ "fail-closed":["Fail-closed — không xác minh được = CHẶN","Áp cho cả cổng vào lẫn cổng ra. Mọi công cụ thoát 2 là chặn; đọc không được tệp bắt buộc cũng chặn.","OPERATING-MODEL.md §4","#quy-dinh"],
+ "BUILT-flagged":["BUILT-flagged — làm xong ≠ được phát hành","Việc rủi ro cao dừng ở 'đã xây, cổng xanh, chờ người duyệt' (🔒 trong TASKLIST).","OPERATING-MODEL.md §4","#quy-dinh"],
+ c2:["c2 — change coupling, chỉ số 2 của doc-health","Mã đổi thì tài liệu RTM liên quan đổi cùng commit. kiem-c2-staged.cjs chặn trước commit (điều kiện c).","TRACEABILITY.md §4 · kiem-c2-staged.cjs","#can-thiep"],
+ c4:["c4 — chỉ số 4 của doc-health","Mỗi module có cột tệp thực thi; chiều ngược: cơ chế chết trong mã.","DOC-HEALTH-RULES.md","#cong"],
+ c6:["c6 — chỉ số 6 của doc-health","Rủi ro L×I ≥ ngưỡng cao có mã quyết định gắn vào.","DOC-HEALTH-RULES.md","#cong"],
+ c7:["c1…c7 — 7 chỉ số sức khoẻ tài liệu","Đo bằng doc-health.cjs lúc đóng Bước (R7, điều kiện h); cổng không đặt ngưỡng, ngưỡng là điều dừng 4.","DOC-HEALTH-RULES.md","#cong"],
+ "D-ARCH":["D-ARCH-n — mã quyết định kiến trúc","Mọi thay đổi kiến trúc ở Bước 3 có mã; quyết định chỉ tồn tại trong chat thì người sau lấp bằng phỏng đoán.","PLAYBOOK.md Bước 3","#cong"],
+ "D-":["D-… — mã quyết định nền","Quyết định ở Bước 0; regex harness.config.json › ma.quyetDinh.","harness.config.json","#cong"],
+ M:["M<n> — mã mục tiêu nguyên văn của chủ dự án","Trong Instructions/PHAM-VI-MVP.json; AI không sửa trangThai, round, nguyenVan.","OPERATING-MODEL.md §7 · kiem-pham-vi.cjs","#quy-dinh"],
+ BUILD:["BUILD — loại task sinh mã chạy được","Task .BUILD. bắt buộc có dòng bằng chứng trong PROOF-LOG.ndjson (điều kiện b).","PHASEGATE.md §5","#cong"],
+ CSDL:["CSDL — cơ sở dữ liệu","Cấu trúc CSDL là vùng A+; ghi vào CSDL thật bị hook chan-ghi-csdl-that chặn khi chưa có sao lưu mới.","chan-ghi-csdl-that.cjs","#can-thiep"],
+ API:["API — giao ước giữa các thành phần","Bước 3 ghi giao ước API; Bước 7 đòi có API trước khi xây.","PLAYBOOK.md Bước 3","#cong"],
+ ndjson:["ndjson — newline-delimited JSON","Sổ ghi mỗi dòng một bản ghi, chỉ append, an toàn nhiều phiên song song.","06-so-ghi/","#can-thiep"],
+ "PROOF-LOG":["PROOF-LOG.ndjson — sổ bằng chứng chạy thật","Mỗi dòng: taskId · cmd · output nguyên văn · loaiBangChung · lyDoKhongHttp.","PHASEGATE.md §6","#cong"],
+ "day-git":["day-git — skill đẩy git 5 bước","Kiểm → đưa file vào → commit → đẩy lên → kiểm lại. Chốt C1 bí mật · C2 dữ liệu thật · C3 repo lồng · C4 detached HEAD. 'đẩy git đi' = LOCAL, 'đẩy GitHub đi' = đầy đủ.","05-hook-skill/skills/day-git/SKILL.md","#skill"],
+ CSP:["Content Security Policy","Bài học Mười Ngón: Tauri chèn nonce ⇒ 'unsafe-inline' bị bỏ ⇒ style= trong HTML bị chặn. Thuộc gói desktop-tauri, không vào lõi.","tomtat.md mục 6","#mo-hinh"],
+ LAN:["Local Area Network — mạng nội bộ","Bài học Mười Ngón: hộp tường lửa bị Cancel ⇒ Windows tạo luật CHẶN; ping thông không chứng minh cổng mở.","tomtat.md mục 6","#mo-hinh"],
+ "dieu-dung":["Bảy điều dừng","(1) nguồn mâu thuẫn (2) cần bằng chứng ngoài kho mã (3) quyết định phạm vi (4) 'đủ tốt' là câu hỏi kinh doanh (5) sửa luật quản CULI (6) phát ra ngoài / không hoàn lại (7) mã bên thứ ba.","OPERATING-MODEL.md §5","#quy-dinh"],
+ "dk-may":["13 điều kiện máy (0)(a)…(m)","(0) Round mở (a) task (b) bằng chứng (c) c2 (d) telemetry (e) thứ tự (f) bản khai (g) khép RTM (h) 7 chỉ số (i) git sạch (j) chờ quyết (k) rtm-check (l) review (m) cổng RA riêng.","PHASEGATE.md §3","#cong"],
+ ĐD1:["Điều dừng 1 — nguồn mâu thuẫn","Không nguồn nào phân xử được; dấu hiệu: sắp viết 'chọn A vì đơn giản hơn'.","OPERATING-MODEL.md §5","#quy-dinh"],
+ ĐD2:["Điều dừng 2 — cần bằng chứng ngoài kho mã","Số liệu thật, tài liệu gốc, bảng giá, xác nhận bên thứ ba.","OPERATING-MODEL.md §5","#quy-dinh"],
+ ĐD3:["Điều dừng 3 — quyết định phạm vi","Làm hay không, rộng hay hẹp, hoãn sang Round sau. Phạm vi là của Huynh.","OPERATING-MODEL.md §5, §7","#quy-dinh"],
+ ĐD4:["Điều dừng 4 — 'đủ tốt để dùng chưa'","Câu hỏi kinh doanh: chấp nhận rủi ro còn lại, đặt ngưỡng, ca 'gần đúng'.","OPERATING-MODEL.md §5","#quy-dinh"],
+ ĐD5:["Điều dừng 5 — sửa chính luật quản CULI","CULI có xung đột lợi ích, phải nói thẳng. Gồm hạ tầng gác: hook, settings, gate-check, config, reviewPolicy.","OPERATING-MODEL.md §5, §8","#quy-dinh"],
+ ĐD6:["Điều dừng 6 — phát ra ngoài / không hoàn lại","push · merge · release · lên máy chủ thật · xoá/ghi đè dữ liệu thật · khoá bí mật.","OPERATING-MODEL.md §5","#quy-dinh"],
+ ĐD7:["Điều dừng 7 — đưa mã bên thứ ba vào","Báo trước: tên · giấy phép · phụ thuộc · nguồn gốc.","OPERATING-MODEL.md §5","#quy-dinh"],
+ PM:["PM — Project Manager / quản lý dự án","Khung 11 Bước lấy từ chương trình đào tạo PM-AI; chỗ khung gốc ghi 🎓, chỗ harness thêm ghi 🔧.","PLAYBOOK.md đầu tệp","#tom-tat"]
+};
+
+const DK={ "0":"Round đã mở: có bản ghi mo-round, bảng khai đủ 11 Bước (Round 1 miễn)", a:"Task cấp 3: mọi task ✅ hoặc ghi lý do gác lại, đọc theo ký tự đầu", b:"Bằng chứng chạy thật: task .BUILD. ✅ có dòng PROOF-LOG đúng 1 trong 5 loại", c:"c2 staged: kiem-c2-staged.cjs thoát 0", d:"Telemetry: mỗi task ✅ có dòng **[mã]** trong TELEMETRY.md", e:"Thứ tự: mọi Bước trước có bản ghi qua, trừ Bước Round khai khong-cham/ke-thua", f:"Bản khai cổng: cong-buoc/…-B<n>.json đủ 13 mục; --round đòi file của chính Round", g:"Khép vòng RTM: V2.keThua không rỗng khi Bước trước có R5.canCu", h:"Bộ 7 chỉ số: doc-health.cjs chạy được, R7.canCu đủ 7 mã", i:"Đã đẩy git: git status --porcelain trên gacGit rỗng, hoặc R8 dat:false + lyDo", j:"Sổ chờ quyết: mục CHO-QUYET đến hạn, chan:true đã được Huynh quyết nguyên văn", k:"rtm-check thoát 0: không story mồ côi, số ca khớp, mọi tệp test được nhắc", l:"Review theo chính sách: khi reviewPolicy đòi doc-lap thì R3 phải doc-lap đủ trường", m:"Cổng RA riêng: mọi lệnh congRaRieng[n] thoát 0 (B1 backlog · B9 phủ môi trường · B10 phạm vi)"};
+for(const k in DK){GLOSS["DK"+k]=["Điều kiện máy ("+k+")",DK[k],"PHASEGATE.md §3 · gate-check.cjs","#cong"]}
+</script>
+<script>
+const STEPS=[
+{n:0,name:"Nhận đề & làm rõ phạm vi",art:"SCOPE.md · PHAM-VI-MVP.json",ma:"M&lt;n&gt; mục tiêu · D-…-n quyết định nền",review:"moi",
+ muc:"Biến đề mơ hồ thành phạm vi chốt được: làm gì, bỏ gì, cược vào giả định nào.",
+ vao:["Có brief / yêu cầu gốc của Huynh","Biết quỹ giờ thật còn lại","Biết Round này mở vì khoảng cách nào của Round trước"],
+ doc:["Đề gốc — nguyên văn, chép vào PHAM-VI-MVP.json, không diễn đạt lại","SCOPE.md: phạm vi Round trước, phần đã ghi ngoài phạm vi","RTM.md: dòng mồ côi, khối RÀNG BUỘC cho Bước 0","BACKLOG.md §ⓑ: việc hoãn tới điều kiện bung chưa","TELEMETRY.md: giờ thật, vận tốc Round trước"],
+ duoc:"Viết phát biểu vấn đề · liệt kê giả định · đề xuất ngoài phạm vi · lập bảng lựa chọn kèm hệ quả · chép nguyên văn mục tiêu, trangThai chua-lam",
+ dung:"Chốt phạm vi — làm gì, bỏ gì, chia Round (điều dừng 3). AI trình bảng, Huynh chọn",
+ khong:"Tự chốt rồi báo 'đã chốt' · im lặng bỏ một mục · tự xếp mục tiêu sang Round sau",
+ done:["Đọc SCOPE biết MVP gồm gì · bỏ gì · cược giả định nào; ngoài phạm vi ghi rõ","Mọi quyết định nền có mã D-… tra được","PHAM-VI-MVP.json đủ mọi mục tiêu Huynh nêu, mỗi mục một nguyên văn"],
+ ra:null,
+ bay:"Nhảy vào tính năng khi phạm vi mơ hồ · không ghi giả định · AI tự chia Round rồi mục hoãn 'tự rơi khỏi định nghĩa xong'"},
+{n:1,name:"Đặc tả yêu cầu (SRS)",art:"SPEC.md · BACKLOG.md §ⓐ",ma:"US-xx · AC · NFR-xx · PB-xxx",review:"dau",
+ muc:"Yêu cầu đủ để thiết kế và kiểm thử: chức năng + phi chức năng + tình huống dùng theo vai + tiêu chí chấp nhận.",
+ vao:["Nguồn tri thức miền thật đã mở và đọc thật (một dòng viết khi chưa ai mở nguồn đã sai 3 chỗ và sống nhiều ngày)"],
+ doc:["SCOPE.md đã đóng","Nguồn tri thức miền: nguyên văn để AC có chỗ trỏ về, cấm viết AC từ trí nhớ","SPEC.md: story hiện có, số hiệu tiếp, NFR","RTM.md: ràng buộc cho Bước 1"],
+ duoc:"Story · AC Given/When/Then đo được · NFR có con số · bảng vai × tình huống · ca nghịch và ca phân quyền · gán PB- từng tính năng",
+ dung:"Nguồn mâu thuẫn (1) · story nào thuộc phạm vi (3) · mọi ngưỡng 'đủ tốt' (4)",
+ khong:"Tự kiểm AC của mình rồi tuyên bố đạt · AC không đo được · bỏ ca nghịch / phân quyền",
+ done:["Mỗi story có AC kiểm được","Có bảng vai × tình huống dùng","NFR ghi rõ con số"],
+ ra:"node Log/kiem-backlog.cjs → 0: mọi tính năng (chức năng + phi chức năng) có PB-xxx trong BACKLOG §ⓐ; mọi dòng RTM có US-xx trỏ về một PB-",
+ bay:"Chỉ viết đường thuận · quên ca nghịch, phân quyền · NFR bỏ trắng · AC không đo được"},
+{n:2,name:"Bản đồ module & phân tầng",art:"MODULEMAP.md",ma:"L0-n / M-n module",review:"dau",
+ muc:"Chia module, tách tầng nền (xác thực · dữ liệu · phân quyền · cổng vào) khỏi bề mặt; chỉ ra lát cắt dọc mỏng đầu tiên.",
+ vao:["Liệt kê đủ module mới phát sinh từ Round trước (một Round quên hẳn hai module)"],
+ doc:["SPEC.md đã đóng","ARCH.md: ranh giới nền / bề mặt (Round sau)","MODULEMAP.md hiện có","git status + cây App/: module đã có mã chưa vào bản đồ"],
+ duoc:"Gom story thành module · phân tầng · thứ tự làm · chỉ lát cắt mỏng · ghi cột tệp thực thi từng module (chỉ số c4)",
+ dung:"Lát cắt đầu làm đổi phạm vi đã chốt (3)",
+ khong:"Thêm module không truy được về SPEC · xếp bề mặt lên nền chưa có",
+ done:["Thấy rõ móng nào làm trước, có một lát cắt dọc mỏng đầu tiên","Mỗi module có cột tệp thực thi hoặc ghi 'chưa có mã'"],
+ ra:null,
+ bay:"Làm bề mặt đẹp trên nền chưa có · ôm hết module cùng lúc"},
+{n:3,name:"Kiến trúc",art:"ARCH.md",ma:"D-ARCH-n · bảng/trường/API có độ nhạy",review:"dau",
+ muc:"Bản thiết kế đủ để bắt tay viết mã: nguyên tắc · sơ đồ · mô hình dữ liệu có độ nhạy từng trường · giao ước API · phân quyền.",
+ vao:["Danh sách trường dữ liệu mới, trường nào chạm dữ liệu cá nhân"],
+ doc:["SPEC.md + MODULEMAP.md đã đóng","Lược đồ CSDL hiện có","ARCH.md: quyết định đã đánh mã","LEASH-BANG.json: vùng A+"],
+ duoc:"Nguyên tắc · sơ đồ · mô hình dữ liệu · API · phân quyền · gắn độ nhạy TỪNG trường · mã D-ARCH-n",
+ dung:"Trường chạm dữ liệu cá nhân ⇒ dừng trước khi tạo/sửa · thư viện mới (7) · đổi nền tảng đã cố định",
+ khong:"Để trường mới không gắn độ nhạy · quyết định kiến trúc không có mã",
+ done:["Người viết mã đọc là dựng được; dữ liệu và API khớp story","Mọi trường mới gắn độ nhạy","Mọi thay đổi kiến trúc có D-ARCH-n; phần chưa chốt đánh dấu rõ"],
+ ra:null,
+ bay:"Chọn nền tảng theo quen tay · quên phân quyền tầng dữ liệu · di trú CSDL người thật hai lần cho một việc"},
+{n:4,name:"Chẻ việc (WBS)",art:"WBS.md · Log/TASKLIST.md",ma:"task cấp 3 MVP_nn.b.X.Y.n",review:"khong",
+ muc:"Bẻ việc thành đơn vị làm được; việc gần bẻ sâu, việc xa để thô.",
+ vao:["Có checklist 'sót kinh điển' trong tay: tích hợp · đối soát · kiểm thử · màn quản trị · phân quyền · nhật ký kiểm toán"],
+ doc:["ARCH.md + MODULEMAP.md đã đóng","PHASEGATE.md §5: quy ước mã task, 3 tiêu chí","WBS.md hiện có"],
+ duoc:"Chẻ 1–3 cấp · ghi phụ thuộc · rà checklist sót · gán mã cấp 3 TRƯỚC khi làm",
+ dung:"Lộ ra việc ngoài phạm vi đã chốt (3)",
+ khong:"Việc mơ hồ: 'hoàn thiện phần X', 'làm tiếp phần còn lại'",
+ done:["Việc đợt gần chạy được ngay; 6 việc hay sót có mặt hoặc ghi vì sao không cần","Cấp 3 rõ ràng · trọn vẹn · độc lập · ≤ 2 ngày, có cột Work item trỏ từ RTM"],
+ ra:null,
+ bay:"Quên tích hợp / đối soát · quên quản trị / phân quyền / audit · quên kiểm thử"},
+{n:5,name:"Ước lượng",art:"EST.md",ma:"—",review:"khong",
+ muc:"Ước lượng có cơ sở, đo bằng giờ người thật, không suy từ token.",
+ vao:["Biết quỹ giờ thật còn lại và vận tốc thật các Bước trước (node Log/do-gio.cjs)"],
+ doc:["WBS.md đã đóng","TELEMETRY.md: giờ thật việc tương tự","EST.md: cách ước Round trước"],
+ duoc:"Ước lượng kèm giả định · khoảng lạc quan / khả dĩ / bi quan · 3 việc rủi ro ước cao nhất",
+ dung:"Tổng vượt quỹ giờ — cắt gì là quyết định kinh doanh (4)",
+ khong:"Phun số không giả định · suy giờ từ token",
+ done:["Mỗi ước lượng gắn giả định","Tổng khớp mốc hoặc chỉ rõ lệch ở đâu"],
+ ra:null,
+ bay:"Số không giả định · quên đệm tích hợp, kiểm thử · tin mốc mà không kiểm"},
+{n:6,name:"Rủi ro & phân quyền",art:"RISK.md · DELEGATION-MAP.md · LEASH-BANG.json",ma:"R-xx · mục dây cương",review:"dau",
+ muc:"Rủi ro có người sở hữu + cách giảm; quy tắc ủy quyền AI rõ: việc nào A, việc nào A+.",
+ vao:["Rủi ro mới do Round này lộ ra đã liệt kê"],
+ doc:["WBS.md đã đóng","RISK.md: mã tiếp theo","LEASH-BANG.json hiện tại","OPERATING-MODEL §5: 7 điều dừng"],
+ duoc:"Rủi ro xác suất × tác động · cách giảm · người sở hữu · nhóm rủi ro do AI sinh · đề xuất mức dây cương",
+ dung:"Sửa chính luật quản AI: dây cương, 7 điều dừng, cơ chế cổng (5). Phải khai xung đột lợi ích",
+ khong:"Tự hạ mức việc chạm dữ liệu nhạy · cách giảm sáo rỗng không ai sở hữu",
+ done:["Mọi việc chạm dữ liệu nhạy / bảo mật ở A+ + fail-closed","Có nhóm rủi ro do AI sinh; mỗi rủi ro có người sở hữu","Rủi ro L×I ≥ ngưỡng cao có mã quyết định (c6)","Bước 6 phải đóng TRƯỚC Bước 8"],
+ ra:null,
+ bay:"Quên rủi ro do AI sinh · đặt mức chờ duyệt rồi vẫn cho qua · không ai sở hữu rủi ro"},
+{n:7,name:"Điều kiện vào xây (DoR)",art:"DOR.md",ma:"—",review:"dau",
+ muc:"Xác nhận đủ điều kiện vào xây cho lát cắt dọc đầu tiên. Đây là cổng vào harness: chưa PASS thì không giao AI chạy tự hành.",
+ vao:["Toàn bộ Bước 1–6 đã đóng thật, kiểm bằng bản ghi không bằng trí nhớ","Lát cắt dọc đã chọn"],
+ doc:["PHASE-GATE-LOG.ndjson: bản ghi mới nhất Bước 1–6 là qua","Toàn bộ artefact Bước 1–6","DOR.md: mục chưa đạt"],
+ duoc:"Checklist đạt / không đạt · tự đánh giá · nêu mục chưa đạt và vì sao",
+ dung:"Lát cắt chạm vùng A+",
+ khong:"Xây khi còn mục chưa đạt · nhảy cóc sang Bước 8 · chạy DoR SAU khi mã đã viết",
+ done:["6 câu DoR đạt toàn bộ: đặc tả rõ · mô hình dữ liệu · giao ước API · AC đo được · mức phân quyền · cổng kiểm là gì","Lát cắt đủ mỏng để xong trong vài ngày"],
+ ra:null,
+ bay:"Xây khi đặc tả / dữ liệu / tiêu chí còn trống · chọn lát cắt quá dày"},
+{n:8,name:"Xây lát cắt dọc",art:"App/ · DEVBOOK.md · PROOF-LOG.ndjson",ma:"tệp mã · tệp test · dòng bằng chứng",review:"moi",
+ muc:"Một luồng chạy thật xuyên hệ thống, demo được. Bằng chứng số 1 của cả dự án.",
+ vao:["Đã đọc ràng buộc RTM cho Bước 8","Biết mức dây cương từng lát cắt","Nguồn đối chứng độc lập đã sẵn nếu có tri thức miền tính toán (PHASEGATE §7)"],
+ doc:["RTM.md: dòng story đang xây + khối RÀNG BUỘC","DOR.md đạt","PHASEGATE §6: 5 loại bằng chứng","SPEC.md: AC của story","ARCH.md · LEASH-BANG.json","Mã liên quan trong App/"],
+ duoc:"Sinh mã + test trong phạm vi · chạy lệnh · tự vá lỗi mình · gọi Tester độc lập · trình kế hoạch (Plan mode) trước mỗi lát cắt",
+ dung:"Phát ra ngoài (6) · gói bên thứ ba (7) · nguồn mâu thuẫn (1) · vùng A+",
+ khong:"Đánh xong khi chưa có bằng chứng trong PROOF-LOG · chạy tự do không kế hoạch · chỉ mã + test chưa nối giao diện mà đánh xong",
+ done:["Chạy suốt luồng, demo được; Dev Book có quyết định của Huynh từ vòng review","Bằng chứng dán nguyên văn; mọi task .BUILD. có dòng bằng chứng","Tester độc lập đã soi trước khi đóng (mọi Round)"],
+ ra:null,
+ bay:"AI chạy tự do · duyệt bừa 'nhìn có vẻ đúng' · không ghi Dev Book ngay → tối viết bù = bịa"},
+{n:9,name:"Kiểm thử & cổng",art:"SITUAT.md · App/tests/",ma:"IT-Px · SIT-Px · UAT-xx ↔ AC",review:"moi",
+ muc:"Chứng minh lát cắt đúng, không phải 'cảm giác đúng'. Không xác minh được = chặn.",
+ vao:["Mã Bước 8 đã đóng","Bộ ca soạn xong TRƯỚC khi chạy","Dữ liệu kiểm là dữ liệu giả có mã TD-xx"],
+ doc:["UT-RULES · IT-SIT-RULES · UAT-RULES: 4 tầng, exit criteria","SPEC.md: mỗi ca nghiệm thu = một AC","SITUAT.md: bộ ca, sổ lỗi, Integration Map","PROOF-LOG.ndjson","PHU-MOI-TRUONG.json: phép đo nào ở môi trường nào"],
+ duoc:"Soạn bộ ca · chạy · báo từng ca · chỉ nguyên nhân, đề xuất sửa · chạy UAT lượt 1 lọc lỗi rẻ",
+ dung:"Ca 'gần đúng': giữ cổng ĐÓNG, trình Huynh (4) · ca không đạt thì Huynh duyệt rồi mới sửa · công cụ mới (7)",
+ khong:"Tự tuyên bố đạt bằng bộ ca mình viết · sửa ca cho xanh · giấu lỗi · chỉ đường thuận · thêm ca sau khi biết kết quả",
+ done:["UAT (nhị phân): mọi AC đạt · có ca nghịch và phân quyền · lỗi còn lại ghi nhận. Lượt 1 Tester = BÁO CÁO, lượt 2 Huynh = PHÁN QUYẾT","SIT/IT: exit criteria IT-SIT-RULES, ca soạn trước khi chạy","Trần N vòng (mặc định 9): hết trần ⇒ DỪNG, trình 3 lựa chọn"],
+ ra:"node Log/kiem-phu-moi-truong.cjs: mỗi ô (môi trường × tầng đo) có tệp kiểm thật đúng môi trường, hoặc lý do ≥60 ký tự",
+ bay:"Chỉ đường thuận · 'gần đúng nên cho qua' · tỷ lệ đạt là chỉ số dễ lách nhất: thêm ca dễ là mẫu số tăng"},
+{n:10,name:"Truy vết, số đo, báo cáo",art:"RTM.md · TELEMETRY.md · WEEKLY.md",ma:"dòng RTM khép kín",review:"khong",
+ muc:"Truy vết story → mã → ca kiểm; đo bằng dữ liệu; báo cáo ra quyết định được.",
+ vao:["Bước 9 đã đóng","Telemetry của mọi Bước đã đủ"],
+ doc:["RTM.md: dòng mồ côi","TELEMETRY.md · HOOK-EVENTS.ndjson","DOC-HEALTH-RULES: 7 chỉ số","DEVBOOK.md: chưng cất thành bài học","PHAM-VI-MVP.json: đối chiếu với thứ Huynh yêu cầu"],
+ duoc:"Cập nhật RTM · chạy rtm-check · doc-health · kiem-backlog · kiem-pham-vi · gom số từ nguồn máy · nháp báo cáo tuần",
+ dung:"Cần bằng chứng ngoài kho mã (2) · đặt ngưỡng 7 chỉ số (4)",
+ khong:"Bịa số · suy giờ từ token · công bố chỉ số mẫu số sai · viết hộ phần phán xét · sửa RTM cho đẹp",
+ done:["RTM phủ hết story, không dòng mồ côi; số liệu là giờ người thật","Không đo được thì ghi rõ; báo cáo tuần có ít nhất một quyết định","Đã chưng cất Dev Book: mỗi bài học thành luật CLAUDE.md hoặc phép kiểm chạy được","kiem-pham-vi: mục chưa giao có chữ ký Huynh cho phần hoãn"],
+ ra:"node Log/kiem-pham-vi.cjs: mục tiêu nào chưa giao, phần hoãn có chữ ký Huynh",
+ bay:"AI bịa số · đo token thay giờ · RTM bỏ sót story · cổng xanh mà thiếu mục tiêu Huynh nêu"}
+];
+
+// ===== bổ sung theo Bước cho ma trận: skill/cần điều khiển · công cụ máy · tệp harness · checklist ngoài · điều dừng hay gặp =====
+const MX={
+ 0:{can:"Plan mode · bảng lựa chọn kèm hệ quả",tool:"kiem-pham-vi.cjs (đọc PHAM-VI-MVP)",tep:"Instructions/PHAM-VI-MVP.json · Output/SCOPE.md · templates/SCOPE.md",chk:"checklist/B00.md",dung:"ĐD3 phạm vi"},
+ 1:{can:"Subagent tra-cuu nguồn miền · Tester đọc AC",tool:"kiem-backlog.cjs (cổng RA riêng) · rtm-check.cjs",tep:"Output/SPEC.md · BACKLOG.md · RTM.md · UAT-RULES.md",chk:"checklist/B01.md",dung:"ĐD1 nguồn mâu thuẫn · ĐD3 · ĐD4 ngưỡng"},
+ 2:{can:"git status + cây App/ (đọc)",tool:"doc-health.cjs c4 (cột tệp thực thi)",tep:"Output/MODULEMAP.md · templates/MODULEMAP.md",chk:"checklist/B02.md",dung:"ĐD3 lát cắt đổi phạm vi"},
+ 3:{can:"Tester độc lập Round đầu · Plan mode",tool:"doc-health.cjs · kiem-luat.cjs (nếu chạm file luật)",tep:"Output/ARCH.md · Instructions/LEASH-BANG.json · lược đồ CSDL",chk:"checklist/B03.md",dung:"A+ dữ liệu cá nhân · ĐD7 thư viện"},
+ 4:{can:"Checklist sót kinh điển (6 việc)",tool:"gate-check.cjs (a) đọc TASKLIST · check-telemetry-gaps.cjs",tep:"Output/WBS.md · Log/TASKLIST.md · PHASEGATE §5 mã task",chk:"checklist/B04.md",dung:"ĐD3 việc ngoài phạm vi"},
+ 5:{can:"do-gio.cjs (giờ thật từ hook)",tool:"do-gio.cjs · check-telemetry-gaps.cjs",tep:"Output/EST.md · TELEMETRY.md · Log/HOOK-EVENTS.ndjson",chk:"checklist/B05.md",dung:"ĐD4 vượt quỹ giờ"},
+ 6:{can:"Tester Round đầu · khai xung đột lợi ích",tool:"kiem-luat.cjs · gate-check <task> --muc (đọc LEASH-BANG)",tep:"Output/RISK.md · DELEGATION-MAP.md · Instructions/LEASH-BANG.json · LUAT-DANGKY.json",chk:"checklist/B06.md",dung:"ĐD5 sửa luật quản AI"},
+ 7:{can:"Đọc PHASE-GATE-LOG (bản ghi, không trí nhớ)",tool:"gate-check.cjs --buoc 1..6 (xác nhận qua)",tep:"Output/DOR.md · Log/PHASE-GATE-LOG.ndjson",chk:"checklist/B07.md",dung:"A+ lát cắt chạm vùng nhạy"},
+ 8:{can:"Plan mode từng lát cắt · skill day-git · Tester Senior · hook csdl-that",tool:"gate-check <task> --deliverable BUILD · kiem-c2-staged · moc-day-git · kiem-khoa-lo",tep:"App/ · Output/DEVBOOK.md · Log/PROOF-LOG.ndjson · RTM.md",chk:"checklist/B08.md · PHASEGATE §6–§8",dung:"ĐD6 phát ra ngoài · ĐD7 gói · ĐD1 · A+"},
+ 9:{can:"Tester lượt 1 · Huynh lượt 2 · subagent tester",tool:"kiem-phu-moi-truong.cjs (cổng RA riêng) · rtm-check.cjs · lệnh kiemThu.lenhChayBo",tep:"Output/SITUAT.md · App/tests/ · Instructions/PHU-MOI-TRUONG.json · UT/IT-SIT/UAT-RULES",chk:"checklist/B09.md",dung:"ĐD4 ca 'gần đúng' · ĐD7 công cụ mới"},
+ 10:{can:"Chưng cất Dev Book → luật CLAUDE.md hoặc phép kiểm",tool:"rtm-check · doc-health · kiem-backlog · kiem-pham-vi --cho-phep-chua-giao (cổng RA riêng) · do-gio",tep:"Output/RTM.md · TELEMETRY.md · WEEKLY.md · DOC-HEALTH-RULES.md · PHAM-VI-MVP.json",chk:"checklist/B10.md",dung:"ĐD2 bằng chứng ngoài kho · ĐD4 ngưỡng 7 chỉ số"}
+};
+const REV={moi:["moi","mọi Round"],dau:["dau","Round đầu"],khong:["khong","không bắt buộc"]};
+let cur=8;
+function badge(r){const [c,t]=REV[r];return `<span class="badge ${c}">${t}</span>`}
+function li(a){return a.map(x=>`<li>${x}</li>`).join('')}
+function cellBtn(n,html){return `<button class="cellbtn" type="button" data-go="${n}"><span class="lbl2">${html}</span></button>`}
+
+// ===== MA TRẬN =====
+function renderMatrix(){
+  const T=document.getElementById('mx');
+  const head=`<thead><tr><th>Đặc trưng \\ Bước</th>${STEPS.map(s=>`<th>Bước ${s.n}</th>`).join('')}</tr></thead>`;
+  const row=(lbl,fn,cls='')=>`<tr class="${cls}"><td>${lbl}</td>${STEPS.map(s=>`<td>${fn(s)}</td>`).join('')}</tr>`;
+  const grp=(lbl)=>`<tr class="grp"><td>${lbl}</td><td colspan="11"></td></tr>`;
+  let b='';
+  b+=grp('Đầu ra');
+  b+=row('Mục tiêu',s=>cellBtn(s.n,`<div class="cell">${s.muc}</div>`));
+  b+=row('Deliverables',s=>cellBtn(s.n,`<div class="cell mono">${s.art.split(' · ').join('<br>')}</div>`));
+  b+=row('Mã truy vết sinh ra',s=>`<div class="cell mono">${s.ma}</div>`);
+  b+=`<tr class="pipe"><td>PIPELINE</td>${STEPS.map(s=>`<td class="${s.n===7?'dor':''}"><button class="node" type="button" data-go="${s.n}" aria-label="Mở checklist Bước ${s.n}">${s.n}</button><span class="lbl">${s.name}</span></td>`).join('')}</tr>`;
+  b+=grp('Cổng');
+  b+=row('Review độc lập',s=>`<div class="cell">${badge(s.review)}<span class="l">${s.review==='moi'?'R3 doc-lap mọi Round':s.review==='dau'?'doc-lap Round đầu; sau tu-soi trừ doiThietKe':'tu-soi; cổng máy + Done khi vẫn áp'}</span></div>`);
+  b+=row('Cổng vào riêng',s=>cellBtn(s.n,`<div class="cell">${s.vao.join('<br>')}</div>`));
+  b+=row('Done khi (R1)',s=>cellBtn(s.n,`<div class="cell">${s.done.map(d=>'• '+d).join('<br>')}</div>`));
+  b+=row('Cổng RA riêng (m)',s=>s.ra?`<div class="cell mono">${s.ra}</div>`:`<span class="empty">chung 13 điều kiện</span>`);
+  b+=row('Checklist',s=>cellBtn(s.n,`<div class="cell"><span class="mono">01-playbook/${MX[s.n].chk}</span><span class="l">V1–V6 · R1–R8 đủ 13 mục trong cong-buoc/…-B${s.n}.json</span></div>`));
+  b+=grp('Cách làm');
+  b+=row('AI được / dừng / không',s=>cellBtn(s.n,`<div class="cell"><span><span class="tag ok">✅</span> ${s.duoc}</span><span><span class="tag stop">⛔</span> ${s.dung}</span><span><span class="tag no">🚫</span> ${s.khong}</span></div>`));
+  b+=row('Điều dừng hay gặp',s=>`<div class="cell">${MX[s.n].dung}</div>`);
+  b+=row('Skill · cần điều khiển',s=>`<div class="cell">${MX[s.n].can}</div>`);
+  b+=row('Công cụ cổng máy',s=>`<div class="cell mono">${MX[s.n].tool}</div>`);
+  b+=row('Tệp harness dùng',s=>`<div class="cell mono">${MX[s.n].tep}</div>`);
+  b+=row('Bẫy',s=>`<div class="cell l">${s.bay}</div>`);
+  T.innerHTML=head+'<tbody>'+b+'</tbody>';
+  T.querySelectorAll('[data-go]').forEach(el=>el.addEventListener('click',()=>goStep(+el.dataset.go)));
+}
+function goStep(n){cur=n;renderRail();renderDetail();document.getElementById('detail').scrollIntoView({behavior:'smooth',block:'start'});}
+
+// ===== BỘ CHỌN + CHI TIẾT BƯỚC =====
+function renderRail(){
+  const rail2=document.getElementById('rail2');
+  rail2.innerHTML=STEPS.map(s=>`<button class="step" type="button" data-n="${s.n}" aria-pressed="${s.n===cur}" style="padding:8px 4px;justify-items:center" aria-label="Bước ${s.n} ${s.name}"><span class="num" style="font-size:18px">${s.n}</span></button>`).join('');
+  rail2.querySelectorAll('.step').forEach(b=>b.addEventListener('click',()=>{cur=+b.dataset.n;renderRail();renderDetail()}));
+}
+function renderDetail(){
+  const s=STEPS[cur];const m=MX[cur];const prev=cur>0?`Bước ${cur-1} = qua`:'Bước đầu, miễn';
+  document.getElementById('detail').innerHTML=`
+  <div class="detail-head">
+    <div class="num">${s.n}</div>
+    <div><h3 style="font-size:18px">Bước ${s.n} — ${s.name}</h3><div class="meta"><span>Artefact: <span class="mono">${s.art}</span></span><span>Mã truy vết sinh ra: <span class="mono">${s.ma}</span></span><span>Checklist gốc: <span class="mono">01-playbook/${m.chk}</span> · luật: <span class="mono">PLAYBOOK.md Bước ${s.n}</span></span></div></div>
+    <div style="display:grid;gap:4px;justify-items:end"><span style="font-size:11px;color:var(--muted)">Review độc lập</span>${badge(s.review)}</div>
+  </div>
+  <div class="detail-col" style="border-bottom:1px solid var(--line)"><p><strong>Mục tiêu.</strong> ${s.muc}</p></div>
+  <div class="detail-body">
+    <div class="detail-col">
+      <h4>📥 Cổng vào — Log/cong-buoc/&lt;mvp&gt;[-R&lt;k&gt;]-B${s.n}.json</h4>
+      <ul class="check">
+        <li><span><b>V1</b> ${prev} (hoặc Round khai khong-cham/ke-thua kèm lý do)</span></li>
+        <li><span><b>V2</b> keThua[] từ R5 của Bước trước, đọc Output/RTM.md</span></li>
+        <li><span><b>V3</b> Nguồn có mặt: ${s.doc.join(' · ')}</span></li>
+        <li><span><b>V4</b> Điểm mơ hồ viết trước, gắn tự quyết / hỏi Huynh (điều dừng) → Log/CHO-QUYET.ndjson</span></li>
+        <li><span><b>V5</b> 4 câu phản xạ: quyền · L và A/A+ · cổng gác · ai duyệt</span></li>
+        <li><span><b>V6</b> Quyết định D-/NFR-/M áp cho Bước này</span></li>
+      </ul>
+      <h4>Cổng vào riêng của Bước</h4>
+      <ul class="check">${li(s.vao.map(v=>`<span>${v}</span>`))}</ul>
+      <h4>🤖 AI ở Bước này</h4>
+      <div class="ai-row"><span class="tag ok">✅ ĐƯỢC</span><span>${s.duoc}</span></div>
+      <div class="ai-row"><span class="tag stop">⛔ DỪNG HỎI</span><span>${s.dung}</span></div>
+      <div class="ai-row"><span class="tag no">🚫 KHÔNG</span><span>${s.khong}</span></div>
+      <h4>Cần điều khiển · công cụ · tệp</h4>
+      <ul><li>${m.can}</li><li><span class="mono">${m.tool}</span></li><li><span class="mono">${m.tep}</span></li></ul>
+    </div>
+    <div class="detail-col">
+      <h4>📤 Cổng ra — R1 "Done khi" (PASS/FAIL, không gần đúng)</h4>
+      <ul class="check">${li(s.done.map(v=>`<span>${v}</span>`))}</ul>
+      <ul class="check">
+        <li><span><b>R2</b> Bằng chứng chỉ được, đúng 1 trong 5 loại → Log/PROOF-LOG.ndjson</span></li>
+        <li><span><b>R3</b> Review: ${s.review==='moi'?'<strong>độc lập mọi Round</strong>, phatHien[] + quyetDinh Huynh → Output/DEVBOOK.md':s.review==='dau'?'<strong>độc lập Round đầu</strong>; Round sau tu-soi trừ khi doiThietKe:true':'tu-soi được; cổng máy + Done khi vẫn áp'}</span></li>
+        <li><span><b>R5</b> Ràng buộc cho Bước ${s.n<10?s.n+1:'sau / production'} ghi vào Output/RTM.md</span></li>
+        <li><span><b>R6</b> Mọi điểm V4 đã giải hoặc ghi nợ có lý do</span></li>
+        <li><span><b>R7</b> node Log/doc-health.cjs: đủ c1…c7</span></li>
+        <li><span><b>R8</b> Đẩy git qua skill day-git; c2: mã + tài liệu cùng commit</span></li>
+        <li><span><b>R4</b> <span class="mono">node Log/gate-check.cjs --buoc ${s.n} --mvp &lt;nn&gt;</span> → 13/13 → <span class="mono">--ghi</span></span></li>
+      </ul>
+      ${s.ra?`<h4>Cổng RA riêng — điều kiện (m)</h4><p class="note" style="margin-bottom:12px"><span class="mono">${s.ra}</span></p>`:''}
+      <p class="hint">Bảng 13 điều kiện máy ở <a class="more" href="#cong">Phasegate ↑</a> · review theo Round ở <a class="more" href="#mvp-round">MVP × Round ↓</a></p>
+    </div>
+  </div>
+  <div class="detail-foot">⚠️ <strong>Bẫy:</strong> ${s.bay}</div>`;
+  linkify(document.getElementById('detail'));
+}
+
+// ===== ĐIỂM CAN THIỆP =====
+const IV=[
+ ["hook","chan-git-commit-tay.cjs","PreToolUse Bash/PowerShell: chặn git commit không mang mốc hợp lệ + dấu #DAY-GIT-BUOC-3; đường vòng cố ý #QUA-DAY-GIT có ghi vết.","mỗi lệnh shell · ghi Log/CHAN-GIT-COMMIT.ndjson"],
+ ["hook","chan-ghi-de-file-luat.cjs","PreToolUse Bash + Write: chặn ghi đè 100% file luật đang tồn tại (Write đè, > file, tee, cp/mv, sed -i, truncate). Cho Edit từng khối, >> nối thêm.","mỗi lệnh ghi · gác tepLuat.danhSach + haTangGac + mọi file trong LUAT-DANGKY"],
+ ["hook","chan-ghi-csdl-that.cjs","PreToolUse Bash: lệnh có ý định ghi vào CSDL thật chỉ chạy khi có bản sao lưu mới trong hạn (csdlThat.hanSaoLuuPhut); hook tự tìm tệp .bak và đọc giờ sửa.","mỗi lệnh shell khớp csdlThat.khuon / kichBanNguy"],
+ ["hook","kiem-luat-hook.cjs","PostToolUse Edit/Write: file vừa sửa là file luật ⇒ tự chạy kiem-luat.cjs --mat, bất kể AI nghĩ gì.","sau mỗi Edit/Write"],
+ ["hook","log-tool-event.cjs","PostToolUse mọi công cụ: append một dòng vào Log/HOOK-EVENTS.ndjson, mốc giờ thật cho do-gio.cjs. Không bao giờ throw.","sau mỗi tool call (async)"],
+ ["hook","log-usage.cjs","Stop: ghi token usage + prompt gần nhất vào Log/USAGE.md; cột prompt là nơi do-gio tìm mốc 'nạp context'. Số là cận dưới, không dùng làm giờ.","mỗi lượt AI trả lời xong"],
+ ["tool","gate-check.cjs","Cổng phase gate 4 chế độ: --mo-round · --buoc (13 điều kiện) · --dong-mvp · <taskId> --deliverable BUILD --muc (dây cương A+). --ghi chỉ ghi khi qua; đỏ in khối XONG NGHĨA LÀ GÌ.","mở Round · đóng Bước · đóng MVP · đóng task BUILD/A+"],
+ ["tool","kiem-harness.cjs","Cổng cài đặt: config hợp lệ, công cụ/hook/skill/sổ có mặt, settings.json trỏ hook có thật, sổ luật sạch, dây cương không rỗng.","ngay sau cài · khi nghi cổng không gác"],
+ ["tool","kiem-luat.cjs","Bộ test cho tài liệu luật: --mat (luật biến mất) · --trung. Đối chiếu LUAT-DANGKY.json với file luật.","sau mỗi sửa file luật (hook gọi) · kiem-harness"],
+ ["tool","rtm-check.cjs","Sức khoẻ RTM hai chiều: story mồ côi, số ca test khớp, mọi tệp test được nhắc. Điều kiện (k).","đóng Bước · Bước 10"],
+ ["tool","doc-health.cjs","7 chỉ số c1…c7, ghi Log/DOC-HEALTH.json + bản chụp doc-health-theo-buoc/. Không đặt ngưỡng.","R7 lúc đóng Bước (điều kiện h)"],
+ ["tool","kiem-c2-staged.cjs","Cổng c2 trước commit: mã staged đổi thì tài liệu RTM liên quan phải cùng change set. Điều kiện (c) và cổng 2 của moc-day-git.","trước mỗi commit"],
+ ["tool","kiem-khoa-lo.cjs","Quét staged / toàn kho tìm chuỗi dạng khoá bí mật. Cổng 3 của moc-day-git; luật cứng #2.","trước mỗi commit"],
+ ["tool","moc-day-git.cjs","Chạy 3 cổng (C1 khoá · c2 · khoá lộ) rồi sinh mốc Log/.moc-day-git.json dán vào vân tay git write-tree; hook chan-git-commit-tay đòi mốc này.","Bước 2 skill day-git"],
+ ["tool","ghi-vet-day-git.cjs","Sau commit: chạy lại 4 cổng trên cây đã commit, ghi mã thoát + HEAD vào Log/DAYGIT-LOG.ndjson.","Bước 5 skill day-git"],
+ ["tool","kiem-day-git.cjs","Đối chiếu: mỗi commit chạm thư mục gác từ dayGit.mocGoc có vết day-git với mọi cổng = 0 không.","định kỳ · trước prod"],
+ ["tool","kiem-backlog.cjs","RTM ↔ BACKLOG hai chiều: mọi tính năng có PB-xxx, mọi US-xx trỏ về PB. Cổng RA riêng Bước 1.","đóng Bước 1 (điều kiện m)"],
+ ["tool","kiem-pham-vi.cjs","Cổng phạm vi: mọi mục tiêu nguyên văn đã giao chưa; xong đòi route thật + tệp kiểm; hoãn đòi huynhDuyet. --truoc-prod chặn đẩy.","đóng Bước 10 · trước production"],
+ ["tool","kiem-phu-moi-truong.cjs","Cổng phủ môi trường: mỗi ô (môi trường × tầng đo) có tệp kiểm thật đúng môi trường hoặc lý do ≥60 ký tự. Cổng RA riêng Bước 9.","đóng Bước 9 · trước prod"],
+ ["tool","cong-uat-truoc-prod.cjs","Cổng UAT → Production: chặn nếu Bước 9 chưa đóng (kể cả khai ke-thua khi chưa Round nào đóng B9). Ngoại lệ --ngoai-le + --huynh-xac-nhan.","đẩy production (điều dừng 6)"],
+ ["tool","cho-quyet.cjs","Sổ điểm chờ Huynh quyết: thêm mục (việc · vì sao · gật/lắc · điều kiện bung), --da-quyet <id> \"nguyên văn\". Mục chan:true chặn cổng (j).","V4 mỗi Bước · đóng Bước"],
+ ["tool","do-gio.cjs","Tính giờ làm việc từ HOOK-EVENTS: khối mở bằng 'nạp context', đóng bằng bàn giao; AI tự tính, không hỏi người.","Bước 5 · Bước 10 · báo cáo tuần"],
+ ["tool","check-telemetry-gaps.cjs","Hố telemetry: task ✅ trong TASKLIST mà TELEMETRY chưa có dòng. Điều kiện (d).","đóng Bước"],
+ ["tool","day-len-may-chu.sh","Đường ống đẩy production chặng 1: cổng tài liệu · backlog · phủ môi trường · phạm vi --truoc-prod · UAT→Prod, mỗi cổng if/else tường minh; chặng 2 khói chỉ đọc.","\"đẩy lên production\""],
+ ["tool","_harness-config.cjs","Bộ nạp cấu hình chung: mọi công cụ require tệp này thay vì gõ cứng đường dẫn; thiếu config ⇒ thoát 2.","mọi công cụ Log/*.cjs"],
+ ["hook","nhac-cap-nhat-harness.cjs","SessionStart: so .harness-manifest.json › harnessVersion với VERSION của kho (ổ máy; không có ổ thì GitHub raw, chờ ≤2,5 s). Có bản mới ⇒ thêm một dòng nhắc vào ngữ cảnh phiên. Chỉ nhắc, không sửa; không bao giờ làm tê liệt phiên.","mở phiên · từ bản 1.1.0"],
+ ["tool","cap-nhat.cjs (08-cap-nhat)","Kéo bản harness mới về dự án theo bảng kê: chạy khô báo 4 nhóm (cập nhật được · thiếu · mẫu đổi · xung đột); --ap-dung chỉ ghi 2 nhóm đầu; --dang-ky dựng bảng kê cho dự án cài tay. Thoát 2 khi có xung đột.","\"cập nhật harness\" · đăng ký lần đầu"],
+ ["cfg","VERSION · CHANGELOG.md · .harness-manifest.json","Số bản semver của kho · lịch sử từng mục (dự án nguồn · lớp · bắt buộc/khuyến nghị · tệp · vì sao) · bảng kê trong dự án: bản đang dùng + mã băm nguồn/đích từng tệp lúc cài (bộ cài ghi, commit cùng dự án).","mọi lần sửa kho · mọi lần cài / cập nhật"],
+ ["skill","cap-nhat-harness","4 bước: đọc CHANGELOG từ bản đang dùng tới bản mới → chạy khô cap-nhat.cjs → Huynh gật mới --ap-dung → ghi Dev Book, DU-AN-DANG-KY.json, đẩy git. Xung đột ở hạ tầng gác luật phải khai 'CULI được lợi nếu nới'.","\"cập nhật harness\" · khi hook nhắc"],
+ ["skill","dua-vao-harness","7 bước: git pull --ff-only (dở thì dừng) → trả lời 'chặn lỗi gì / tiết kiệm gì' + gắn lớp lõi/gói/riêng → sửa đúng chỗ → cài thử vào thư mục trống + kiem-harness xanh → VERSION + CHANGELOG → đẩy GitHub với commit theo khuôn → Dev Book dự án gốc.","\"đưa vào harness …\""],
+ ["skill","day-git","5 bước có kiểm chứng: kiểm → đưa file vào (+ moc-day-git) → commit → đẩy lên → kiểm lại (+ ghi-vet). Chốt C1–C4 dừng, W1–W4 cảnh báo. LOCAL vs ĐẦY ĐỦ do câu Huynh gõ quyết định.","\"đẩy git đi\" · \"đẩy GitHub đi\""],
+ ["so","TASKLIST.md","Nguồn trạng thái duy nhất: task cấp 3, ô cuối đọc theo ký tự đầu ✅🔒🔄⬜⛔.","Bước 4 tạo · mọi Bước cập nhật"],
+ ["so","PHASE-GATE-LOG.ndjson","Bản ghi mo-round · đóng Bước (qua/huy) · xac-nhan-A+ · dong-mvp. V1 và điều kiện (e) đọc từ đây.","gate-check --ghi"],
+ ["so","cong-buoc/ · khai-round/","Bản khai 13 mục cổng từng Bước (theo Round) · bảng khai 11 Bước khi mở Round. Mẫu _MAU.json.","mở/đóng Bước · mở Round"],
+ ["so","PROOF-LOG.ndjson · TELEMETRY.md · DEVBOOK.md","Bằng chứng chạy thật 5 loại · giờ thật theo task · quyết định của Huynh sau review. Ghi trong lượt, không viết bù.","Bước 8–10, mọi task BUILD"],
+ ["so","CHO-QUYET.ndjson · PHAM-VI-MVP.json · BACKLOG.md","Ba sổ ba câu: quyết thế nào · PHẢI giao gì · HOÃN bung lại khi nào. Chỉ Huynh đóng mục.","V4 · Bước 0 · sau khi Huynh quyết hoãn"],
+ ["so","LEASH-BANG.json · LUAT-DANGKY.json · PHU-MOI-TRUONG.json","Bảng dây cương (nguồn sự thật A/A+) · sổ đăng ký luật (bỏ luật phải tường minh) · phép đo nào ở môi trường nào.","Bước 6 · mọi sửa luật · Bước 9"],
+ ["cfg","harness.config.json","Một tệp mọi công cụ đọc: thuMuc · tep · tepLuat · maTask · ma (regex) · kiemThu · route · moiTruong · csdlThat · docHealth · reviewPolicy · congRaRieng · dayGit · lenhKichHoat. Ba khối reviewPolicy · congRaRieng · csdlThat là luật quản AI.","cài đặt · AI không tự nới (điều dừng 5)"],
+ ["cfg",".claude/settings.json · CLAUDE.md","Hook + permissions allow 17 lệnh cổng · trí nhớ dự án tự nạp (luật ngắn + bảng lệnh + bảng chỉ đường 8 mục).","mọi phiên"]
+];
+function renderIV(){
+  const names={hook:"Hook",tool:"Công cụ cổng",skill:"Skill",so:"Sổ ghi",cfg:"Cấu hình"};
+  document.getElementById('iv').innerHTML=IV.map(([k,n,w,t])=>`<div class="card"><span class="kind ${k}">${names[k]}</span><span class="nm">${n}</span><span class="wh">${w}</span><span class="when">Kích hoạt: ${t}</span></div>`).join('');
+}
+
+// ===== POPUP + AUTOLINK =====
+const pop=document.getElementById('pop');
+function showPop(key,anchorEl){
+  const g=GLOSS[key];if(!g)return;
+  document.getElementById('pop-ttl').innerHTML=`<span>${g[0]}</span>`;
+  document.getElementById('pop-body').textContent=g[1];
+  document.getElementById('pop-src').innerHTML=g[2]!=='—'?`Tệp: <code>${g[2]}</code>`:'';
+  const more=document.getElementById('pop-more');more.href=g[3];more.textContent=`Chi tiết → ${document.querySelector(g[3]+' h2')?.textContent||g[3]}`;
+  pop.hidden=false;
+  const r=anchorEl.getBoundingClientRect();const pw=pop.offsetWidth,ph=pop.offsetHeight;
+  let left=Math.min(Math.max(8,r.left),window.innerWidth-pw-8);
+  let top=r.bottom+8;if(top+ph>window.innerHeight-8)top=Math.max(8,r.top-ph-8);
+  pop.style.left=left+'px';pop.style.top=top+'px';
+}
+function hidePop(){pop.hidden=true}
+document.getElementById('pop-x').addEventListener('click',hidePop);
+document.addEventListener('click',e=>{const go=e.target.closest('svg [data-go]');if(go){hidePop();goStep(+go.getAttribute('data-go'));return}const ab=e.target.closest('.ab');if(ab){e.preventDefault();showPop(ab.getAttribute('data-k'),ab);return}if(!e.target.closest('.pop'))hidePop()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')hidePop()});
+document.getElementById('pop-more').addEventListener('click',hidePop);
+
+// tự gắn viết tắt trong text node; bỏ qua svg, script, style, pre, .ab, nav
+const RX=/(?<![\wÀ-ỹ])(V[1-6]|(?<!Round )R[1-8](?![-\d])|RTM|SRS|DoR|WBS|EST|NFR|UAT|SIT|CSDL|API|CSP|LAN|ndjson|BUILD|CULI|MVP(?![_\d])|PROOF-LOG|D-ARCH|c[2467]|c1…c7|A\+|L[0-5](?:–L5)?|AC(?=[\s<\d,.;·)])|US(?=-xx|\s)|PB(?=-|\s)|TD(?=-xx)|M<n>|fail-closed|BUILT-flagged|day-git|PM(?=-AI))(?![\wÀ-ỹ])|\(([0-7]|[a-m])\)|điều dừng (\d)/g;
+function keyFor(tok){
+  if(/^L[0-5]/.test(tok))return 'L';
+  if(/^c[2467]$/.test(tok))return tok;
+  if(tok==='c1…c7')return 'c7';
+  if(tok==='M<n>')return 'M';
+  return tok;
+}
+function linkify(root){
+  const skip=new Set(['SCRIPT','STYLE','SVG','PRE','CODE','BUTTON','A','TEXTAREA','NAV','TITLE']);
+  const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode(n){let p=n.parentNode;while(p&&p!==root){if(skip.has(p.nodeName.toUpperCase())||p.classList?.contains('ab')||p.classList?.contains('pop')||p.classList?.contains('mono'))return NodeFilter.FILTER_REJECT;p=p.parentNode}return n.nodeValue.trim()?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_REJECT}});
+  const nodes=[];let n;while(n=w.nextNode())nodes.push(n);
+  for(const t of nodes){
+    const s=t.nodeValue;RX.lastIndex=0;if(!RX.test(s))continue;RX.lastIndex=0;
+    const frag=document.createDocumentFragment();let last=0,m;
+    while(m=RX.exec(s)){
+      let key,text=m[0];
+      if(m[1])key=keyFor(m[1]);
+      else if(m[2]!==undefined){key=/^\d$/.test(m[2])&&m[2]!=='0'?'ĐD'+m[2]:'DK'+m[2]}
+      else if(m[3])key='ĐD'+m[3];
+      if(!GLOSS[key]){continue}
+      frag.appendChild(document.createTextNode(s.slice(last,m.index)));
+      const b=document.createElement('button');b.type='button';b.className='ab';b.dataset.k=key;b.textContent=text;b.setAttribute('aria-label',text+' — giải thích');
+      frag.appendChild(b);last=m.index+text.length;
+    }
+    if(last===0)continue;
+    frag.appendChild(document.createTextNode(s.slice(last)));t.parentNode.replaceChild(frag,t);
+  }
+}
+// bảng từ điển
+function renderGloss(){
+  const tb=document.querySelector('#gloss-table tbody');
+  const keys=Object.keys(GLOSS).filter(k=>k!=='ab').sort((a,b)=>a.localeCompare(b,'vi'));
+  tb.innerHTML=keys.map(k=>{const g=GLOSS[k];return `<tr><td class="k">${g[0].split(' — ')[0]}</td><td>${g[1]}</td><td class="c">${g[2]}</td><td><a class="more" href="${g[3]}">${g[3]}</a></td></tr>`}).join('');
+}
+
+try{const h=location.hash.replace('#','');if(/^b\d+$/.test(h)){cur=Math.min(10,+h.slice(1))}}catch(e){}
+renderMatrix();renderRail();renderDetail();renderIV();renderGloss();
+linkify(document.querySelector('.wrap'));
+
+// ===== SCROLLSPY: menu trên + sidebar =====
+(function(){
+  const toc=[...document.querySelectorAll('nav.toc a')];
+  const side=document.getElementById('side');
+  side.insertAdjacentHTML('beforeend',toc.map(a=>`<a href="${a.getAttribute('href')}">${a.textContent}</a>`).join(''));
+  const links=[...document.querySelectorAll('nav.toc a, .side a')];
+  const secs=toc.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  let cur=null;
+  function spy(){
+    const y=window.scrollY+140;let act=secs[0];
+    for(const s of secs){if(s.offsetTop<=y)act=s}
+    if(window.innerHeight+window.scrollY>=document.body.scrollHeight-4)act=secs[secs.length-1];
+    if(act===cur)return;cur=act;
+    const id='#'+act.id;
+    links.forEach(l=>l.classList.toggle('active',l.getAttribute('href')===id));
+  }
+  let t=null;window.addEventListener('scroll',()=>{if(t)return;t=requestAnimationFrame(()=>{t=null;spy()})},{passive:true});
+  window.addEventListener('resize',spy);spy();
+})();
+</script>
+
+</body>
+</html>

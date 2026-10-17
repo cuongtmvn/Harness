@@ -47,6 +47,8 @@ for (const f of (C.tepLuat || {}).danhSach || []) if (!fs.existsSync(H.P(f))) ca
 for (const f of (C.tepLuat || {}).haTangGac || []) can(fs.existsSync(H.P(f)), `tepLuat.haTangGac trỏ tệp KHÔNG tồn tại: ${f} — hạ tầng gác luật phải có thật`);
 if (!H.git('rev-parse --is-inside-work-tree').trim()) loi.push('Không phải kho git — c2 và R8 không đo được; đưa mã vào git TRƯỚC khi bắt đầu sửa (chỉ số lịch sử không đo ngược được)');
 else if (!(C.dayGit || {}).mocGoc) canh.push('dayGit.mocGoc trống — đặt bằng commit đầu tiên sau khi cài để kiem-day-git bắt đầu soi');
+if (!fs.existsSync(H.P('.harness-manifest.json'))) canh.push('Chưa có .harness-manifest.json — cap-nhat.cjs không biết tệp nào dự án đã sửa; đăng ký: node <Harness>/08-cap-nhat/cap-nhat.cjs . --dang-ky');
+for (const s of ['cap-nhat-harness', 'dua-vao-harness']) if (!fs.existsSync(H.P('.claude', 'skills', s, 'SKILL.md'))) canh.push(`Chưa có .claude/skills/${s}/SKILL.md (harness ≥ 1.1.0) — chạy cap-nhat.cjs --ap-dung để nhận`);
 
 // ③ sổ luật · dây cương
 if (fs.existsSync(H.P(log, 'kiem-luat.cjs'))) { try { execSync(`node ${JSON.stringify(H.P(log, 'kiem-luat.cjs'))} --mat --trung`, { cwd: H.ROOT, stdio: 'pipe' }); } catch (e) { loi.push('kiem-luat --mat --trung ĐỎ — sổ đăng ký luật lệch với file luật (xem node Log/kiem-luat.cjs)'); } }

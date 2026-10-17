@@ -22,12 +22,20 @@
       "Bash(node Log/do-gio.cjs)",
       "Bash(node Log/kiem-harness.cjs)",
       "Bash(node Log/kiem-day-git.cjs)",
+      "Bash(node */08-cap-nhat/cap-nhat.cjs *)",
       "Bash(git status *)",
       "Bash(git diff *)",
       "Bash(git log *)"
     ]
   },
   "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          { "type": "command", "command": "node \"${CLAUDE_PROJECT_DIR}/.claude/hooks/nhac-cap-nhat-harness.cjs\" 2>/dev/null || true", "statusMessage": "So bản harness đang dùng với bản mới nhất...", "timeout": 5 }
+        ]
+      }
+    ],
     "PreToolUse": [
       {
         "matcher": "Bash|PowerShell",

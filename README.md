@@ -123,6 +123,22 @@ Round ≥2: "mở Round Rk" → khai đủ 11 Bước (cham/khong-cham/ke-thua +
 
 ---
 
-## 8. Tám mục của bộ luật điều hành AI — để kiểm "có thiếu mục nào không"
+## 8. Phiên bản · cập nhật hai chiều · tài liệu tương tác
+
+| Thứ | Ở đâu | Dùng khi |
+|---|---|---|
+| Số bản | `VERSION` (semver: PATCH sửa chữ/lỗi · MINOR thêm luật/công cụ/hook/skill · MAJOR đổi cấu trúc/khoá config) | mọi lần sửa kho |
+| Lịch sử | `CHANGELOG.md` — mỗi mục: dự án nguồn · lớp (lõi / gói / riêng) · bắt buộc/khuyến nghị · tệp · vì sao | trước khi cập nhật dự án |
+| Bảng kê trong dự án | `<dự án>/.harness-manifest.json` — bản đang dùng + mã băm từng tệp lúc cài (bộ cài ghi; **commit tệp này**) | `cap-nhat.cjs` so để biết tệp nào dự án đã tự sửa |
+| **Cơ chế 1** dự án → harness | skill `dua-vao-harness` (7 bước: pull --ff-only · viết chung · lớp · cài thử dự án trống · VERSION+CHANGELOG · đẩy GitHub kèm ghi chú · Dev Book) | Huynh gõ *"đưa vào harness"* |
+| **Cơ chế 2** harness → dự án | hook `SessionStart` `nhac-cap-nhat-harness.cjs` **chỉ nhắc** (đọc `VERSION` ổ máy, không có thì GitHub) → skill `cap-nhat-harness` → `node <Harness>/08-cap-nhat/cap-nhat.cjs <dự án> [--ap-dung]` | Huynh gõ *"cập nhật harness"* |
+| Đăng ký dự án cài tay | `cap-nhat.cjs <dự án> --dang-ky` — dựng bảng kê từ trạng thái hiện tại, không ghi đè | Thiên Số, Mười Ngón lần đầu |
+| Sổ đăng ký | `08-cap-nhat/DU-AN-DANG-KY.json` — dự án nào đang bản nào | nhìn ai tụt bản |
+| Hướng dẫn cho phiên khác | `08-cap-nhat/HUONG-DAN-CAP-NHAT.md` · `CLAUDE.md` của chính kho này | mở phiên ở kho Harness hoặc ở dự án |
+| Mô tả tương tác | `MO-TA-HARNESS.html` — pipeline, ma trận 11 Bước, checklist phasegate, MVP × Round, mô hình dự án, điểm can thiệp, từ điển | đọc để hiểu / kiểm toàn bộ harness |
+
+---
+
+## 9. Tám mục của bộ luật điều hành AI — để kiểm "có thiếu mục nào không"
 
 ① Harness (công cụ · cổng · hook) · ② Thang L0–L5 · ③ Dây cương + 7 điều dừng · ④ Playbook 11 Bước + Phasegate + Review policy · ⑤ Mô hình vận hành · ⑥ Sổ tay lái · ⑦ Dev Book (quyết định + bài học chưng cất) · ⑧ Telemetry / AgentOps. Mỗi mục phải nói được **nội dung gì · ở file nào · cưỡng chế bằng gì** — mục nào không chỉ ra được cơ chế thì **khai là đang hở**.

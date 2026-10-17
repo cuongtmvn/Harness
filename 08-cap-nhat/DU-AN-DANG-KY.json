@@ -1,0 +1,29 @@
+{
+  "_doc": "SỔ ĐĂNG KÝ DỰ ÁN DÙNG HARNESS — nhìn một bảng biết dự án nào đang ở bản nào. Cập nhật khi: cài harness vào dự án mới · chạy cap-nhat.cjs --ap-dung · đăng ký lần đầu (--dang-ky). Trường banDangDung = harnessVersion trong .harness-manifest.json của dự án; null = chưa có bảng kê.",
+  "duAn": [
+    {
+      "ten": "Harness",
+      "duongDan": "D:\\OneDrive\\AI\\Harness",
+      "repo": "https://github.com/cuongtmvn/Harness.git",
+      "loai": "harness",
+      "banDangDung": "1.1.0",
+      "ghiChu": "Chính kho harness. Phiên mở ở đây đọc CLAUDE.md của kho để biết luật sửa harness."
+    },
+    {
+      "ten": "Thiên Số",
+      "duongDan": "D:\\OneDrive\\AI\\Bootcamp",
+      "repo": null,
+      "loai": "web-cloud",
+      "banDangDung": null,
+      "ghiChu": "Dự án gốc sinh ra harness 1.0.0 (2026-10-16). Chưa có .harness-manifest.json — chạy `node <Harness>/08-cap-nhat/cap-nhat.cjs <dự án> --dang-ky` để đăng ký lần đầu."
+    },
+    {
+      "ten": "Mười Ngón",
+      "duongDan": "D:\\OneDrive\\AI\\TypingMaster\\Source code\\typingmaster",
+      "repo": null,
+      "loai": "desktop-tauri",
+      "banDangDung": null,
+      "ghiChu": "Harness rút gọn bằng tay từ Thiên Số, không qua bộ cài. Bài học chờ đưa vào harness: xem tomtat.md mục 6. Đăng ký lần đầu bằng --dang-ky."
+    }
+  ]
+}

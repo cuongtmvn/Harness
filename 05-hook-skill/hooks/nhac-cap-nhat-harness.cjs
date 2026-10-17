@@ -14,17 +14,21 @@
  */
 const K = require('./_hook-chung.cjs');
 const MF = (() => { try { return JSON.parse(K.fs.readFileSync(K.path.join(K.GOC, '.harness-manifest.json'), 'utf8')); } catch { return null; } })();
-if (!MF || !MF.harnessVersion) process.exit(0);
+
+// Nhắc thứ hai, không cần bảng kê: repo nằm trong OneDrive ⇒ nhắc tạm dừng đồng bộ khi dev (Huynh chốt 17/10/2026, RUNBOOK §8).
+const LOI = [];
+if (/onedrive/i.test(K.GOC)) LOI.push(`📁 Repo nằm trong OneDrive (${K.GOC}). ${K.vai.chu} chốt: tạm dừng đồng bộ OneDrive trong lúc dev (chuột phải biểu tượng OneDrive → Pause syncing), bật lại sau khi đẩy git. ${K.vai.ai} nhắc một lần đầu phiên, không nhắc lại.`);
+function xuat() { if (LOI.length) process.stdout.write(JSON.stringify({ hookSpecificOutput: { hookEventName: 'SessionStart', additionalContext: LOI.join('\n') } })); process.exit(0); }
+if (!MF || !MF.harnessVersion) xuat();
 
 const so = (a, b) => { const x = String(a).split('.').map(Number), y = String(b).split('.').map(Number); for (let i = 0; i < 3; i++) if ((x[i] || 0) !== (y[i] || 0)) return (x[i] || 0) - (y[i] || 0); return 0; };
 function nhac(banMoi, nguon) {
   if (so(banMoi, MF.harnessVersion) <= 0) return;
-  const msg = `📦 Harness có bản ${banMoi} (dự án đang dùng ${MF.harnessVersion}, nguồn: ${nguon}). Gõ "cập nhật harness" để xem gì đổi — đọc CHANGELOG.md mục ${banMoi} trước; chỉ cập nhật khi ${K.vai.chu} bảo, không tự sửa giữa Bước đang dở.`;
-  process.stdout.write(JSON.stringify({ hookSpecificOutput: { hookEventName: 'SessionStart', additionalContext: msg } }));
+  LOI.push(`📦 Harness có bản ${banMoi} (dự án đang dùng ${MF.harnessVersion}, nguồn: ${nguon}). Gõ "cập nhật harness" để xem gì đổi — đọc CHANGELOG.md mục ${banMoi} trước; chỉ cập nhật khi ${K.vai.chu} bảo, không tự sửa giữa Bước đang dở.`);
 }
 let local = null;
 try { if (MF.harnessPath) local = K.fs.readFileSync(K.path.join(MF.harnessPath, 'VERSION'), 'utf8').trim(); } catch { local = null; }
-if (local) { nhac(local, 'ổ máy'); process.exit(0); }
+if (local) { nhac(local, 'ổ máy'); xuat(); }
 
 const repo = String(MF.harnessRepo || 'https://github.com/cuongtmvn/Harness.git').replace(/\.git$/, '').replace('https://github.com/', '');
 const url = `https://raw.githubusercontent.com/${repo}/main/VERSION`;
@@ -32,8 +36,8 @@ try {
   const https = require('https');
   const req = https.get(url, { timeout: 2500 }, (res) => {
     let d = ''; res.on('data', (c) => { d += c; });
-    res.on('end', () => { if (res.statusCode === 200 && /^\d+\.\d+\.\d+/.test(d.trim())) nhac(d.trim(), 'GitHub'); process.exit(0); });
+    res.on('end', () => { if (res.statusCode === 200 && /^\d+\.\d+\.\d+/.test(d.trim())) nhac(d.trim(), 'GitHub'); xuat(); });
   });
-  req.on('timeout', () => { req.destroy(); process.exit(0); });
-  req.on('error', () => process.exit(0));
-} catch { process.exit(0); }
+  req.on('timeout', () => { req.destroy(); xuat(); });
+  req.on('error', () => xuat());
+} catch { xuat(); }

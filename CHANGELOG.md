@@ -3,6 +3,13 @@
 > Mỗi mục ghi đủ: **dự án nguồn** · **lớp** (*lõi chung* = mọi dự án · *gói `<loại>`* = dự án cùng loại · *riêng* = không đưa) · **bắt buộc / khuyến nghị** với dự án nhận · **tệp đổi** · **vì sao** (bằng chứng). Mục *bắt buộc* mà `cap-nhat.cjs` không tự làm được thì ghi rõ dự án nhận phải làm gì.
 > Số bản: `VERSION`. PATCH sửa chữ / lỗi công cụ · MINOR thêm luật, công cụ, hook, skill, gói · MAJOR đổi cấu trúc thư mục, khoá `harness.config.json`, cách khai cổng.
 
+## 1.2.1 — 2026-10-17 · chốt bố cục workspace
+
+| Lớp | Mức | Tệp | Vì sao |
+|---|---|---|---|
+| lõi chung | khuyến nghị | `00-nguyen-tac/RUNBOOK.md §8` (nếp "workspace") · `tomtat.md` mục 8.3 | Huynh quyết: giữ repo trong OneDrive, **tạm dừng đồng bộ OneDrive khi dev**, bật lại sau khi đẩy git; không chuyển sang `D:\Projects`. Đóng câu hỏi cuối của `tomtat.md` mục 8 |
+| lõi chung | khuyến nghị | `05-hook-skill/hooks/nhac-cap-nhat-harness.cjs` | Huynh: *"nhắc ta là được"* ⇒ hook mở phiên nhắc thêm một dòng khi `CLAUDE_PROJECT_DIR` nằm trong OneDrive; nhắc không cần bảng kê, gộp cùng nhắc bản mới thành một thông điệp |
+
 ## 1.2.0 — 2026-10-17 · bài học Mười Ngón vào lõi + hai gói desktop; 5 vai trợ lý
 
 Nguồn: Mười Ngón (`tomtat.md` mục 5–6), Huynh gật 17/10/2026 *"đồng ý làm cả 3"*. Bằng chứng: Dev Book Mười Ngón 14–16/10 (HANDOFF, CSP Tauri, tường lửa LAN, Tester không bắt được lỗi app thật).

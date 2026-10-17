@@ -90,7 +90,7 @@ Phương án lan cho mọi dự án: đặt vai chung ở `~/.claude/agents` (m�
 
 1. Gật làm 8 cải tiến (mục 4) theo thứ tự đề xuất — hay chỉ một phần.
 2. Bài học nào ở mục 6 đưa vào harness, lớp nào.
-3. Bố cục workspace: tối thiểu hay đầy đủ (mục 7).
+3. Bố cục workspace: tối thiểu hay đầy đủ (mục 7). — ✅ **Huynh quyết 17/10/2026: giữ nguyên chỗ trong OneDrive, tạm dừng đồng bộ OneDrive khi dev** (*"vẫn giữ như vậy, ta sẽ tắt onedrive khi dev"*). Chỉ còn việc mở VS Code đúng gốc repo (luật `L-WS-01`). Không chuyển sang `D:\Projects\…`.
 4. Vai trợ lý chung: đặt ở `~/.claude/agents` hay trong lõi harness.
 
 ## 8b. Việc nhận từ phiên Mười Ngón (typingmaster-fd) soát bản 1.1.1 — 17/10/2026

@@ -22,10 +22,10 @@
       "duongDan": "D:\\OneDrive\\AI\\TypingMaster\\Source code\\typingmaster",
       "repo": "https://github.com/Cuongtmvn/typingmaster",
       "loai": "desktop-tauri",
-      "banDangDung": "1.2.0",
+      "banDangDung": "1.5.0",
       "ngayDangKy": "2026-10-17",
-      "ngayCapNhat": "2026-10-17",
-      "ghiChu": "17/10: đăng ký (--dang-ky), chép 64 tệp, rồi lên 1.2.0: gộp 7 hook + permissions vào settings.json riêng; điền harness.config.json theo Tauri (goi: desktop, desktop-tauri; không HTTP, không CSDL); 25 luật chuyển neo sang Instructions/LUAT-LUON-DUNG.md vì CLAUDE.md/PLAYBOOK rút gọn; skill day-git thay bằng bản harness (có chế độ điện thoại). kiem-harness ✅, kiem-luat ✅. Còn: dayGit.mocGoc sau commit đầu; mã task MV2-xx chưa theo khuôn MVP_nn nên gate-check.cjs chưa đọc được (dùng Log/cong-buoc.mjs riêng); 5 vai .claude/agents/ là bản riêng. Bài học Mười Ngón đã vào harness 1.2.0."
+      "ngayCapNhat": "2026-10-18",
+      "ghiChu": "18/10: lên 1.5.0 (cap-nhat --ap-dung 5 tệp; chép tay khối 🧭 + 2 dòng lệnh vào CLAUDE.md; thêm L-HARNESS-01; bảng model riêng giữ, thêm nhịp theo Bước; dayGit.mocGoc = 26bbce3). Kho đổi tên GitHub: cuongtmvn/TypingMaster (đường cũ vẫn chuyển tiếp). 17/10: đăng ký (--dang-ky), chép 64 tệp, rồi lên 1.2.0: gộp 7 hook + permissions vào settings.json riêng; điền harness.config.json theo Tauri (goi: desktop, desktop-tauri; không HTTP, không CSDL); 25 luật chuyển neo sang Instructions/LUAT-LUON-DUNG.md vì CLAUDE.md/PLAYBOOK rút gọn; skill day-git thay bằng bản harness (có chế độ điện thoại). kiem-harness ✅, kiem-luat ✅. Còn: dayGit.mocGoc sau commit đầu; mã task MV2-xx chưa theo khuôn MVP_nn nên gate-check.cjs chưa đọc được (dùng Log/cong-buoc.mjs riêng); 5 vai .claude/agents/ là bản riêng. Bài học Mười Ngón đã vào harness 1.2.0."
     },
     {
       "ten": "ChildDressShop",

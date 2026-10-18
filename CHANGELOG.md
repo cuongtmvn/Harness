@@ -3,6 +3,16 @@
 > Mỗi mục ghi đủ: **dự án nguồn** · **lớp** (*lõi chung* = mọi dự án · *gói `<loại>`* = dự án cùng loại · *riêng* = không đưa) · **bắt buộc / khuyến nghị** với dự án nhận · **tệp đổi** · **vì sao** (bằng chứng). Mục *bắt buộc* mà `cap-nhat.cjs` không tự làm được thì ghi rõ dự án nhận phải làm gì.
 > Số bản: `VERSION`. PATCH sửa chữ / lỗi công cụ · MINOR thêm luật, công cụ, hook, skill, gói · MAJOR đổi cấu trúc thư mục, khoá `harness.config.json`, cách khai cổng.
 
+## 1.6.2 — 2026-10-19 · tệp bàn giao phiên GlobalHarness (không đổi luật)
+
+Nguồn: phiên GlobalHarness 18/10 · Huynh *"tạo handoff để mai làm"* rồi *"đẩy github đi"*.
+
+| Lớp | Mức | Tệp | Vì sao |
+|---|---|---|---|
+| riêng kho | — | `HANDOFF-2026-10-18.md` (mới) | Bàn giao thiết kế `10-quan-sat/` (quan sát cách dùng Claude + định giá chi phí theo token) để phiên sau / phiên điện thoại làm tiếp. Không phải nội dung luật; ra bản PATCH chỉ vì cổng kho đòi mọi commit tăng VERSION — mâu thuẫn với ngoại lệ sổ đăng ký ở `CLAUDE.md` luật 1, ghi trong handoff mục 2 chờ Huynh |
+
+**Dự án nhận:** không phải làm gì.
+
 ## 1.6.1 — 2026-10-19 · chế độ kho cho ghi-vet-day-git; Log/ của kho chỉ lưu ở máy
 
 Nguồn: dự án ChildDressShop · lần đẩy 1.6.0 (commit `bc3cf95`) qua skill day-git đúng đường (hook ghi `qua-skill`, repo kho), nhưng `ghi-vet-day-git` chạy lại 4 cổng của dự án sau commit ⇒ c2, rtm-check đỏ ở kho ⇒ vết ghi `daQua: false` (đúng sự thật, nhưng là lỗi công cụ, không phải lỗi bản 1.6.0). Trong phạm vi Huynh duyệt 19/10 *"duyệt chế độ kho"*.

@@ -32,11 +32,23 @@ const SAU = process.argv.includes('--sau-commit');
 const BAN = SAU ? 'HEAD:' : ':';
 console.log(`=== kiem-kho-phat-hanh — cổng kho GlobalHarness${SAU ? ' (sau commit, đo trên HEAD)' : ''} ===`);
 
+// Ngoại lệ SỔ ĐĂNG KÝ (CLAUDE.md của kho, luật 1: "Ngoại lệ duy nhất không cần tăng bản: sổ 08-cap-nhat/DU-AN-DANG-KY.json")
+// — chủ dự án duyệt 19/10/2026. Chỉ khi tập tệp của commit là ĐÚNG MỘT tệp sổ: bỏ phép (1) tăng bản và (2) CHANGELOG;
+// vẫn đòi tệp sổ đọc được, (3) bản cài thử = bản commit, (4) cài thử xanh. Thêm bất kỳ tệp nào khác ⇒ luật thường.
+const SO_DK = '08-cap-nhat/DU-AN-DANG-KY.json';
+const tapTep = (SAU ? H.git('show --name-only --format= HEAD') : H.git('diff --cached --name-only')).split('\n').map((s) => s.trim()).filter(Boolean);
+const CHI_SO = tapTep.length === 1 && tapTep[0] === SO_DK;
+if (CHI_SO) {
+  try { JSON.parse(H.git(`show ${BAN}${SO_DK}`)); ok(`Commit chỉ gồm sổ đăng ký — ngoại lệ luật 1 của kho: không đòi tăng bản / mục CHANGELOG; ${SO_DK} đọc được`); }
+  catch (e) { sai(`Commit chỉ gồm sổ đăng ký nhưng ${SO_DK} hỏng JSON: ${e.message}`); }
+}
+
 // (1) VERSION tăng
 const so = (v) => String(v || '').trim().split('.').map((x) => parseInt(x, 10));
 const lonHon = (a, b) => { for (let i = 0; i < 3; i++) { if ((a[i] || 0) !== (b[i] || 0)) return (a[i] || 0) > (b[i] || 0); } return false; };
 const banMoi = H.git(`show ${BAN}VERSION`).trim(); // bản ĐÃ STAGED (sắp commit) hoặc HEAD (sau commit)
 if (!banMoi) sai(`Không đọc được VERSION (${SAU ? 'HEAD' : 'vùng staged'}).`);
+else if (CHI_SO) { /* ngoại lệ sổ đăng ký — đã ghi ở trên */ }
 else if (SAU) ok(`VERSION ở HEAD: ${banMoi} (phép so với origin/main đã chạy trước commit)`);
 else {
   const banCu = H.git('show origin/main:VERSION').trim();
@@ -47,7 +59,8 @@ else {
 
 // (2) CHANGELOG có mục của bản mới
 const cl = H.git(`show ${BAN}CHANGELOG.md`);
-if (banMoi && new RegExp('^## ' + banMoi.replace(/\./g, '\\.') + ' — ', 'm').test(cl)) ok(`CHANGELOG.md có mục "## ${banMoi} — …"`);
+if (CHI_SO) { /* ngoại lệ sổ đăng ký */ }
+else if (banMoi && new RegExp('^## ' + banMoi.replace(/\./g, '\\.') + ' — ', 'm').test(cl)) ok(`CHANGELOG.md có mục "## ${banMoi} — …"`);
 else sai(`CHANGELOG.md (${SAU ? 'HEAD' : 'staged'}) không có mục "## ${banMoi} — …".`);
 
 // (3) bản cài thử = bản sắp commit (hoặc = HEAD khi sau commit)
@@ -61,7 +74,9 @@ else ok('Không có tệp chưa theo dõi trong thư mục bộ cài chép');
 
 // (4) cài thử vào thư mục trống
 const tam = fs.mkdtempSync(path.join(os.tmpdir(), 'harness-thu-'));
-const chay = (lenh, cwd) => { try { execSync(lenh, { cwd, stdio: ['ignore', 'pipe', 'pipe'], encoding: 'utf8' }); return 0; } catch (e) { return typeof e.status === 'number' ? e.status : -1; } };
+// Môi trường SẠCH cho bản cài thử: HARNESS_ROOT / CLAUDE_PROJECT_DIR kế thừa sẽ làm công cụ trong dự án tạm trỏ nhầm gốc.
+const envSach = { ...process.env }; delete envSach.HARNESS_ROOT; delete envSach.CLAUDE_PROJECT_DIR;
+const chay = (lenh, cwd) => { try { execSync(lenh, { cwd, env: envSach, stdio: ['ignore', 'pipe', 'pipe'], encoding: 'utf8' }); return 0; } catch (e) { return typeof e.status === 'number' ? e.status : -1; } };
 try {
   const m1 = chay(`node ${JSON.stringify(path.join(H.ROOT, '07-cai-dat', 'cai-dat.cjs'))} ${JSON.stringify(tam)} --ten "Thu nghiem" --kho`, H.ROOT);
   if (m1 !== 0) sai(`cai-dat.cjs vào thư mục trống thoát ${m1}.`);

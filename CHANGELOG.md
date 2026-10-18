@@ -3,6 +3,17 @@
 > Mỗi mục ghi đủ: **dự án nguồn** · **lớp** (*lõi chung* = mọi dự án · *gói `<loại>`* = dự án cùng loại · *riêng* = không đưa) · **bắt buộc / khuyến nghị** với dự án nhận · **tệp đổi** · **vì sao** (bằng chứng). Mục *bắt buộc* mà `cap-nhat.cjs` không tự làm được thì ghi rõ dự án nhận phải làm gì.
 > Số bản: `VERSION`. PATCH sửa chữ / lỗi công cụ · MINOR thêm luật, công cụ, hook, skill, gói · MAJOR đổi cấu trúc thư mục, khoá `harness.config.json`, cách khai cổng.
 
+## 1.6.3 — 2026-10-19 · cổng kho nhận ngoại lệ sổ đăng ký; cài thử chạy môi trường sạch
+
+Nguồn: dự án ChildDressShop · khi "Kéo GlobalHarness" lên 1.6.2, commit sổ đăng ký bị cổng kho chặn vì đòi tăng VERSION — trái luật 1 `CLAUDE.md` của kho ("Ngoại lệ duy nhất không cần tăng bản: sổ 08-cap-nhat/DU-AN-DANG-KY.json"); 1.6.2 của phiên khác cũng đã phải tăng bản chỉ vì lý do này. Tăng bản cho sổ thì mọi dự án lại bị coi là tụt bản ⇒ vòng không dứt. Huynh duyệt: câu *"Huynh duyệt sửa cổng kho cho đúng ngoại lệ sổ đăng ký (commit chỉ gồm đúng tệp DU-AN-DANG-KY.json thì không đòi tăng bản; mọi phép khác vẫn chạy) không?"* → *"Duyệt (Recommended)"* (điều dừng 5, đã khai AI được lợi nếu nới).
+
+| Lớp | Mức | Tệp | Vì sao |
+|---|---|---|---|
+| lõi chung | khuyến nghị | `04-cong-may/kiem-kho-phat-hanh.cjs` | (a) Commit gồm **đúng một** tệp `08-cap-nhat/DU-AN-DANG-KY.json` ⇒ bỏ phép tăng bản + mục CHANGELOG; vẫn đòi sổ đọc được JSON, bản cài thử = bản commit, cài thử dự án trống xanh. Thêm bất kỳ tệp nào khác ⇒ luật thường. (b) Bản cài thử chạy môi trường **không** có `HARNESS_ROOT` / `CLAUDE_PROJECT_DIR` (kế thừa làm công cụ trong dự án tạm trỏ nhầm gốc). Thử trên bản sao kho: sổ riêng không tăng bản ⇒ xanh; sổ + CLAUDE.md không tăng bản ⇒ đỏ "VERSION không tăng" |
+| sổ | — | `08-cap-nhat/DU-AN-DANG-KY.json` | ChildDressShop lên 1.6.2 (commit dự án `f48c457`) |
+
+**Dự án nhận:** không phải làm gì (cổng kho chỉ chạy ở kho); `cap-nhat.cjs` sẽ chép bản công cụ mới khi dự án kéo bản kế.
+
 ## 1.6.2 — 2026-10-19 · tệp bàn giao phiên GlobalHarness (không đổi luật)
 
 Nguồn: phiên GlobalHarness 18/10 · Huynh *"tạo handoff để mai làm"* rồi *"đẩy github đi"*.

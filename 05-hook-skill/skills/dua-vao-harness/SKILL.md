@@ -1,12 +1,13 @@
 ---
 name: dua-vao-harness
-description: Đưa một bài học / luật / công cụ từ dự án đang làm vào kho Harness dùng chung — viết lại cho chung, gắn lớp (lõi chung / gói theo loại / riêng), cài thử vào dự án trống, tăng VERSION, ghi CHANGELOG, commit và đẩy GitHub kèm ghi chú. Dùng khi chủ dự án gõ "đưa vào harness", "cập nhật harness này lên kho", hoặc chỉ thị đưa một điều gì vào bộ harness. KHÔNG dùng để kéo harness về dự án (đó là skill cap-nhat-harness).
+description: Đưa một bài học / luật / công cụ từ ProjectHarness của dự án đang làm vào GlobalHarness (kho dùng chung) — chỉ cơ chế điều hành AI theo pipeline, không đưa nguồn dữ liệu hay nội dung miền — viết lại cho chung, gắn lớp (lõi chung / gói theo loại / riêng), cài thử vào dự án trống, tăng VERSION, ghi CHANGELOG, commit và đẩy GitHub kèm ghi chú. Dùng khi chủ dự án gõ "đưa vào harness", "cập nhật harness này lên kho", hoặc chỉ thị đưa một điều gì vào bộ harness. KHÔNG dùng để kéo harness về dự án (đó là skill cap-nhat-harness).
 ---
 
-# Đưa vào harness — 7 bước, bước nào đỏ thì DỪNG
+# Đưa vào GlobalHarness — 7 bước, bước nào đỏ thì DỪNG
 
 > Câu kích hoạt: **"đưa vào harness"** (kèm điều gì). Chính câu đó là sự duyệt của Huynh cho **nội dung**; các chốt dưới đây thì không câu nào gỡ được.
-> Cơ chế 1 của harness: bài học mới chỉ nằm trong từng dự án; luật quản AI là của Huynh (điều dừng 5) nên lệnh của Huynh = sự duyệt.
+> **GlobalHarness** = kho dùng chung; **ProjectHarness** = bản cài trong dự án đang làm. Skill này đi một chiều ProjectHarness → GlobalHarness.
+> Cơ chế 1: bài học mới chỉ nằm trong ProjectHarness của từng dự án; luật quản AI là của Huynh (điều dừng 5) nên lệnh của Huynh = sự duyệt.
 > Kho: `D:\OneDrive\AI\Harness` (PC) · `https://github.com/cuongtmvn/Harness.git` (mọi nơi). Đường dẫn ghi ở `.harness-manifest.json › harnessPath` của dự án.
 
 ## Bước 1 — ĐỒNG BỘ KHO (chặn rủi ro hai dự án cùng sửa)
@@ -22,7 +23,8 @@ Không có ổ ⇒ `git clone https://github.com/cuongtmvn/Harness.git` vào th�
 Trả lời **bằng chữ, trước khi sửa tệp**:
 | Câu | Không trả lời được ⇒ |
 |---|---|
-| Bài học này **chặn lỗi gì / tiết kiệm gì**? | ⛔ không đưa (chặn harness phình to) |
+| Bài học này **chặn lỗi gì / tiết kiệm gì**? | ⛔ không đưa (chặn GlobalHarness phình to) |
+| Đây có phải **cơ chế điều hành AI theo pipeline** (Bước, cổng, truy vết, review, dây cương, đo lường, chọn model)? Hay là **nguồn dữ liệu / cách thu thập (web, trình duyệt, API) / nội dung miền nghiệp vụ**? | Loại sau ⇒ lớp **riêng**, ⛔ không đưa — ở lại ProjectHarness (Huynh chốt 18/10/2026) |
 | **Bằng chứng**: dòng Dev Book / sự cố nào ở dự án gốc? | ghi vào CHANGELOG, không có thì ghi "chưa có ca thật" |
 | **Lớp**: *lõi chung* (mọi dự án) · *gói `<loại>`* (`web`, `desktop-tauri`, `mobile`…) · *riêng* (ở lại dự án, ⛔ không đưa) | mặc định **gói**, không mặc định lõi |
 | **Bắt buộc** hay **khuyến nghị** với dự án nhận? | mặc định khuyến nghị |
@@ -58,7 +60,7 @@ node <harnessPath>/04-cong-may/kiem-luat.cjs --mat --trung   # nếu chạm file
 
 ## Bước 6 — COMMIT + ĐẨY GITHUB (luôn kèm ghi chú)
 
-Trong kho harness, **"đẩy GitHub đi"** qua skill `day-git` (chế độ ĐẦY ĐỦ — kho harness không có người dùng thật, đẩy GitHub là mục đích). Thông điệp commit **bắt buộc** theo khuôn:
+Trong GlobalHarness, **"đẩy GitHub đi"** qua skill `day-git` (chế độ ĐẦY ĐỦ — GlobalHarness không có người dùng thật, đẩy GitHub là mục đích). Thông điệp commit **bắt buộc** theo khuôn:
 ```
 harness <bản>: <một dòng tóm tắt>
 
@@ -72,4 +74,4 @@ Sau khi đẩy: `git log -1 --stat` dán vào báo cáo. Dự án khác sẽ đ�
 `Output/DEVBOOK.md` của dự án gốc: *"Đã đưa vào harness bản <bản>: <gì> — commit <hash>"*. Nếu dự án gốc cũng nên nhận lại (ví dụ công cụ mới), chạy skill `cap-nhat-harness` ngay.
 
 ### ✅ Kiểm chứng xong
-`git log origin/main -1` ở kho harness là commit vừa đẩy · `VERSION` tăng · `CHANGELOG.md` có mục cùng nội dung thông điệp commit · `kiem-harness` xanh trên dự án trống · Dev Book dự án gốc có dòng ghi vết.
+`git log origin/main -1` ở GlobalHarness là commit vừa đẩy · `VERSION` tăng · `CHANGELOG.md` có mục cùng nội dung thông điệp commit · `kiem-harness` xanh trên dự án trống · Dev Book dự án gốc có dòng ghi vết.

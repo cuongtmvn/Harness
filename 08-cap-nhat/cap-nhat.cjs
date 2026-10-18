@@ -70,7 +70,7 @@ for (const m of B.banDo(HARNESS, GOC, C, ten)) {
 }
 
 const in_ = (tieuDe, ds, fmt) => { if (!ds.length) return; console.log(`\n${tieuDe} (${ds.length}):`); ds.forEach((x) => console.log('   · ' + (fmt ? fmt(x) : x))); };
-console.log(`=== cap-nhat harness: dự án đang dùng ${mf.harnessVersion} · harness hiện có ${BAN_MOI} · ${GOC} ===`);
+console.log(`=== cap-nhat: ProjectHarness đang dùng ${mf.harnessVersion} · GlobalHarness hiện có ${BAN_MOI} · ${GOC} ===`);
 if (DANG_KY) {
   in_('✅ Tệp TRÙNG harness (nhận cập nhật thẳng sau này)', ket.trung);
   in_('✏️ Tệp KHÁC harness — ghi nhận là bản riêng của dự án (không ghi đè)', ket.rieng);
@@ -100,7 +100,7 @@ if (AP_DUNG) {
   mf.harnessVersion = BAN_MOI; mf.harnessPath = HARNESS; mf.ngayCapNhat = new Date().toISOString().slice(0, 10);
   fs.writeFileSync(TEP_MF, JSON.stringify(mf, null, 2) + '\n', 'utf8');
   console.log(`\n✅ Đã ghi ${n} tệp · bảng kê lên bản ${BAN_MOI}.` + (ket.xungDot.length ? ` ${ket.xungDot.length} tệp xung đột để nguyên — bảng kê vẫn giữ mã băm cũ cho chúng.` : ''));
-  console.log('   Việc tiếp: đọc CHANGELOG.md mục bản mới (mục BẮT BUỘC phải làm) · ghi Dev Book "đã cập nhật harness bản ' + BAN_MOI + '" · đẩy git qua skill day-git · cập nhật DU-AN-DANG-KY.json.');
+  console.log('   Việc tiếp: đọc CHANGELOG.md mục bản mới (mục BẮT BUỘC phải làm) · ghi Dev Book "đã cập nhật ProjectHarness lên GlobalHarness bản ' + BAN_MOI + '" · đẩy git qua skill day-git · cập nhật DU-AN-DANG-KY.json.');
   if (!args.includes('--kho')) {
     const kh = path.join(GOC, C.thuMuc.log, 'kiem-harness.cjs');
     if (fs.existsSync(kh)) { console.log(`\n--- node ${C.thuMuc.log}/kiem-harness.cjs ---`); try { console.log(execSync(`node ${JSON.stringify(kh)}`, { cwd: GOC, encoding: 'utf8' })); } catch (e) { console.log((e.stdout || '') + (e.stderr || '')); } }

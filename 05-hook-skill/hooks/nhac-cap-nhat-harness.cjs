@@ -1,7 +1,10 @@
 #!/usr/bin/env node
 'use strict';
 /*
- * SessionStart hook — NHẮC khi harness có bản mới hơn bản dự án đang dùng. CHỈ NHẮC, không sửa gì.
+ * SessionStart hook — NHẮC khi GlobalHarness có bản mới hơn ProjectHarness dự án đang dùng. CHỈ NHẮC, không sửa gì.
+ * Từ 1.4.0: mỗi phiên còn in MỘT dòng định vị GlobalHarness ≠ ProjectHarness (luật L-HARNESS-01) — đi theo
+ * nhóm công cụ nên tới cả dự án cũ có CLAUDE.md riêng (Huynh chốt 18/10/2026: "đệ phải chỉ thị rõ ràng, để tất
+ * cả các dự án không được phép nhầm lẫn global và mức cục bộ của Project").
  *
  * *** VÌ SAO ***
  * Cơ chế 2 của harness: harness cải tiến thì các dự án phải biết để cập nhật. Không đẩy được thông báo
@@ -21,10 +24,13 @@ if (/onedrive/i.test(K.GOC)) LOI.push(`📁 Repo nằm trong OneDrive (${K.GOC})
 function xuat() { if (LOI.length) process.stdout.write(JSON.stringify({ hookSpecificOutput: { hookEventName: 'SessionStart', additionalContext: LOI.join('\n') } })); process.exit(0); }
 if (!MF || !MF.harnessVersion) xuat();
 
+// Nhắc thứ ba — luôn có khi dự án có bảng kê: phân biệt GlobalHarness / ProjectHarness (L-HARNESS-01, bản 1.4.0).
+LOI.push(`🧭 Dự án này chạy ProjectHarness bản ${MF.harnessVersion} (Instructions/ · Log/ · .claude/ · harness.config.json · CLAUDE.md — chỉ tác dụng trong dự án này). GlobalHarness = kho dùng chung tại ${MF.harnessPath || MF.harnessRepo || '(xem .harness-manifest.json)'} — ⛔ ${K.vai.ai} không sửa trực tiếp từ phiên dự án; chỉ đổi qua "đưa vào harness". Báo cáo luôn ghi rõ ProjectHarness hay GlobalHarness, không viết trống "harness".`);
+
 const so = (a, b) => { const x = String(a).split('.').map(Number), y = String(b).split('.').map(Number); for (let i = 0; i < 3; i++) if ((x[i] || 0) !== (y[i] || 0)) return (x[i] || 0) - (y[i] || 0); return 0; };
 function nhac(banMoi, nguon) {
   if (so(banMoi, MF.harnessVersion) <= 0) return;
-  LOI.push(`📦 Harness có bản ${banMoi} (dự án đang dùng ${MF.harnessVersion}, nguồn: ${nguon}). Gõ "cập nhật harness" để xem gì đổi — đọc CHANGELOG.md mục ${banMoi} trước; chỉ cập nhật khi ${K.vai.chu} bảo, không tự sửa giữa Bước đang dở.`);
+  LOI.push(`📦 GlobalHarness có bản ${banMoi} (ProjectHarness của dự án đang dùng ${MF.harnessVersion}, nguồn: ${nguon}). Gõ "cập nhật harness" để xem gì đổi — đọc CHANGELOG.md mục ${banMoi} trước; chỉ cập nhật khi ${K.vai.chu} bảo, không tự sửa giữa Bước đang dở.`);
 }
 let local = null;
 try { if (MF.harnessPath) local = K.fs.readFileSync(K.path.join(MF.harnessPath, 'VERSION'), 'utf8').trim(); } catch { local = null; }

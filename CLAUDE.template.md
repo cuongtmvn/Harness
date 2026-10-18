@@ -2,7 +2,7 @@
 
 > File **trí nhớ dự án** — tự nạp mọi phiên. Chứa **luật luôn đúng** + **bảng chỉ đường** tới phần còn lại.
 > Luật dài, chỉ dùng khi làm việc cụ thể ⇒ **không để ở đây**, để ở file được trỏ và nạp đúng lúc.
-> Harness: bộ luật + cổng máy đóng gói từ dự án trước. Cấu hình ở `harness.config.json`. Kiểm cài đặt: `node Log/kiem-harness.cjs`.
+> **ProjectHarness** của dự án này: bản cài từ **GlobalHarness** (kho dùng chung) rồi điều chỉnh cho dự án — chỉ có tác dụng ở đây, không tác động ngược lên GlobalHarness. Cấu hình ở `harness.config.json`. Kiểm cài đặt: `node Log/kiem-harness.cjs`. Nhận bản GlobalHarness mới: *"cập nhật harness"*; đưa bài học lên: *"đưa vào harness"*.
 
 ## Xưng hô
 Chủ dự án = **Huynh**. AI = **CULI** *(hoặc tên vai theo `harness.config.json › vaiTro`)*.
@@ -10,6 +10,23 @@ Tiếng Việt, ngắn gọn, thẳng, có phản biện — không xu nịnh.
 
 ## Bối cảnh 1 dòng
 <Dự án này là gì · ai dùng · đang ở MVP mấy, Round mấy, Bước mấy — cập nhật khi đổi>.
+
+## 🧭 GlobalHarness ≠ ProjectHarness — không được nhầm
+
+| | **ProjectHarness** — của dự án này | **GlobalHarness** — dùng chung |
+|---|---|---|
+| Là gì | Bản cài trong repo này rồi điều chỉnh cho dự án: `Instructions/` · `Log/` · `.claude/` · `harness.config.json` · `CLAUDE.md` | Kho chung cho mọi dự án: `.harness-manifest.json › harnessPath` (ổ máy) · `harnessRepo` (GitHub) |
+| Tác dụng | **Chỉ dự án này** | Mọi dự án — nhưng chỉ tới từng dự án khi dự án đó *"cập nhật harness"* |
+| Sửa thế nào | CULI sửa theo luật dự án (tệp luật: Edit từng khối, kèm sổ `Instructions/LUAT-DANGKY.json`) | ⛔ **Không sửa trực tiếp từ phiên dự án.** Chỉ qua skill `dua-vao-harness` khi Huynh gõ *"đưa vào harness"* |
+| Nhận thay đổi | Từ GlobalHarness: *"cập nhật harness"* — Huynh gật mới áp | Từ dự án: *"đưa vào harness"* — chỉ **cơ chế điều hành AI**, không đưa nguồn dữ liệu / nội dung miền |
+
+**Bốn luật:**
+1. Mọi báo cáo, Dev Book, thông điệp commit ghi rõ **"ProjectHarness"** hay **"GlobalHarness"** — ⛔ không viết trống "harness" khi nói về việc đã sửa.
+2. Sửa tệp trong dự án là sửa **ProjectHarness**. ⛔ Không báo "đã cập nhật harness" hay "đã đưa vào harness" khi chỉ sửa dự án.
+3. ⛔ Không ghi, không commit vào thư mục GlobalHarness từ phiên dự án, trừ khi đang chạy skill `dua-vao-harness` theo lệnh Huynh.
+4. Thứ chỉ đúng cho dự án này (nguồn dữ liệu, công cụ thu thập, miền nghiệp vụ, đường dẫn, tên bảng) ở lại **ProjectHarness**.
+
+Cưỡng chế: hook `SessionStart` in dòng định vị 🧭 mỗi phiên · luật `L-HARNESS-01` trong `Instructions/LUAT-DANGKY.json` (`kiem-luat --mat` kiểm khối này còn có mặt).
 
 ---
 
@@ -26,7 +43,7 @@ Tiếng Việt, ngắn gọn, thẳng, có phản biện — không xu nịnh.
 | *"đẩy git đi"* | Skill `day-git` — 5 bước có kiểm chứng. ⛔ **Cấm gõ tay `git commit`** (hook chặn) |
 | *"đẩy lên production"* | `bash Log/day-len-may-chu.sh` — chặng 1 có cổng UAT→Production, cổng phạm vi, cổng phủ môi trường. ⛔ CULI **không tự cắm cờ ngoại lệ** |
 | *"cập nhật harness"* | Skill `cap-nhat-harness` — đọc CHANGELOG bản mới → xem trước `cap-nhat.cjs` (dry run, chưa ghi) → Huynh gật mới `--ap-dung`. Tệp dự án đã sửa riêng **không bị ghi đè**. Hook `SessionStart` chỉ **nhắc** khi có bản mới |
-| *"đưa vào harness"* | Skill `dua-vao-harness` — viết lại cho chung · gắn lớp (lõi / gói / riêng) · cài thử dự án trống · tăng `VERSION` + `CHANGELOG` · đẩy GitHub kho Harness kèm ghi chú · ghi Dev Book |
+| *"đưa vào harness"* | Skill `dua-vao-harness` — viết lại cho chung · gắn lớp (lõi / gói / riêng) · cài thử dự án trống · tăng `VERSION` + `CHANGELOG` · đẩy GitHub GlobalHarness kèm ghi chú · ghi Dev Book. Chỉ đưa **cơ chế điều hành AI**; nguồn dữ liệu, cách thu thập, nội dung miền ở lại ProjectHarness |
 
 ---
 
@@ -99,7 +116,6 @@ CULI chia việc rồi tự gọi trợ lý và **tự đặt model + effort** t
 | Nội dung, tài liệu, hướng dẫn | `viet-noi-dung` | Sonnet | medium |
 | Vẽ hình, thiết kế giao diện, chấm thẩm mỹ bằng mắt | `ve-hinh` | Opus | high |
 | Tra cứu nhanh trong repo, đếm, tìm tệp | `tra-cuu` | Haiku | low |
-| **Khảo sát web theo cụm** — kiểm kê tính năng / đối thủ / tài liệu công khai, đầu bài rõ, nhiều lượt đọc trang | `general-purpose` | Sonnet | medium |
 | **So sánh nền tảng / công nghệ / pháp lý** — cân đánh đổi, giấy phép, chi phí, ràng buộc địa phương | `general-purpose` | Opus | high |
 | **Tổng hợp nhiều ghi chú thành báo cáo có nguồn** | `general-purpose` | Opus | high |
 | Lõi, tích hợp nhiều phần, gỡ lỗi khó, quyết định thiết kế | phiên chính | Opus | high |
@@ -107,7 +123,7 @@ CULI chia việc rồi tự gọi trợ lý và **tự đặt model + effort** t
 ### Bảng 2 — theo Bước: phiên chính (Huynh đặt `/model`) · trợ lý (CULI đặt)
 | Bước | Phiên chính — khuyến nghị | Trợ lý CULI gọi | Vì sao |
 |---|---|---|---|
-| 0 Phạm vi | Model mạnh nhất có sẵn, high *(Opus high nếu muốn tiết kiệm)* | khảo sát web Sonnet medium · so sánh Opus high · báo cáo Opus high · review độc lập `tester` | Định khung mọi Bước sau; review mọi Round |
+| 0 Phạm vi | Model mạnh nhất có sẵn, high *(Opus high nếu muốn tiết kiệm)* | so sánh Opus high · tổng hợp báo cáo Opus high · review độc lập `tester` | Định khung mọi Bước sau; review mọi Round |
 | 1 SRS · 2 Module · 3 Kiến trúc | Opus high *(xhigh khi chọn nền tảng ở Bước 3)* | `viet-noi-dung` Sonnet medium · `tra-cuu` Haiku low | Quyết định `D-ARCH` do phiên chính |
 | 4 WBS · 5 Ước lượng · 7 DoR | Opus medium | — | Việc sổ sách, ít suy luận sâu |
 | 6 Rủi ro + dây cương | Opus high | — | Chạm `LEASH-BANG.json` = luật quản AI, điều dừng 5 |
@@ -117,7 +133,7 @@ CULI chia việc rồi tự gọi trợ lý và **tự đặt model + effort** t
 
 Tên model ghi theo **dòng** (Haiku · Sonnet · Opus), không ghi số phiên bản — dùng bản mới nhất của dòng đó. Dự án đổi bảng cho hợp mình thì sửa ở `CLAUDE.md` của dự án.
 
-**Đọc web:** trang công khai đọc bằng công cụ tải trang; trang nặng JavaScript hoặc cần thao tác (giỏ hàng, bộ lọc) thì dùng trình duyệt điều khiển được nếu chủ dự án đã bật. ⛔ Không đăng nhập, không gửi biểu mẫu, không đặt hàng / thanh toán hộ (điều dừng 6).
+Thu thập dữ liệu ở đâu, bằng công cụ gì (web, trình duyệt, API, tài liệu nội bộ…) là **đặc thù dự án** — dự án tự thêm hàng vào Bảng 1 của mình nếu cần.
 
 Việc chạm vùng A+ vẫn dừng hỏi Huynh dù giao cho vai nào.
 

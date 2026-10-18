@@ -55,7 +55,7 @@ fs.mkdirSync(path.join(GOC, TM.log, 'doc-health-theo-buoc'), { recursive: true }
 fs.mkdirSync(path.join(GOC, TM.tests), { recursive: true });
 fs.writeFileSync(path.join(GOC, B.TEN_MANIFEST), JSON.stringify(manifest, null, 2) + '\n', 'utf8');
 
-console.log(`=== cai-dat harness ${manifest.harnessVersion} → ${GOC} ===`);
+console.log(`=== cai-dat: GlobalHarness ${manifest.harnessVersion} → ProjectHarness tại ${GOC} ===`);
 console.log(`  Đã chép: ${daChep.length} tệp` + (boQua.length ? ` · Giữ nguyên (đã có): ${boQua.length}` : '') + ` · bảng kê: ${B.TEN_MANIFEST}`);
 if (boQua.length) boQua.forEach((f) => console.log(`     · giữ: ${f}`));
 console.log('\n📌 VIỆC TIẾP THEO (không tự động, cố ý):');

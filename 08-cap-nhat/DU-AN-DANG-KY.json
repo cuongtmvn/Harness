@@ -2,12 +2,12 @@
   "_doc": "SỔ ĐĂNG KÝ DỰ ÁN DÙNG HARNESS — nhìn một bảng biết dự án nào đang ở bản nào. Cập nhật khi: cài harness vào dự án mới · chạy cap-nhat.cjs --ap-dung · đăng ký lần đầu (--dang-ky). Trường banDangDung = harnessVersion trong .harness-manifest.json của dự án; null = chưa có bảng kê.",
   "duAn": [
     {
-      "ten": "Harness",
+      "ten": "GlobalHarness",
       "duongDan": "D:\\OneDrive\\AI\\Harness",
       "repo": "https://github.com/cuongtmvn/Harness.git",
       "loai": "harness",
       "banDangDung": "xem tệp VERSION — không chép số vào đây để khỏi lệch",
-      "ghiChu": "Chính kho harness. Phiên mở ở đây đọc CLAUDE.md của kho để biết luật sửa harness."
+      "ghiChu": "GlobalHarness — chính kho dùng chung (thư mục và repo giữ tên Harness). Phiên mở ở đây đọc CLAUDE.md của kho để biết luật sửa harness."
     },
     {
       "ten": "Thiên Số",

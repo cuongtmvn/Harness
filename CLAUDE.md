@@ -1,6 +1,7 @@
-# CLAUDE.md — kho HARNESS (bộ luật + cổng máy dùng lại cho mọi dự án)
+# CLAUDE.md — GlobalHarness (bộ luật + cổng máy dùng lại cho mọi dự án)
 
-> Đây là **kho nguồn harness**, không phải một dự án phần mềm. Phiên mở ở đây làm hai việc: **sửa harness** (theo cơ chế 1) hoặc **tra cứu để cập nhật dự án khác** (cơ chế 2). Không có `Instructions/`, `Output/`, `Log/` ở đây — chúng chỉ xuất hiện trong dự án sau khi cài.
+> **GlobalHarness** = kho này, dùng chung cho mọi dự án (thư mục `D:\OneDrive\AI\Harness`, repo `cuongtmvn/Harness`). **ProjectHarness** = bản cài trong từng dự án, dự án tự điều chỉnh, không tác động ngược lên đây. Tên thư mục, repo, tệp và câu lệnh *"cập nhật harness"* / *"đưa vào harness"* giữ nguyên. Định nghĩa đủ: `README.md` mục Thuật ngữ. ⛔ Phiên mở ở **dự án khác** không được ghi / commit vào thư mục này, trừ khi đang chạy skill `dua-vao-harness` theo lệnh Huynh (luật `L-HARNESS-01`).
+> Đây là **GlobalHarness — kho nguồn**, không phải một dự án phần mềm. Phiên mở ở đây làm hai việc: **sửa GlobalHarness** (theo cơ chế 1) hoặc **tra cứu để cập nhật dự án khác** (cơ chế 2). Không có `Instructions/`, `Output/`, `Log/` ở đây — chúng chỉ xuất hiện trong dự án sau khi cài.
 
 ## Xưng hô
 Chủ dự án = **Huynh**. AI = **ĐỆ** (ở dự án thì là CULI theo `harness.config.json › vaiTro`). Tiếng Việt, ngắn, thẳng, có phản biện.
@@ -23,11 +24,11 @@ Chủ dự án = **Huynh**. AI = **ĐỆ** (ở dự án thì là CULI theo `har
 
 ## 🔒 Luật của kho
 
-1. **Mọi thay đổi nội dung harness = tăng `VERSION` + mục `CHANGELOG.md`** (PATCH chữ/lỗi · MINOR thêm · MAJOR đổi cấu trúc/khoá). Sửa `MO-TA-HARNESS.html` hay README không đổi luật thì PATCH. Ngoại lệ duy nhất không cần tăng bản: sổ `08-cap-nhat/DU-AN-DANG-KY.json` (ghi dự án nào ở bản nào) — vẫn commit + đẩy GitHub với thông điệp `sổ đăng ký: …`.
+1. **Mọi thay đổi nội dung GlobalHarness = tăng `VERSION` + mục `CHANGELOG.md`** (PATCH chữ/lỗi · MINOR thêm · MAJOR đổi cấu trúc/khoá). Sửa `MO-TA-HARNESS.html` hay README không đổi luật thì PATCH. Ngoại lệ duy nhất không cần tăng bản: sổ `08-cap-nhat/DU-AN-DANG-KY.json` (ghi dự án nào ở bản nào) — vẫn commit + đẩy GitHub với thông điệp `sổ đăng ký: …`.
 2. **Không đẩy GitHub mà thiếu ghi chú** — ghi chú = mục CHANGELOG + thông điệp commit trùng nhau.
 3. **Sửa tệp luật (`00`–`03`) = Edit từng khối**, không ghi đè cả tệp; thêm luật thì thêm dòng vào `06-so-ghi/LUAT-DANGKY.json`; chạy `node 04-cong-may/kiem-luat.cjs --mat --trung` sau khi sửa (chạy trong một dự án đã cài, hoặc thư mục cài thử).
 4. **Chạm luật quản AI** (dây cương, 7 điều dừng, cổng, `reviewPolicy`, `congRaRieng`, `csdlThat`, hook, `gate-check.cjs`, `kiem-luat.cjs`, `settings.json`) ⇒ khai *"ĐỆ được lợi nếu nới"* rồi dừng chờ Huynh — điều dừng 5.
-5. **Mọi thứ đưa vào phải trả lời "chặn lỗi gì / tiết kiệm gì"** và gắn lớp lõi / gói / riêng; mặc định gói. Chi tiết riêng dự án (đường dẫn, cổng, tên bảng) không được vào kho.
+5. **Mọi thứ đưa vào phải trả lời "chặn lỗi gì / tiết kiệm gì"** và gắn lớp lõi / gói / riêng; mặc định gói. Chi tiết riêng dự án (đường dẫn, cổng, tên bảng) không được vào kho. **GlobalHarness chỉ giữ cơ chế điều hành AI theo pipeline** (Bước, cổng, truy vết, review, dây cương, đo lường) để tối ưu và không thiếu sót; **nguồn dữ liệu, cách thu thập (web, trình duyệt, API…), nội dung miền nghiệp vụ là riêng dự án** — ở lại ProjectHarness (Huynh chốt 18/10/2026).
 6. **Công cụ mới**: `.cjs`, không gói npm, đọc config qua `04-cong-may/_harness-config.cjs`, thoát 0 / 2; bản đồ chép ở `07-cai-dat/_ban-do.cjs` tự nhận tệp mới trong các thư mục đã liệt kê.
 7. **Trước khi đẩy**: `node 07-cai-dat/cai-dat.cjs <thư-mục-tạm> --ten "Thu nghiem" --kho` → `cd <tạm> && git init -q && node Log/kiem-harness.cjs` phải xanh (cảnh báo về chỗ trống `<...>` và `mocGoc` là bình thường).
 

@@ -1,9 +1,10 @@
 # GlobalHarness — Bộ luật + cổng máy để lái AI làm phần mềm, dùng lại cho mọi dự án mới
 
 > **Thuật ngữ (từ bản 1.4.0):**
-> - **GlobalHarness** = bộ dùng chung cho mọi dự án — chính kho này: thư mục riêng trên máy Huynh (`D:\OneDrive\AI\Harness`), gắn repo GitHub `cuongtmvn/Harness`. Chỉ đổi qua *"đưa vào harness"*.
-> - **ProjectHarness** = bản mỗi dự án kéo về rồi điều chỉnh (bộ cài chép vào `Instructions/`, `Log/`, `.claude/`, `harness.config.json`, `CLAUDE.md` của dự án). Chỉ có tác dụng trong dự án đó, **không tác động ngược** lên GlobalHarness. Nhận bản mới qua *"cập nhật harness"*.
-> - Tên thư mục, tên repo, tên tệp (`harness.config.json`, `kiem-harness.cjs`, `.harness-manifest.json`…) và hai câu lệnh *"cập nhật harness"* / *"đưa vào harness"* **giữ nguyên** để không gãy các dự án đã cài.
+> - **GlobalHarness** = bộ dùng chung cho mọi dự án — chính kho này: thư mục riêng trên máy Huynh (`D:\OneDrive\AI\Harness`), gắn repo GitHub `cuongtmvn/Harness`. Chỉ đổi khi Huynh nói rõ *"cập nhật GlobalHarness"* (câu cũ *"đưa vào harness"*).
+> - **ProjectHarness** = bản mỗi dự án kéo về rồi điều chỉnh (bộ cài chép vào `Instructions/`, `Log/`, `.claude/`, `harness.config.json`, `CLAUDE.md` của dự án). Chỉ có tác dụng trong dự án đó, **không tác động ngược** lên GlobalHarness. *"cập nhật harness"* không nói gì thêm = sửa tầng này, kể cả kéo bản GlobalHarness mới về.
+> - **Quy ước lệnh (từ 1.5.0)** giống git: *"cập nhật harness"* ↔ *"đẩy git đi"* (cục bộ, mặc định) · *"cập nhật GlobalHarness"* ↔ *"đẩy GitHub đi"* (dùng chung, phải nói rõ). AI phân loại tầng trước mỗi điều chỉnh harness. GlobalHarness đổi bản ⇒ hook `SessionStart` + `kiem-harness` cảnh báo các dự án, kèm số mục **bắt buộc**.
+> - Tên thư mục, tên repo, tên tệp (`harness.config.json`, `kiem-harness.cjs`, `.harness-manifest.json`…) **giữ nguyên** để không gãy các dự án đã cài.
 > - **Phạm vi GlobalHarness:** cơ chế điều hành AI theo pipeline — Bước, cổng, truy vết, review, dây cương, đo lường — để tối ưu và không thiếu sót. **Lấy dữ liệu ở đâu, thu thập bằng công cụ gì, nội dung miền nghiệp vụ là đặc thù từng dự án** ⇒ thuộc ProjectHarness, không đưa vào đây.
 
 > Đóng gói 2026-10-16 từ một dự án thật đã chạy 4 MVP, nhiều Round, hàng chục lần cổng bị vượt và được vá. Phần riêng dự án đã bỏ; phần giữ lại là **đường ray 11 Bước · cổng vào/ra từng Bước · chính sách kiểm duyệt theo Round · chuỗi truy vết từ yêu cầu tới kiểm thử · 17 công cụ cổng máy · 6 hook · 1 skill · 15 bài học thiết kế cổng**.

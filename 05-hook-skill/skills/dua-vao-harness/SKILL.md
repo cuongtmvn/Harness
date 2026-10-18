@@ -1,11 +1,11 @@
 ---
 name: dua-vao-harness
-description: Đưa một bài học / luật / công cụ từ ProjectHarness của dự án đang làm vào GlobalHarness (kho dùng chung) — chỉ cơ chế điều hành AI theo pipeline, không đưa nguồn dữ liệu hay nội dung miền — viết lại cho chung, gắn lớp (lõi chung / gói theo loại / riêng), cài thử vào dự án trống, tăng VERSION, ghi CHANGELOG, commit và đẩy GitHub kèm ghi chú. Dùng khi chủ dự án gõ "đưa vào harness", "cập nhật harness này lên kho", hoặc chỉ thị đưa một điều gì vào bộ harness. KHÔNG dùng để kéo harness về dự án (đó là skill cap-nhat-harness).
+description: Đưa một bài học / luật / công cụ từ ProjectHarness của dự án đang làm vào GlobalHarness (kho dùng chung) — chỉ cơ chế điều hành AI theo pipeline, không đưa nguồn dữ liệu hay nội dung miền — viết lại cho chung, gắn lớp (lõi chung / gói theo loại / riêng), cài thử vào dự án trống, tăng VERSION, ghi CHANGELOG, commit và đẩy GitHub kèm ghi chú. Dùng khi chủ dự án NÓI RÕ "cập nhật GlobalHarness" (câu cũ: "đưa vào harness"). KHÔNG dùng khi chủ dự án chỉ nói "cập nhật harness" — câu đó mặc định là tầng ProjectHarness (skill cap-nhat-harness / sửa harness dự án).
 ---
 
 # Đưa vào GlobalHarness — 7 bước, bước nào đỏ thì DỪNG
 
-> Câu kích hoạt: **"đưa vào harness"** (kèm điều gì). Chính câu đó là sự duyệt của Huynh cho **nội dung**; các chốt dưới đây thì không câu nào gỡ được.
+> Câu kích hoạt: **"cập nhật GlobalHarness"** (câu cũ *"đưa vào harness"*), kèm điều gì. Chính câu đó là sự duyệt của Huynh cho **nội dung và cho việc commit + đẩy GitHub kho chung**; các chốt dưới đây thì không câu nào gỡ được. ⛔ Huynh chỉ nói *"cập nhật harness"* ⇒ **không** chạy skill này — đó là tầng ProjectHarness; nếu thấy điều chỉnh nên dùng chung thì **đề xuất** và chờ câu *"cập nhật GlobalHarness"*.
 > **GlobalHarness** = kho dùng chung; **ProjectHarness** = bản cài trong dự án đang làm. Skill này đi một chiều ProjectHarness → GlobalHarness.
 > Cơ chế 1: bài học mới chỉ nằm trong ProjectHarness của từng dự án; luật quản AI là của Huynh (điều dừng 5) nên lệnh của Huynh = sự duyệt.
 > Kho: `D:\OneDrive\AI\Harness` (PC) · `https://github.com/cuongtmvn/Harness.git` (mọi nơi). Đường dẫn ghi ở `.harness-manifest.json › harnessPath` của dự án.

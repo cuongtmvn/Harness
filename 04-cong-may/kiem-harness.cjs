@@ -50,6 +50,27 @@ else if (!(C.dayGit || {}).mocGoc) canh.push('dayGit.mocGoc trống — đặt b
 if (!fs.existsSync(H.P('.harness-manifest.json'))) canh.push('Chưa có .harness-manifest.json — cap-nhat.cjs không biết tệp nào dự án đã sửa; đăng ký: node <Harness>/08-cap-nhat/cap-nhat.cjs . --dang-ky');
 for (const s of ['cap-nhat-harness', 'dua-vao-harness']) if (!fs.existsSync(H.P('.claude', 'skills', s, 'SKILL.md'))) canh.push(`Chưa có .claude/skills/${s}/SKILL.md (harness ≥ 1.1.0) — chạy cap-nhat.cjs --ap-dung để nhận`);
 
+// ② bis — ProjectHarness tụt bản so với GlobalHarness (từ 1.5.0 · L-HARNESS-01 luật 5). Chỉ CẢNH BÁO, không chặn:
+// GlobalHarness có bản mới thì mọi lần kiểm / đóng Bước đều thấy, không chỉ lúc mở phiên.
+try {
+  const mf = JSON.parse(fs.readFileSync(H.P('.harness-manifest.json'), 'utf8'));
+  const gp = mf.harnessPath;
+  const vG = gp && fs.existsSync(path.join(gp, 'VERSION')) ? fs.readFileSync(path.join(gp, 'VERSION'), 'utf8').trim() : null;
+  const so = (a, b) => { const x = String(a).split('.').map(Number), y = String(b).split('.').map(Number); for (let i = 0; i < 3; i++) if ((x[i] || 0) !== (y[i] || 0)) return (x[i] || 0) - (y[i] || 0); return 0; };
+  if (vG && so(vG, mf.harnessVersion) > 0) {
+    let batBuoc = 0;
+    try {
+      let ban = null;
+      for (const dong of fs.readFileSync(path.join(gp, 'CHANGELOG.md'), 'utf8').split('\n')) {
+        const m = dong.match(/^##\s+(\d+\.\d+\.\d+)/);
+        if (m) { ban = m[1]; continue; }
+        if (ban && so(ban, mf.harnessVersion) > 0 && so(ban, vG) <= 0 && /^\|/.test(dong) && /\*\*bắt buộc\*\*/i.test(dong)) batBuoc++;
+      }
+    } catch { batBuoc = -1; }
+    canh.push(`ProjectHarness đang ở ${mf.harnessVersion}, GlobalHarness đã có ${vG}` + (batBuoc > 0 ? ` — ${batBuoc} mục BẮT BUỘC chưa nhận` : batBuoc === 0 ? ' (chỉ mục khuyến nghị)' : '') + ` · đọc ${path.join(gp, 'CHANGELOG.md')} rồi Huynh nói "cập nhật harness" để kéo về`);
+  }
+} catch { /* chưa có bảng kê đã cảnh báo ở trên */ }
+
 // ③ sổ luật · dây cương
 if (fs.existsSync(H.P(log, 'kiem-luat.cjs'))) { try { execSync(`node ${JSON.stringify(H.P(log, 'kiem-luat.cjs'))} --mat --trung`, { cwd: H.ROOT, stdio: 'pipe' }); } catch (e) { loi.push('kiem-luat --mat --trung ĐỎ — sổ đăng ký luật lệch với file luật (xem node Log/kiem-luat.cjs)'); } }
 const lb = H.docJson(H.tep('LEASH'), null);

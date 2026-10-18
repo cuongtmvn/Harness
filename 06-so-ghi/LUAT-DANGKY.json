@@ -539,11 +539,11 @@
     {
       "id": "L-HARNESS-01",
       "muc": "①",
-      "tomtat": "GlobalHarness ≠ ProjectHarness — không nhầm tầng",
+      "tomtat": "GlobalHarness ≠ ProjectHarness — mặc định ProjectHarness, chỉ sửa GlobalHarness khi chủ dự án nói rõ; AI phân loại tầng mỗi điều chỉnh",
       "file": "CLAUDE.md",
       "neo": "GlobalHarness ≠ ProjectHarness — không được nhầm",
-      "cochequuongche": "hook SessionStart nhac-cap-nhat-harness.cjs in dòng định vị 🧭 mỗi phiên · skill dua-vao-harness là đường duy nhất sửa GlobalHarness · kiem-luat --mat kiểm khối luật còn trong CLAUDE.md",
-      "botdi_thi_sao": "Sửa ProjectHarness rồi báo như đã sửa bộ chung, hoặc phiên dự án ghi thẳng vào kho chung làm lan ra mọi dự án (ChildDressShop 18/10: đưa hàng \"khảo sát web\" — đặc thù dự án — vào lõi 1.3.0, Huynh phải gỡ)",
+      "cochequuongche": "hook SessionStart nhac-cap-nhat-harness.cjs in dòng 🧭 + báo bản GlobalHarness mới kèm số mục bắt buộc · kiem-harness.cjs cảnh báo ProjectHarness tụt bản · lệnh \"cập nhật harness\" (Project, mặc định) / \"cập nhật GlobalHarness\" (Global, nói rõ) · kiem-luat --mat kiểm khối luật còn trong CLAUDE.md · phân loại tầng: kỷ luật của AI",
+      "botdi_thi_sao": "Sửa nhầm tầng: thứ đặc thù dự án lên kho chung (1.3.0: hàng khảo sát web), hoặc luật cấm sai làm tắc việc cập nhật kho chung (1.4.0 luật 3, chủ dự án bác 18/10/2026); dự án không biết kho chung đã đổi nên chạy luật cũ",
       "trangthai": "song"
     }
   ]

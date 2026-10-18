@@ -1,12 +1,12 @@
 ---
 name: cap-nhat-harness
-description: Kéo bản GlobalHarness mới về ProjectHarness của dự án đang mở theo bảng kê .harness-manifest.json — chỉ báo trước, áp dụng khi chủ dự án gật, không ghi đè tệp dự án đã tự sửa. Dùng khi chủ dự án gõ "cập nhật harness", hoặc khi hook SessionStart nhắc "Harness có bản mới". KHÔNG dùng để sửa chính kho harness (đó là skill dua-vao-harness).
+description: Kéo bản GlobalHarness mới về ProjectHarness của dự án đang mở theo bảng kê .harness-manifest.json — chỉ báo trước, áp dụng khi chủ dự án gật, không ghi đè tệp dự án đã tự sửa. Dùng khi chủ dự án gõ "cập nhật harness" (không nói gì thêm = tầng ProjectHarness), hoặc khi hook SessionStart / kiem-harness báo "GlobalHarness có bản …". KHÔNG dùng để sửa kho chung (đó là skill dua-vao-harness, chỉ khi chủ dự án nói rõ "cập nhật GlobalHarness").
 ---
 
 # Cập nhật ProjectHarness — kéo bản GlobalHarness mới về dự án, 4 bước có kiểm chứng
 
 > Câu kích hoạt: **"cập nhật harness"**. Vai: *Huynh* = chủ dự án, *CULI* = AI (`harness.config.json › vaiTro`).
-> **GlobalHarness** = kho dùng chung (`harnessPath`); **ProjectHarness** = bản cài trong dự án này. Skill này đi một chiều GlobalHarness → ProjectHarness; tệp dự án đã tự sửa không bị ghi đè.
+> **GlobalHarness** = kho dùng chung (`harnessPath`); **ProjectHarness** = bản cài trong dự án này. Skill này đi một chiều GlobalHarness → ProjectHarness; tệp dự án đã tự sửa không bị ghi đè. Ghi `banDangDung` của dự án vào sổ `08-cap-nhat/DU-AN-DANG-KY.json` ở GlobalHarness là **một phần** của skill này (sổ đăng ký, không phải nội dung luật — không cần tăng VERSION, commit với thông điệp `sổ đăng ký: …`).
 > Cơ chế 2 của harness: harness cải tiến ⇒ dự án được **nhắc** (hook `nhac-cap-nhat-harness.cjs` lúc mở phiên) ⇒ cập nhật **khi Huynh bảo**. ⛔ Không tự cập nhật giữa một Bước đang dở.
 
 ## Bước 1 — XEM GÌ ĐỔI (chưa ghi gì)

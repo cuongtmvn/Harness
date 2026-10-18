@@ -2,7 +2,7 @@
 
 > File **trí nhớ dự án** — tự nạp mọi phiên. Chứa **luật luôn đúng** + **bảng chỉ đường** tới phần còn lại.
 > Luật dài, chỉ dùng khi làm việc cụ thể ⇒ **không để ở đây**, để ở file được trỏ và nạp đúng lúc.
-> **ProjectHarness** của dự án này: bản cài từ **GlobalHarness** (kho dùng chung) rồi điều chỉnh cho dự án — chỉ có tác dụng ở đây, không tác động ngược lên GlobalHarness. Cấu hình ở `harness.config.json`. Kiểm cài đặt: `node Log/kiem-harness.cjs`. Nhận bản GlobalHarness mới: *"cập nhật harness"*; đưa bài học lên: *"đưa vào harness"*.
+> **ProjectHarness** của dự án này: bản cài từ **GlobalHarness** (kho dùng chung) rồi điều chỉnh cho dự án — chỉ có tác dụng ở đây, không tác động ngược lên GlobalHarness. Cấu hình ở `harness.config.json`. Kiểm cài đặt: `node Log/kiem-harness.cjs`. *"cập nhật harness"* (không nói gì thêm) = sửa **ProjectHarness**; *"cập nhật GlobalHarness"* = sửa kho chung.
 
 ## Xưng hô
 Chủ dự án = **Huynh**. AI = **CULI** *(hoặc tên vai theo `harness.config.json › vaiTro`)*.
@@ -16,17 +16,18 @@ Tiếng Việt, ngắn gọn, thẳng, có phản biện — không xu nịnh.
 | | **ProjectHarness** — của dự án này | **GlobalHarness** — dùng chung |
 |---|---|---|
 | Là gì | Bản cài trong repo này rồi điều chỉnh cho dự án: `Instructions/` · `Log/` · `.claude/` · `harness.config.json` · `CLAUDE.md` | Kho chung cho mọi dự án: `.harness-manifest.json › harnessPath` (ổ máy) · `harnessRepo` (GitHub) |
-| Tác dụng | **Chỉ dự án này** | Mọi dự án — nhưng chỉ tới từng dự án khi dự án đó *"cập nhật harness"* |
-| Sửa thế nào | CULI sửa theo luật dự án (tệp luật: Edit từng khối, kèm sổ `Instructions/LUAT-DANGKY.json`) | ⛔ **Không sửa trực tiếp từ phiên dự án.** Chỉ qua skill `dua-vao-harness` khi Huynh gõ *"đưa vào harness"* |
-| Nhận thay đổi | Từ GlobalHarness: *"cập nhật harness"* — Huynh gật mới áp | Từ dự án: *"đưa vào harness"* — chỉ **cơ chế điều hành AI**, không đưa nguồn dữ liệu / nội dung miền |
+| Tác dụng | **Chỉ dự án này** | Mọi dự án — tới từng dự án khi dự án đó kéo bản mới về |
+| Lệnh | *"cập nhật harness"* — **mặc định**, không nói gì thêm thì là tầng này (giống *"đẩy git đi"* = commit ở máy) | *"cập nhật GlobalHarness"* — chỉ khi Huynh **nói rõ** (giống *"đẩy GitHub đi"*); câu cũ *"đưa vào harness"* hiểu như vậy |
+| Sửa thế nào | Chỉnh theo đặc thù dự án; kéo bản GlobalHarness mới về bằng skill `cap-nhat-harness` (không ghi đè tệp dự án đã tự sửa) | Skill `dua-vao-harness`: viết lại cho chung · cài thử dự án trống · tăng `VERSION` + `CHANGELOG` · đẩy GitHub — chỉ **cơ chế điều hành AI**, không đưa nguồn dữ liệu / nội dung miền |
 
-**Bốn luật:**
-1. Mọi báo cáo, Dev Book, thông điệp commit ghi rõ **"ProjectHarness"** hay **"GlobalHarness"** — ⛔ không viết trống "harness" khi nói về việc đã sửa.
-2. Sửa tệp trong dự án là sửa **ProjectHarness**. ⛔ Không báo "đã cập nhật harness" hay "đã đưa vào harness" khi chỉ sửa dự án.
-3. ⛔ Không ghi, không commit vào thư mục GlobalHarness từ phiên dự án, trừ khi đang chạy skill `dua-vao-harness` theo lệnh Huynh.
-4. Thứ chỉ đúng cho dự án này (nguồn dữ liệu, công cụ thu thập, miền nghiệp vụ, đường dẫn, tên bảng) ở lại **ProjectHarness**.
+**CULI kiểm soát tầng — năm luật:**
+1. **Mặc định là ProjectHarness.** Huynh nói *"cập nhật harness"* hay yêu cầu sửa luật / cổng / công cụ / hook / skill / mẫu / bảng model mà không nói tầng ⇒ sửa ProjectHarness. Chỉ sửa GlobalHarness khi Huynh nói rõ *"cập nhật GlobalHarness"*.
+2. **Phân loại trước khi sửa.** Mỗi điều chỉnh harness, CULI ghi một dòng *"Tầng: ProjectHarness / GlobalHarness — vì …"*. Thấy một điều chỉnh của dự án nên dùng chung (cơ chế điều hành AI, không phải đặc thù dự án) ⇒ **đề xuất** lên GlobalHarness và chờ Huynh nói *"cập nhật GlobalHarness"*; ⛔ không tự đẩy lên.
+3. **Thứ chỉ đúng cho dự án này** (nguồn dữ liệu, công cụ thu thập, miền nghiệp vụ, đường dẫn, tên bảng) ở lại ProjectHarness.
+4. **Báo cáo ghi rõ tầng.** Dev Book, thông điệp commit, tin nhắn ghi **"ProjectHarness"** hay **"GlobalHarness"** — ⛔ không viết trống "harness" khi nói về việc đã sửa.
+5. **GlobalHarness có bản mới ⇒ cảnh báo, rồi cập nhật ProjectHarness.** Hook `SessionStart` và `kiem-harness` báo bản mới kèm số mục **bắt buộc**; CULI trình các mục đó trong `CHANGELOG.md`; Huynh nói *"cập nhật harness"* thì kéo về. ⛔ Không mở Bước mới khi còn mục bắt buộc chưa nhận mà chưa hỏi Huynh. Dự án mới: cài GlobalHarness → ProjectHarness rồi chỉnh theo đặc thù.
 
-Cưỡng chế: hook `SessionStart` in dòng định vị 🧭 mỗi phiên · luật `L-HARNESS-01` trong `Instructions/LUAT-DANGKY.json` (`kiem-luat --mat` kiểm khối này còn có mặt).
+Cưỡng chế: hook `SessionStart` in dòng định vị 🧭 và báo bản mới mỗi phiên · `kiem-harness` cảnh báo khi ProjectHarness tụt bản · luật `L-HARNESS-01` trong `Instructions/LUAT-DANGKY.json` (`kiem-luat --mat` kiểm khối này còn có mặt).
 
 ---
 
@@ -42,8 +43,8 @@ Cưỡng chế: hook `SessionStart` in dòng định vị 🧭 mỗi phiên · l
 | *"đóng MVP"* | `node Log/gate-check.cjs --dong-mvp <nn> --ghi` |
 | *"đẩy git đi"* | Skill `day-git` — 5 bước có kiểm chứng. ⛔ **Cấm gõ tay `git commit`** (hook chặn) |
 | *"đẩy lên production"* | `bash Log/day-len-may-chu.sh` — chặng 1 có cổng UAT→Production, cổng phạm vi, cổng phủ môi trường. ⛔ CULI **không tự cắm cờ ngoại lệ** |
-| *"cập nhật harness"* | Skill `cap-nhat-harness` — đọc CHANGELOG bản mới → xem trước `cap-nhat.cjs` (dry run, chưa ghi) → Huynh gật mới `--ap-dung`. Tệp dự án đã sửa riêng **không bị ghi đè**. Hook `SessionStart` chỉ **nhắc** khi có bản mới |
-| *"đưa vào harness"* | Skill `dua-vao-harness` — viết lại cho chung · gắn lớp (lõi / gói / riêng) · cài thử dự án trống · tăng `VERSION` + `CHANGELOG` · đẩy GitHub GlobalHarness kèm ghi chú · ghi Dev Book. Chỉ đưa **cơ chế điều hành AI**; nguồn dữ liệu, cách thu thập, nội dung miền ở lại ProjectHarness |
+| *"cập nhật harness"* | **Tầng ProjectHarness (mặc định).** Sửa harness của dự án này theo yêu cầu; nếu GlobalHarness có bản mới thì skill `cap-nhat-harness` — đọc CHANGELOG bản mới → xem trước `cap-nhat.cjs` (dry run, chưa ghi) → Huynh gật mới `--ap-dung`. Tệp dự án đã sửa riêng **không bị ghi đè**. Ghi sổ đăng ký dự án ở GlobalHarness là một phần của việc này |
+| *"cập nhật GlobalHarness"* *(câu cũ: "đưa vào harness")* | **Tầng GlobalHarness — chỉ khi Huynh nói rõ.** Skill `dua-vao-harness` — viết lại cho chung · gắn lớp (lõi / gói / riêng) · cài thử dự án trống · tăng `VERSION` + `CHANGELOG` · đẩy GitHub GlobalHarness kèm ghi chú · ghi Dev Book. Chỉ đưa **cơ chế điều hành AI**; nguồn dữ liệu, cách thu thập, nội dung miền ở lại ProjectHarness |
 
 ---
 

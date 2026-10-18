@@ -24,13 +24,27 @@ if (/onedrive/i.test(K.GOC)) LOI.push(`📁 Repo nằm trong OneDrive (${K.GOC})
 function xuat() { if (LOI.length) process.stdout.write(JSON.stringify({ hookSpecificOutput: { hookEventName: 'SessionStart', additionalContext: LOI.join('\n') } })); process.exit(0); }
 if (!MF || !MF.harnessVersion) xuat();
 
-// Nhắc thứ ba — luôn có khi dự án có bảng kê: phân biệt GlobalHarness / ProjectHarness (L-HARNESS-01, bản 1.4.0).
-LOI.push(`🧭 Dự án này chạy ProjectHarness bản ${MF.harnessVersion} (Instructions/ · Log/ · .claude/ · harness.config.json · CLAUDE.md — chỉ tác dụng trong dự án này). GlobalHarness = kho dùng chung tại ${MF.harnessPath || MF.harnessRepo || '(xem .harness-manifest.json)'} — ⛔ ${K.vai.ai} không sửa trực tiếp từ phiên dự án; chỉ đổi qua "đưa vào harness". Báo cáo luôn ghi rõ ProjectHarness hay GlobalHarness, không viết trống "harness".`);
+// Nhắc thứ ba — luôn có khi dự án có bảng kê: phân biệt GlobalHarness / ProjectHarness (L-HARNESS-01; quy ước lệnh từ 1.5.0).
+LOI.push(`🧭 Dự án này chạy ProjectHarness bản ${MF.harnessVersion} (Instructions/ · Log/ · .claude/ · harness.config.json · CLAUDE.md — chỉ tác dụng trong dự án này). GlobalHarness = kho dùng chung tại ${MF.harnessPath || MF.harnessRepo || '(xem .harness-manifest.json)'}. "cập nhật harness" (không nói gì thêm) = sửa ProjectHarness; chỉ sửa GlobalHarness khi ${K.vai.chu} nói rõ "cập nhật GlobalHarness". ${K.vai.ai} ghi "Tầng: ProjectHarness / GlobalHarness" trước mỗi điều chỉnh harness và trong mọi báo cáo.`);
 
 const so = (a, b) => { const x = String(a).split('.').map(Number), y = String(b).split('.').map(Number); for (let i = 0; i < 3; i++) if ((x[i] || 0) !== (y[i] || 0)) return (x[i] || 0) - (y[i] || 0); return 0; };
+// Đếm mục **bắt buộc** trong CHANGELOG giữa bản dự án đang dùng và bản mới (chỉ đọc được khi có ổ máy).
+function demBatBuoc(banMoi) {
+  try {
+    let ban = null, n = 0;
+    for (const dong of K.fs.readFileSync(K.path.join(MF.harnessPath, 'CHANGELOG.md'), 'utf8').split('\n')) {
+      const m = dong.match(/^##\s+(\d+\.\d+\.\d+)/);
+      if (m) { ban = m[1]; continue; }
+      if (ban && so(ban, MF.harnessVersion) > 0 && so(ban, banMoi) <= 0 && /^\|/.test(dong) && /\*\*bắt buộc\*\*/i.test(dong)) n++;
+    }
+    return n;
+  } catch { return -1; }
+}
 function nhac(banMoi, nguon) {
   if (so(banMoi, MF.harnessVersion) <= 0) return;
-  LOI.push(`📦 GlobalHarness có bản ${banMoi} (ProjectHarness của dự án đang dùng ${MF.harnessVersion}, nguồn: ${nguon}). Gõ "cập nhật harness" để xem gì đổi — đọc CHANGELOG.md mục ${banMoi} trước; chỉ cập nhật khi ${K.vai.chu} bảo, không tự sửa giữa Bước đang dở.`);
+  const n = nguon === 'ổ máy' ? demBatBuoc(banMoi) : -1;
+  const muc = n > 0 ? ` — ⚠️ ${n} mục BẮT BUỘC chưa nhận` : n === 0 ? ' — chỉ mục khuyến nghị' : '';
+  LOI.push(`📦 GlobalHarness có bản ${banMoi} (ProjectHarness của dự án đang dùng ${MF.harnessVersion}, nguồn: ${nguon})${muc}. ${K.vai.ai} trình ${K.vai.chu} các mục bắt buộc trong CHANGELOG.md từ ${MF.harnessVersion} tới ${banMoi}; ${K.vai.chu} nói "cập nhật harness" thì kéo về ProjectHarness. ⛔ Không tự cập nhật giữa Bước đang dở; không mở Bước mới khi còn mục bắt buộc chưa nhận mà chưa hỏi ${K.vai.chu}.`);
 }
 let local = null;
 try { if (MF.harnessPath) local = K.fs.readFileSync(K.path.join(MF.harnessPath, 'VERSION'), 'utf8').trim(); } catch { local = null; }

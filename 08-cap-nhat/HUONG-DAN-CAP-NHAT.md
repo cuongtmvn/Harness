@@ -1,6 +1,6 @@
 # HƯỚNG DẪN CẬP NHẬT — cho phiên AI ở dự án khác, máy khác, hoặc ngay tại GlobalHarness
 
-> **GlobalHarness** = kho dùng chung (thư mục `<Harness>`, repo `cuongtmvn/Harness`). **ProjectHarness** = bản cài trong từng dự án, chỉ tác dụng trong dự án đó. Hai câu lệnh giữ nguyên: *"đưa vào harness"* = ProjectHarness → GlobalHarness · *"cập nhật harness"* = GlobalHarness → ProjectHarness.
+> **GlobalHarness** = kho dùng chung (thư mục `<Harness>`, repo `cuongtmvn/Harness`). **ProjectHarness** = bản cài trong từng dự án, chỉ tác dụng trong dự án đó. Quy ước lệnh (từ 1.5.0): *"cập nhật harness"* không nói gì thêm = tầng **ProjectHarness** (sửa harness dự án, kể cả kéo bản GlobalHarness mới về) · *"cập nhật GlobalHarness"* (câu cũ *"đưa vào harness"*) = tầng **GlobalHarness**, chỉ khi Huynh nói rõ. GlobalHarness đổi bản ⇒ hook `SessionStart` và `kiem-harness` của mọi dự án cảnh báo, kèm số mục **bắt buộc**.
 
 > Đọc tệp này khi: (a) hook mở phiên báo *"Harness có bản mới"*; (b) Huynh bảo *"đưa vào harness"* / *"cập nhật harness"*; (c) phiên mở trong chính kho `Harness` và cần sửa kho. Luật đầy đủ ở hai skill `05-hook-skill/skills/cap-nhat-harness` và `dua-vao-harness`; tệp này là bản đồ ngắn.
 

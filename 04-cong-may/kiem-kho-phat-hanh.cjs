@@ -26,27 +26,34 @@ const ok = (s) => console.log('  ✅ ' + s);
 const sai = (s) => { loi.push(s); console.log('  🔴 ' + s); };
 
 if (!fs.existsSync(path.join(H.ROOT, '.kho-globalharness'))) { console.log('🛑 Không phải kho GlobalHarness (thiếu .kho-globalharness) — cổng này chỉ dùng ở kho.'); process.exit(2); }
-console.log('=== kiem-kho-phat-hanh — cổng kho GlobalHarness ===');
+// --sau-commit: ghi-vet-day-git gọi SAU commit — đo trên bản ĐÃ COMMIT (HEAD) thay vì vùng staged; bỏ phép so VERSION
+// với origin/main (đã đo trước commit; sau khi đẩy thì hai bản bằng nhau là đúng).
+const SAU = process.argv.includes('--sau-commit');
+const BAN = SAU ? 'HEAD:' : ':';
+console.log(`=== kiem-kho-phat-hanh — cổng kho GlobalHarness${SAU ? ' (sau commit, đo trên HEAD)' : ''} ===`);
 
 // (1) VERSION tăng
 const so = (v) => String(v || '').trim().split('.').map((x) => parseInt(x, 10));
 const lonHon = (a, b) => { for (let i = 0; i < 3; i++) { if ((a[i] || 0) !== (b[i] || 0)) return (a[i] || 0) > (b[i] || 0); } return false; };
-const banMoi = H.git('show :VERSION').trim(); // bản ĐÃ STAGED (thứ sắp commit)
-const banCu = H.git('show origin/main:VERSION').trim();
-if (!banMoi) sai('Không đọc được VERSION trong vùng staged.');
-else if (!banCu) sai('Không đọc được VERSION trên origin/main (chưa fetch?) — không đo được ⇒ đỏ.');
-else if (!lonHon(so(banMoi), so(banCu))) sai(`VERSION không tăng: staged ${banMoi} · origin/main ${banCu}.`);
-else ok(`VERSION tăng: ${banCu} → ${banMoi}`);
+const banMoi = H.git(`show ${BAN}VERSION`).trim(); // bản ĐÃ STAGED (sắp commit) hoặc HEAD (sau commit)
+if (!banMoi) sai(`Không đọc được VERSION (${SAU ? 'HEAD' : 'vùng staged'}).`);
+else if (SAU) ok(`VERSION ở HEAD: ${banMoi} (phép so với origin/main đã chạy trước commit)`);
+else {
+  const banCu = H.git('show origin/main:VERSION').trim();
+  if (!banCu) sai('Không đọc được VERSION trên origin/main (chưa fetch?) — không đo được ⇒ đỏ.');
+  else if (!lonHon(so(banMoi), so(banCu))) sai(`VERSION không tăng: staged ${banMoi} · origin/main ${banCu}.`);
+  else ok(`VERSION tăng: ${banCu} → ${banMoi}`);
+}
 
 // (2) CHANGELOG có mục của bản mới
-const cl = H.git('show :CHANGELOG.md');
+const cl = H.git(`show ${BAN}CHANGELOG.md`);
 if (banMoi && new RegExp('^## ' + banMoi.replace(/\./g, '\\.') + ' — ', 'm').test(cl)) ok(`CHANGELOG.md có mục "## ${banMoi} — …"`);
-else sai(`CHANGELOG.md (staged) không có mục "## ${banMoi} — …".`);
+else sai(`CHANGELOG.md (${SAU ? 'HEAD' : 'staged'}) không có mục "## ${banMoi} — …".`);
 
-// (3) bản cài thử = bản sắp commit
-const chuaStaged = H.git('diff --name-only').split('\n').filter(Boolean);
-if (chuaStaged.length) sai(`Có tệp đã theo dõi bị sửa mà chưa staged (bản cài thử sẽ khác bản commit): ${chuaStaged.join(', ')}`);
-else ok('Không có tệp đã theo dõi bị sửa mà chưa staged');
+// (3) bản cài thử = bản sắp commit (hoặc = HEAD khi sau commit)
+const chuaStaged = H.git(SAU ? 'diff HEAD --name-only' : 'diff --name-only').split('\n').filter(Boolean);
+if (chuaStaged.length) sai(`Có tệp đã theo dõi khác ${SAU ? 'HEAD' : 'vùng staged'} (bản cài thử sẽ khác bản commit): ${chuaStaged.join(', ')}`);
+else ok(`Không có tệp đã theo dõi khác ${SAU ? 'HEAD' : 'vùng staged'}`);
 const THU_MUC_CAI = /^(0[0-9]-[^/]+|CLAUDE\.template\.md|VERSION|harness\.config\.json)(\/|$)/;
 const chuaTheoDoi = H.git('ls-files --others --exclude-standard').split('\n').filter(Boolean).filter((f) => THU_MUC_CAI.test(f));
 if (chuaTheoDoi.length) sai(`Có tệp chưa theo dõi trong thư mục bộ cài chép (sẽ vào bản cài thử nhưng không vào commit): ${chuaTheoDoi.join(', ')}`);

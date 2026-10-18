@@ -2,3 +2,6 @@
 
 # day-git của chính kho (mốc 15 phút, không commit)
 Log/.moc-day-git.json
+
+# Log/ của kho: mốc + vết day-git CHỈ LƯU Ở MÁY (không commit — nếu commit, mỗi lần ghi vết lại phải tăng bản)
+Log/

@@ -1,7 +1,7 @@
 # CLAUDE.md — GlobalHarness (bộ luật + cổng máy dùng lại cho mọi dự án)
 
 > **GlobalHarness** = kho này, dùng chung cho mọi dự án (thư mục `D:\OneDrive\AI\Harness`, repo `cuongtmvn/Harness`). **ProjectHarness** = bản cài trong từng dự án, dự án tự điều chỉnh, không tác động ngược lên đây. Tên thư mục, repo, tệp giữ nguyên. Định nghĩa đủ: `README.md` mục Thuật ngữ. **Quy ước lệnh (Huynh chốt 18/10/2026, luật `L-HARNESS-01`):** *"cập nhật harness"* không nói gì thêm = sửa **ProjectHarness** của dự án đang mở; *"cập nhật GlobalHarness"* (câu cũ *"đưa vào harness"*) = sửa kho này — từ phiên nào cũng được, nhưng **chỉ khi Huynh nói rõ**, qua skill `dua-vao-harness`. Kho đổi bản ⇒ các dự án được cảnh báo (hook `SessionStart` + `kiem-harness`) để cập nhật ProjectHarness.
-> Đây là **GlobalHarness — kho nguồn**, không phải một dự án phần mềm. Phiên mở ở đây làm hai việc: **sửa GlobalHarness** (theo cơ chế 1) hoặc **tra cứu để cập nhật dự án khác** (cơ chế 2). Không có `Instructions/`, `Output/` ở đây — chúng chỉ xuất hiện trong dự án sau khi cài. `Log/` ở kho **chỉ** chứa mốc và vết của skill day-git của chính kho (từ 1.6.0).
+> Đây là **GlobalHarness — kho nguồn**, không phải một dự án phần mềm. Phiên mở ở đây làm hai việc: **sửa GlobalHarness** (theo cơ chế 1) hoặc **tra cứu để cập nhật dự án khác** (cơ chế 2). Không có `Instructions/`, `Output/` ở đây — chúng chỉ xuất hiện trong dự án sau khi cài. `Log/` ở kho **chỉ** chứa mốc và vết của skill day-git của chính kho, lưu ở máy, không commit (từ 1.6.0 / 1.6.1).
 
 ## Xưng hô
 Chủ dự án = **Huynh**. AI = **ĐỆ** (ở dự án thì là CULI theo `harness.config.json › vaiTro`). Tiếng Việt, ngắn, thẳng, có phản biện.

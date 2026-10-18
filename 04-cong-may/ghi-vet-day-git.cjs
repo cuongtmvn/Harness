@@ -16,17 +16,22 @@ const { fs, path } = H;
 const { execSync } = require('child_process');
 const SO = H.tep('DAYGIT_LOG');
 const CHI_XEM = process.argv.includes('--xem');
-const CONG = [['kiem-luat', 'kiem-luat.cjs'], ['kiem-khoa-lo', 'kiem-khoa-lo.cjs'], ['c2', 'kiem-c2-staged.cjs'], ['rtm-check', 'rtm-check.cjs']];
-const chay = (f) => { try { execSync(`node ${JSON.stringify(path.join(__dirname, f))}`, { cwd: H.ROOT, stdio: ['ignore', 'pipe', 'pipe'] }); return 0; } catch (e) { return typeof e.status === 'number' ? e.status : -1; } };
+// Chế độ KHO (chủ dự án duyệt 19/10/2026 "duyệt chế độ kho"): ở chính kho GlobalHarness (có .kho-globalharness) không có
+// RTM / Output của dự án ⇒ c2, rtm-check đỏ mãi. Thay bằng cổng kho chạy trên bản ĐÃ COMMIT (kiem-kho-phat-hanh --sau-commit).
+const LA_KHO = fs.existsSync(path.join(H.ROOT, '.kho-globalharness'));
+const CONG = LA_KHO
+  ? [['kiem-luat', 'kiem-luat.cjs'], ['kiem-khoa-lo', 'kiem-khoa-lo.cjs'], ['kho-sau-commit', 'kiem-kho-phat-hanh.cjs', '--sau-commit']]
+  : [['kiem-luat', 'kiem-luat.cjs'], ['kiem-khoa-lo', 'kiem-khoa-lo.cjs'], ['c2', 'kiem-c2-staged.cjs'], ['rtm-check', 'rtm-check.cjs']];
+const chay = (f, thamSo) => { try { execSync(`node ${JSON.stringify(path.join(__dirname, f))}${thamSo ? ' ' + thamSo : ''}`, { cwd: H.ROOT, stdio: ['ignore', 'pipe', 'pipe'] }); return 0; } catch (e) { return typeof e.status === 'number' ? e.status : -1; } };
 const head = H.git('rev-parse HEAD').trim();
 if (!head) { console.error('🔴 Không có commit nào (hoặc không phải kho git) — không có gì để ghi vết.'); process.exit(1); }
 const tieuDe = H.git('log -1 --pretty=%s').trim();
 const files = H.git('show --name-only --format="" HEAD').split('\n').filter(Boolean);
 const reGac = new RegExp('^(' + (H.C.thuMuc.gacGit || []).join('|') + ')/');
 const kq = {};
-for (const [ten, f] of CONG) kq[ten] = chay(f);
+for (const [ten, f, thamSo] of CONG) kq[ten] = chay(f, thamSo);
 const daQua = Object.values(kq).every((m) => m === 0);
-const dong = { ts: new Date().toISOString(), commit: head, tieuDe, soFile: files.length, chamGac: files.filter((f) => reGac.test(f)).length, cong: kq, daQua, cach: 'chạy lại 4 cổng trên cây mã ĐÃ COMMIT; dựng lại được bằng git checkout <commit>' };
+const dong = { ts: new Date().toISOString(), commit: head, tieuDe, soFile: files.length, chamGac: files.filter((f) => reGac.test(f)).length, cong: kq, daQua, cheDo: LA_KHO ? 'kho' : 'du-an', cach: `chạy lại ${CONG.length} cổng trên cây mã ĐÃ COMMIT; dựng lại được bằng git checkout <commit>` };
 console.log('=== ghi-vet-day-git ===');
 console.log(`  commit : ${head.slice(0, 7)}  ${tieuDe.slice(0, 60)}`);
 console.log(`  file   : ${files.length}  (chạm thư mục gác: ${dong.chamGac})`);

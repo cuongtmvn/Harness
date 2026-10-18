@@ -7,7 +7,7 @@ description: Đẩy thay đổi của CHÍNH KHO GlobalHarness lên Git theo đ�
 
 Làm **đúng** các bước của skill chuẩn `05-hook-skill/skills/day-git/SKILL.md` (đọc tệp đó trước), với hai khác biệt của kho này:
 
-1. **Công cụ nằm ở `04-cong-may/`**, không phải `Log/`: thay `node Log/<công cụ>.cjs` bằng `node 04-cong-may/<công cụ>.cjs` — `moc-day-git.cjs` (sinh mốc sau 3 cổng), `ghi-vet-day-git.cjs` (ghi vết sau khi đẩy). Mốc và vết nằm ở `Log/` của kho (`Log/.moc-day-git.json` bị bỏ qua khỏi git; `Log/DAYGIT-LOG.ndjson`, `Log/CHAN-GIT-COMMIT.ndjson` được commit).
+1. **Công cụ nằm ở `04-cong-may/`**, không phải `Log/`: thay `node Log/<công cụ>.cjs` bằng `node 04-cong-may/<công cụ>.cjs` — `moc-day-git.cjs` (sinh mốc sau 3 cổng), `ghi-vet-day-git.cjs` (ghi vết sau khi đẩy). Mốc và vết nằm ở `Log/` của kho và **chỉ lưu ở máy** (cả thư mục `Log/` bị bỏ qua khỏi git — nếu commit vết thì mỗi lần ghi vết lại phải tăng bản). Ở kho, `moc-day-git` và `ghi-vet-day-git` chạy **chế độ kho**: cổng kho `kiem-kho-phat-hanh.cjs` thay c2 / rtm-check.
 2. **Chế độ ĐẦY ĐỦ** (đẩy GitHub là mục đích của kho) — thông điệp commit theo khuôn của skill `dua-vao-harness` Bước 6 (`harness <bản>: …` + từng mục + `Nguồn:`).
 
 Thứ tự lệnh, mỗi lệnh một lượt gọi riêng (hook kiểm mốc **trước** khi lệnh chạy):

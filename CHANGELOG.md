@@ -3,6 +3,17 @@
 > Mỗi mục ghi đủ: **dự án nguồn** · **lớp** (*lõi chung* = mọi dự án · *gói `<loại>`* = dự án cùng loại · *riêng* = không đưa) · **bắt buộc / khuyến nghị** với dự án nhận · **tệp đổi** · **vì sao** (bằng chứng). Mục *bắt buộc* mà `cap-nhat.cjs` không tự làm được thì ghi rõ dự án nhận phải làm gì.
 > Số bản: `VERSION`. PATCH sửa chữ / lỗi công cụ · MINOR thêm luật, công cụ, hook, skill, gói · MAJOR đổi cấu trúc thư mục, khoá `harness.config.json`, cách khai cổng.
 
+## 1.6.1 — 2026-10-19 · chế độ kho cho ghi-vet-day-git; Log/ của kho chỉ lưu ở máy
+
+Nguồn: dự án ChildDressShop · lần đẩy 1.6.0 (commit `bc3cf95`) qua skill day-git đúng đường (hook ghi `qua-skill`, repo kho), nhưng `ghi-vet-day-git` chạy lại 4 cổng của dự án sau commit ⇒ c2, rtm-check đỏ ở kho ⇒ vết ghi `daQua: false` (đúng sự thật, nhưng là lỗi công cụ, không phải lỗi bản 1.6.0). Trong phạm vi Huynh duyệt 19/10 *"duyệt chế độ kho"*.
+
+| Lớp | Mức | Tệp | Vì sao |
+|---|---|---|---|
+| lõi chung | khuyến nghị | `04-cong-may/ghi-vet-day-git.cjs` · `04-cong-may/kiem-kho-phat-hanh.cjs` (`--sau-commit`) | Ở kho, vết sau commit chạy kiem-luat + kiem-khoa-lo + cổng kho trên **bản đã commit** (VERSION / CHANGELOG đọc từ HEAD, cây làm việc khớp HEAD, cài thử dự án trống xanh); bỏ phép so VERSION với origin/main sau khi đẩy. Dự án không đổi (4 cổng cũ) |
+| riêng kho | — | `.gitignore` (`Log/`) · `.claude/skills/day-git/SKILL.md` · `CLAUDE.md` (kho) | Mốc + vết của kho chỉ lưu ở máy: nếu commit vết thì mỗi lần ghi vết lại phải tăng bản (cổng kho đòi VERSION tăng mỗi commit). Vết `bc3cf95` (`daQua: false` do lỗi công cụ) nằm ở `Log/DAYGIT-LOG.ndjson` máy Huynh |
+
+**Dự án nhận:** không phải làm gì thêm (dự án không có `.kho-globalharness`).
+
 ## 1.6.0 — 2026-10-19 · luật phiên dài không treo (L-PHIEN-01); hook chặn commit nhận đúng repo đích; kho tự gác bằng day-git
 
 Nguồn: dự án ChildDressShop · sự cố đêm 18→19/10/2026: phiên chạy đêm gọi trợ lý kiểm độc lập ở chế độ chạy nền rồi kết thúc lượt để chờ tin báo; trợ lý treo, phiên đứng yên 00:41 → 05:22 (đo bằng `do-gio.cjs`, DEVBOOK #23 của dự án). Huynh 19/10: *"cập nhật lại projectharness và globalharness về luật tránh bị treo, mục tiêu để các phiên dài không bị treo nhất là  khi chạy qua đêm."* Dự án nguồn đã áp bản tương đương ở ProjectHarness (commit `2d3ae4c`).

@@ -3,6 +3,19 @@
 > Mỗi mục ghi đủ: **dự án nguồn** · **lớp** (*lõi chung* = mọi dự án · *gói `<loại>`* = dự án cùng loại · *riêng* = không đưa) · **bắt buộc / khuyến nghị** với dự án nhận · **tệp đổi** · **vì sao** (bằng chứng). Mục *bắt buộc* mà `cap-nhat.cjs` không tự làm được thì ghi rõ dự án nhận phải làm gì.
 > Số bản: `VERSION`. PATCH sửa chữ / lỗi công cụ · MINOR thêm luật, công cụ, hook, skill, gói · MAJOR đổi cấu trúc thư mục, khoá `harness.config.json`, cách khai cổng.
 
+## 1.3.0 — 2026-10-18 · bảng model + effort theo Bước; 3 loại việc nghiên cứu
+
+Nguồn: dự án ChildDressShop · Huynh chỉ thị 18/10 *"phần về cách thức sử dụng model đệ lưu vào context của dự án này để tự động chuyên model và effort ở từng bước."* (DEVBOOK #2 của dự án), rồi duyệt đưa lên lõi chung *"làm theo đệ đề xuất đi"*. Bằng chứng: phiên 18/10 chạy 8 trợ lý khảo sát theo bảng (5 Sonnet medium ≈ 452 nghìn token, 3 Opus high); Huynh hỏi giữa chừng *"bây giờ dùng opus phù hợp chưa?"* — không có bảng theo Bước thì chủ dự án không biết lúc nào nên đổi model phiên chính.
+
+| Lớp | Mức | Tệp | Vì sao |
+|---|---|---|---|
+| lõi chung | khuyến nghị | `CLAUDE.template.md` mục "Chọn model + effort" | **Bảng 1** thêm 3 loại việc: khảo sát web theo cụm (Sonnet medium), so sánh nền tảng / công nghệ / pháp lý (Opus high), tổng hợp ghi chú thành báo cáo có nguồn (Opus high); `tester` thêm việc review độc lập một Bước. **Bảng 2 mới** — khuyến nghị theo 11 Bước cho phiên chính (Huynh đặt `/model`) và trợ lý (CULI đặt). Khai thẳng giới hạn: CULI chỉ đổi được model của trợ lý con. Tên model ghi theo dòng, không ghi số phiên bản. Thêm một đoạn ngắn về đọc web (trang công khai / trình duyệt điều khiển được; cấm đăng nhập, gửi biểu mẫu, thanh toán hộ) |
+| lõi chung | khuyến nghị | `CLAUDE.template.md` bảng lệnh kích hoạt, dòng *"mở Bước N"* | Thêm nhịp đầu: **in dòng khuyến nghị model + effort cho phiên chính** theo Bảng 2 trước khi khai cổng vào — chủ dự án thấy đúng lúc để gõ `/model` |
+
+**Dự án nhận:** `CLAUDE.template.md` cài thành `CLAUDE.md` thuộc nhóm `rieng` ⇒ `cap-nhat.cjs` chỉ **báo**, không ghi đè. Muốn nhận: chép tay mục "Chọn model + effort" (hai bảng) và dòng *"mở Bước N"* vào `CLAUDE.md` của dự án; nếu dự án có bảng riêng thì giữ bảng riêng. Không đổi luật quản AI, không đổi `harness.config.json`. ChildDressShop đã có bản tương đương (nguồn).
+
+**Còn ghi nhận, chưa đưa vào (chờ Huynh):** (1) mẫu `SPEC.md` / `BACKLOG.md` mang mã giả `US-01`, `PB-001`, `PB-002` làm `rtm-check` / `kiem-backlog` đỏ hoặc xanh sai ở Bước 0 (máy dò chuỗi); (2) dòng "Bối cảnh 1 dòng" của `CLAUDE.md` cần cập nhật mỗi Bước nhưng `kiem-luat --dongbo` đòi đổi `LUAT-DANGKY.json` (hạ tầng gác luật) ⇒ AI không cập nhật được; (3) hook `chan-git-commit-tay` / `chan-ghi-de-file-luat` đọc theo gốc dự án đang mở ⇒ chặn commit ở kho khác (kho Harness) và chặn nhầm lệnh chỉ *nhắc* chữ `CLAUDE.md` cùng `rm`/`cat >`.
+
 ## 1.2.2 — 2026-10-17 · đổi thuật ngữ "chạy khô" thành "xem trước, chưa ghi (dry run)"
 
 Nguồn: dự án Mười Ngón · Huynh hỏi *"mục 2, chạy thử khô là gì?"* rồi chỉ thị *"vậy sửa lại thuật ngữ 'chạy thử khô - dry run'"* (17/10).

@@ -19,7 +19,7 @@ Tiếng Việt, ngắn gọn, thẳng, có phản biện — không xu nịnh.
 |---|---|
 | *"bắt đầu làm việc"* | <lệnh khởi động môi trường nếu có, ví dụ `bash Log/start-session.sh`> rồi mới nạp context |
 | *"nạp context"* | Đọc theo thứ tự: **bàn giao mới nhất** trong `Log/` → `Log/TASKLIST.md` *(nguồn trạng thái duy nhất)* → mục **Bước đang mở** trong `Instructions/PLAYBOOK.md` |
-| *"mở Bước N"* | Đọc mục **Bước N** trong `Instructions/PLAYBOOK.md` → chạy **cổng VÀO** `V1`–`V6` (`Instructions/PHASEGATE.md §1`) → khai vào `Log/cong-buoc/<mvp>[-<round>]-B<N>.json` → chưa đủ thì **KHÔNG mở** |
+| *"mở Bước N"* | **In dòng khuyến nghị model + effort cho phiên chính** theo Bảng 2 mục "Chọn model + effort" (Huynh tự gõ `/model` nếu muốn đổi) → đọc mục **Bước N** trong `Instructions/PLAYBOOK.md` → chạy **cổng VÀO** `V1`–`V6` (`Instructions/PHASEGATE.md §1`) → khai vào `Log/cong-buoc/<mvp>[-<round>]-B<N>.json` → chưa đủ thì **KHÔNG mở** |
 | *"đóng Bước N"* | Cổng RA `R1`–`R8` + `node Log/gate-check.cjs --buoc N --mvp <nn> [--round R<k>]` → 13 điều kiện xanh **và** "Done khi" đạt mới `--ghi`. Báo trạng thái **đủ ba tầng**, ⛔ không đếm task |
 | *"mở Round R<k>"* | Khai đủ 11 Bước ở `Log/khai-round/<mvp>-R<k>.json` → `node Log/gate-check.cjs --mo-round R<k> --mvp <nn> --ghi` |
 | *"đóng MVP"* | `node Log/gate-check.cjs --dong-mvp <nn> --ghi` |
@@ -87,16 +87,37 @@ L0 quan sát · L1 nháp (người duyệt 100%) · L2 đề xuất (người ch
 
 ## 🤖 Chọn model + effort cho trợ lý — CULI tự chọn, không hỏi lại
 
-CULI chia việc rồi tự gọi trợ lý và **tự đặt model + effort** theo bảng; có vai dựng sẵn trong `.claude/agents/` thì gọi đúng tên vai (model/effort đi theo vai). Phiên chính CULI **không tự đổi** được model/effort — Huynh dùng `/model`. Lý do cần bảng: công cụ giao việc chỉ cho AI đặt effort khi `CLAUDE.md` yêu cầu rõ.
+CULI chia việc rồi tự gọi trợ lý và **tự đặt model + effort** theo bảng; có vai dựng sẵn trong `.claude/agents/` thì gọi đúng tên vai (model/effort đi theo vai). Lý do cần bảng: công cụ giao việc chỉ cho AI đặt effort khi `CLAUDE.md` yêu cầu rõ — hai bảng dưới **chính là yêu cầu rõ đó**.
 
+**Giới hạn thật, khai thẳng:** CULI chỉ tự đổi được model/effort của **trợ lý con**. Model/effort của **phiên chính** do Huynh đặt bằng `/model`. Lúc *"mở Bước N"*, CULI **in một dòng khuyến nghị cho phiên chính** theo Bảng 2 rồi mới khai cổng vào — CULI không tự đổi được và không nói như thể đã đổi.
+
+### Bảng 1 — theo loại việc
 | Loại việc | Vai | Model | Effort |
 |---|---|---|---|
-| Kiểm sản phẩm độc lập (UAT lượt 1, kiểm lại sau sửa) | `tester` | Sonnet | medium |
+| Kiểm sản phẩm độc lập (UAT lượt 1, kiểm lại sau sửa, review độc lập một Bước) | `tester` | Sonnet | medium |
 | Dựng tài nguyên hàng loạt, script kỹ thuật rõ đầu bài | `dung-tai-nguyen` | Sonnet | medium |
 | Nội dung, tài liệu, hướng dẫn | `viet-noi-dung` | Sonnet | medium |
 | Vẽ hình, thiết kế giao diện, chấm thẩm mỹ bằng mắt | `ve-hinh` | Opus | high |
 | Tra cứu nhanh trong repo, đếm, tìm tệp | `tra-cuu` | Haiku | low |
+| **Khảo sát web theo cụm** — kiểm kê tính năng / đối thủ / tài liệu công khai, đầu bài rõ, nhiều lượt đọc trang | `general-purpose` | Sonnet | medium |
+| **So sánh nền tảng / công nghệ / pháp lý** — cân đánh đổi, giấy phép, chi phí, ràng buộc địa phương | `general-purpose` | Opus | high |
+| **Tổng hợp nhiều ghi chú thành báo cáo có nguồn** | `general-purpose` | Opus | high |
 | Lõi, tích hợp nhiều phần, gỡ lỗi khó, quyết định thiết kế | phiên chính | Opus | high |
+
+### Bảng 2 — theo Bước: phiên chính (Huynh đặt `/model`) · trợ lý (CULI đặt)
+| Bước | Phiên chính — khuyến nghị | Trợ lý CULI gọi | Vì sao |
+|---|---|---|---|
+| 0 Phạm vi | Model mạnh nhất có sẵn, high *(Opus high nếu muốn tiết kiệm)* | khảo sát web Sonnet medium · so sánh Opus high · báo cáo Opus high · review độc lập `tester` | Định khung mọi Bước sau; review mọi Round |
+| 1 SRS · 2 Module · 3 Kiến trúc | Opus high *(xhigh khi chọn nền tảng ở Bước 3)* | `viet-noi-dung` Sonnet medium · `tra-cuu` Haiku low | Quyết định `D-ARCH` do phiên chính |
+| 4 WBS · 5 Ước lượng · 7 DoR | Opus medium | — | Việc sổ sách, ít suy luận sâu |
+| 6 Rủi ro + dây cương | Opus high | — | Chạm `LEASH-BANG.json` = luật quản AI, điều dừng 5 |
+| 8 Xây lát cắt dọc | Opus high *(xhigh khi gỡ lỗi khó, tích hợp thanh toán / hệ ngoài)* | `ve-hinh` Opus high · `dung-tai-nguyen` Sonnet medium · `tester` Sonnet medium | Lát cắt chạm A+ vẫn dừng hỏi Huynh |
+| 9 Kiểm thử & cổng | Opus medium | `tester` Sonnet medium (không thấy hội thoại phiên chính) | Tester độc lập là lớp phòng vệ chính |
+| 10 Truy vết · số đo | Opus medium | `tra-cuu` Haiku low | Đếm, đối chiếu, chưng cất bài học |
+
+Tên model ghi theo **dòng** (Haiku · Sonnet · Opus), không ghi số phiên bản — dùng bản mới nhất của dòng đó. Dự án đổi bảng cho hợp mình thì sửa ở `CLAUDE.md` của dự án.
+
+**Đọc web:** trang công khai đọc bằng công cụ tải trang; trang nặng JavaScript hoặc cần thao tác (giỏ hàng, bộ lọc) thì dùng trình duyệt điều khiển được nếu chủ dự án đã bật. ⛔ Không đăng nhập, không gửi biểu mẫu, không đặt hàng / thanh toán hộ (điều dừng 6).
 
 Việc chạm vùng A+ vẫn dừng hỏi Huynh dù giao cho vai nào.
 

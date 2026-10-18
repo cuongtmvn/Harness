@@ -545,6 +545,16 @@
       "cochequuongche": "hook SessionStart nhac-cap-nhat-harness.cjs in dòng 🧭 + báo bản GlobalHarness mới kèm số mục bắt buộc · kiem-harness.cjs cảnh báo ProjectHarness tụt bản · lệnh \"cập nhật harness\" (Project, mặc định) / \"cập nhật GlobalHarness\" (Global, nói rõ) · kiem-luat --mat kiểm khối luật còn trong CLAUDE.md · phân loại tầng: kỷ luật của AI",
       "botdi_thi_sao": "Sửa nhầm tầng: thứ đặc thù dự án lên kho chung (1.3.0: hàng khảo sát web), hoặc luật cấm sai làm tắc việc cập nhật kho chung (1.4.0 luật 3, chủ dự án bác 18/10/2026); dự án không biết kho chung đã đổi nên chạy luật cũ",
       "trangthai": "song"
+    },
+    {
+      "id": "L-PHIEN-01",
+      "muc": "⑥",
+      "tomtat": "Phiên dài không treo: không kết thúc lượt chỉ để chờ trợ lý chạy nền khi chủ dự án vắng; việc phụ thuộc kết quả gọi chờ trực tiếp; trợ lý hỏng chạy lại đúng một lần; đẩy git + bàn giao trước việc dài; khoảng trống > 30 phút là sự cố",
+      "file": "CLAUDE.md",
+      "neo": "Phiên dài không treo",
+      "cochequuongche": "kiem-luat --mat kiểm câu neo còn trong CLAUDE.md · node Log/do-gio.cjs đo khoảng trống giữa các khối làm việc · chọn run_in_background khi gọi trợ lý: kỷ luật của AI (chưa có hook chặn kết thúc lượt)",
+      "botdi_thi_sao": "Phiên chạy đêm đứng yên hàng giờ không ai biết (ChildDressShop 19/10/2026: 00:41 → 05:22, trợ lý kiểm độc lập chạy nền treo, AI đã kết thúc lượt chờ tin báo)",
+      "trangthai": "song"
     }
   ]
 }

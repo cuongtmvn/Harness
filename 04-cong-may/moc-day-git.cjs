@@ -17,11 +17,17 @@ const H = require('./_harness-config.cjs');
 const { fs, path } = H;
 const { execSync } = require('child_process');
 const MOC = H.tep('MOC_DAY_GIT');
-const CONG = [['kiem-luat', 'kiem-luat.cjs'], ['kiem-khoa-lo', 'kiem-khoa-lo.cjs'], ['c2', 'kiem-c2-staged.cjs']];
+// Chế độ KHO (chủ dự án duyệt 19/10/2026): ở chính kho GlobalHarness (có tệp .kho-globalharness) không có RTM của dự án
+// nên cổng c2 đỏ mãi — thay bằng cổng kho kiem-kho-phat-hanh.cjs (VERSION tăng · CHANGELOG có mục · bản cài thử = bản
+// commit · cài thử dự án trống xanh). Dự án vẫn chạy đủ 3 cổng cũ.
+const LA_KHO = fs.existsSync(path.join(H.ROOT, '.kho-globalharness'));
+const CONG = LA_KHO
+  ? [['kiem-luat', 'kiem-luat.cjs'], ['kiem-khoa-lo', 'kiem-khoa-lo.cjs'], ['kho-phat-hanh', 'kiem-kho-phat-hanh.cjs']]
+  : [['kiem-luat', 'kiem-luat.cjs'], ['kiem-khoa-lo', 'kiem-khoa-lo.cjs'], ['c2', 'kiem-c2-staged.cjs']];
 const chay = (f) => { try { execSync(`node ${JSON.stringify(path.join(__dirname, f))}`, { cwd: H.ROOT, stdio: ['ignore', 'pipe', 'pipe'] }); return 0; } catch (e) { return typeof e.status === 'number' ? e.status : -1; } };
 const staged = H.git('diff --cached --name-only').split('\n').filter(Boolean);
 console.log('=== moc-day-git ===');
-console.log(`  Vùng staged : ${staged.length} tệp`);
+console.log(`  Vùng staged : ${staged.length} tệp${LA_KHO ? ' · CHẾ ĐỘ KHO (cổng kho thay c2)' : ''}`);
 if (!staged.length) { console.log('\n🛑 Vùng staged RỖNG — KHÔNG ghi mốc. Mốc chứng nhận "ba cổng đã soi ĐÚNG tập tệp này"; tập rỗng thì không có gì để chứng nhận — và một mốc rỗng sẽ cho qua MỌI commit.'); process.exit(2); }
 const kq = {};
 for (const [ten, f] of CONG) { kq[ten] = chay(f); console.log(`  ${kq[ten] === 0 ? '✅' : '🔴'} ${ten.padEnd(14)} mã thoát: ${kq[ten]}`); }
@@ -29,5 +35,5 @@ if (!Object.values(kq).every((m) => m === 0)) { console.log('\n🛑 Có cổng K
 const vanTay = H.git('write-tree').trim();
 if (!vanTay) { console.log('\n🛑 Không lấy được vân tay index (git write-tree) — không ghi mốc.'); process.exit(2); }
 fs.mkdirSync(path.dirname(MOC), { recursive: true });
-fs.writeFileSync(MOC, JSON.stringify({ ts: new Date().toISOString(), vanTay, soTep: staged.length, cong: kq, cach: 'Sinh sau khi 3 cổng chạy THẬT và xanh trên đúng vùng staged có vân tay này. Hết hạn 15 phút.' }, null, 2) + '\n', 'utf8');
+fs.writeFileSync(MOC, JSON.stringify({ ts: new Date().toISOString(), vanTay, soTep: staged.length, cong: kq, cheDo: LA_KHO ? 'kho' : 'du-an', cach: 'Sinh sau khi 3 cổng chạy THẬT và xanh trên đúng vùng staged có vân tay này. Hết hạn 15 phút.' }, null, 2) + '\n', 'utf8');
 console.log(`\n✅ Đã ghi mốc — vân tay index: ${vanTay.slice(0, 12)}… (hiệu lực 15 phút). Đổi vùng staged ⇒ mốc hết hiệu lực, chạy lại.`);

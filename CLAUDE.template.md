@@ -138,6 +138,17 @@ Thu thập dữ liệu ở đâu, bằng công cụ gì (web, trình duyệt, AP
 
 Việc chạm vùng A+ vẫn dừng hỏi Huynh dù giao cho vai nào.
 
+## ⏱️ Phiên dài không treo — nhất là khi chạy qua đêm
+Phiên dài (chạy đêm, Huynh vắng) **không được đứng yên chờ một tin báo** mà không ai theo dõi. Bằng chứng: một phiên chạy đêm gọi trợ lý kiểm độc lập ở chế độ chạy nền rồi kết thúc lượt để chờ tin báo; trợ lý treo, phiên đứng yên hơn 4 giờ mà không ai biết.
+1. **Không kết thúc lượt khi việc kế tiếp chỉ còn là chờ một trợ lý chạy nền** mà Huynh không theo dõi. Việc mà bước sau phụ thuộc kết quả ⇒ gọi trợ lý ở chế độ **chờ trực tiếp** (`run_in_background: false`): trợ lý hỏng thì phiên chính thấy ngay.
+2. **Chạy nền chỉ khi phiên chính còn việc độc lập** để làm song song. Hết việc độc lập mà trợ lý chưa xong ⇒ không đứng chờ tin báo: chạy lại phần đó ở chế độ chờ trực tiếp, hoặc tự làm.
+3. **Đầu bài cho trợ lý chạy lâu:** đọc tệp dài theo đoạn (`offset` / `limit`, Grep), **ghi khung báo cáo ra tệp trước rồi điền dần**, giới hạn phạm vi và độ dài phần trả về.
+4. **Trợ lý treo hoặc lỗi ⇒ chạy lại đúng một lần** với đầu bài hẹp hơn; hỏng lần hai ⇒ phiên chính tự làm phần đó, hoặc ghi nợ vào bàn giao rồi dừng có báo cáo. ⛔ Không lặp vô hạn.
+5. **Trước mỗi việc dài:** đẩy git và cập nhật bàn giao (`L-HANDOFF-01`), để nếu treo thì không mất việc và phiên sau biết đang dừng ở đâu.
+6. **Đo:** khoảng trống > 30 phút trong `node Log/do-gio.cjs` giữa đợt chạy dài mà không phải chủ ý dừng chờ Huynh ⇒ ghi vào bàn giao và Dev Book như một sự cố.
+
+Cưỡng chế: luật `L-PHIEN-01` (`kiem-luat --mat` kiểm khối này còn có mặt) · `do-gio.cjs` đo khoảng trống · còn lại là kỷ luật của CULI — chưa có hook tự chặn việc kết thúc lượt.
+
 ## Kiến trúc <TÊN DỰ ÁN> — không được phá
 <Các quyết định kiến trúc nền `D-ARCH-n` luôn đúng, 3–6 dòng. Ví dụ: tầng tính toán xác định tách khỏi tầng diễn giải; dữ liệu nào là nhạy; vùng cấm nào.>
 

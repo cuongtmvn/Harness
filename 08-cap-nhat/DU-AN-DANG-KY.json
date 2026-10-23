@@ -32,10 +32,10 @@
       "duongDan": "D:/OneDrive/AI/DressShop",
       "repo": "https://github.com/cuongtmvn/ChildDressShop.git",
       "loai": "web-cloud",
-      "banDangDung": "1.6.2",
+      "banDangDung": "1.7.0",
       "ngayDangKy": "2026-10-18",
-      "ngayCapNhat": "2026-10-19",
-      "ghiChu": "18/10: cài mới bằng cai-dat.cjs (88 tệp, bảng kê đủ). Website TMĐT bán quần áo + búp bê trẻ em, tự dựng tự host, MVP 1 tiếng Việt / thiết kế đa ngôn ngữ. vaiTro.ai = ĐỆ. CLAUDE.md có thêm bảng model+effort theo Bước và 3 hàng khảo sát web — ứng viên đưa vào harness. Stack chưa chốt (Bước 3) nên kiemThu/route/maCode còn mặc định Python. · 18/10: cap-nhat lên 1.4.0 (hook 🧭, 2 skill), gộp tay khối 🧭 + L-HARNESS-01 theo quy ước 1.5.0 — commit dự án d8a9254. · 18/10: cap-nhat lên 1.5.0 (kiem-harness, hook, 2 skill; CLAUDE.md + L-HARNESS-01 gộp tay). · 19/10: cap-nhat lên 1.6.2 (moc-day-git, ghi-vet-day-git, kiem-kho-phat-hanh); L-PHIEN-01 + hook repo đích đã áp trước — commit dự án f48c457."
+      "ngayCapNhat": "2026-10-24",
+      "ghiChu": "18/10: cài mới bằng cai-dat.cjs (88 tệp, bảng kê đủ). Website TMĐT bán quần áo + búp bê trẻ em, tự dựng tự host, MVP 1 tiếng Việt / thiết kế đa ngôn ngữ. vaiTro.ai = ĐỆ. CLAUDE.md có thêm bảng model+effort theo Bước và 3 hàng khảo sát web — ứng viên đưa vào harness. Stack chưa chốt (Bước 3) nên kiemThu/route/maCode còn mặc định Python. · 18/10: cap-nhat lên 1.4.0 (hook 🧭, 2 skill), gộp tay khối 🧭 + L-HARNESS-01 theo quy ước 1.5.0 — commit dự án d8a9254. · 18/10: cap-nhat lên 1.5.0 (kiem-harness, hook, 2 skill; CLAUDE.md + L-HARNESS-01 gộp tay). · 19/10: cap-nhat lên 1.6.2 (moc-day-git, ghi-vet-day-git, kiem-kho-phat-hanh); L-PHIEN-01 + hook repo đích đã áp trước — commit dự án f48c457. · 24/10: cap-nhat lên 1.7.0 (chỉ kiem-kho-phat-hanh; 0 mục bắt buộc; lớp mức máy đã có trên PC). Xung đột chan-git-commit-tay.cjs: bản kho = bản cũ của dự án, dự án đã siết thêm ở Bước 7 (đợt hạ tầng H3, CQ-DS-30) ⇒ giữ bản dự án. Ứng viên Đẩy GlobalHarness: hook git pre-commit / pre-merge-commit / pre-push + _chot-c1c2 + che bí mật trong sổ + hook CSDL danh sách trắng (chờ Huynh nói)."
     },
     {
       "ten": "AIAutoNews",

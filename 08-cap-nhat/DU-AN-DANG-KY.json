@@ -36,6 +36,16 @@
       "ngayDangKy": "2026-10-18",
       "ngayCapNhat": "2026-10-19",
       "ghiChu": "18/10: cài mới bằng cai-dat.cjs (88 tệp, bảng kê đủ). Website TMĐT bán quần áo + búp bê trẻ em, tự dựng tự host, MVP 1 tiếng Việt / thiết kế đa ngôn ngữ. vaiTro.ai = ĐỆ. CLAUDE.md có thêm bảng model+effort theo Bước và 3 hàng khảo sát web — ứng viên đưa vào harness. Stack chưa chốt (Bước 3) nên kiemThu/route/maCode còn mặc định Python. · 18/10: cap-nhat lên 1.4.0 (hook 🧭, 2 skill), gộp tay khối 🧭 + L-HARNESS-01 theo quy ước 1.5.0 — commit dự án d8a9254. · 18/10: cap-nhat lên 1.5.0 (kiem-harness, hook, 2 skill; CLAUDE.md + L-HARNESS-01 gộp tay). · 19/10: cap-nhat lên 1.6.2 (moc-day-git, ghi-vet-day-git, kiem-kho-phat-hanh); L-PHIEN-01 + hook repo đích đã áp trước — commit dự án f48c457."
+    },
+    {
+      "ten": "AIAutoNews",
+      "duongDan": "D:\\OneDrive\\AI\\AInAutomotiveNews",
+      "repo": "git@github.com:cuongtmvn/AIAutonews.git",
+      "loai": "web-cloud",
+      "banDangDung": "1.7.0",
+      "ngayDangKy": "2026-10-23",
+      "ngayCapNhat": "2026-10-23",
+      "ghiChu": "23/10: DI TRÚ từ bộ luật chép tay Thiên Số (hậu tố -AN, tạo từ phiên điện thoại 16/10 — ca gốc của GlobalHarness 1.7.0 lớp gác mức máy) sang ProjectHarness 1.7.0: cai-dat.cjs (77 tệp chép, 12 tệp dữ liệu giữ), dữ liệu -AN đổi tên theo khuôn, luật riêng theo Bước sang Instructions/PLAYBOOK-RIENG.md, kiem-tep-cam.cjs giữ làm công cụ riêng. vaiTro.ai = ĐỆ. Website tin tức + sổ tay phần mềm ô tô & AI, tiếng Việt, một người đọc, pipeline AI hằng ngày trên VM thienso.com. Nhánh làm việc claude/automotive-ai-news-site-zaddot. kiem-harness ✅, kiem-luat ✅. Còn: dayGit.mocGoc sau commit di trú; moiTruong chờ VM-01/TENMIEN-01; stack chưa chốt (Bước 3) nên kiemThu/route/maCode mặc định; sổ phạm vi còn trạng thái khuôn cũ (cho-huynh/trong-mvp1) chờ Huynh chốt ở Bước 0."
     }
   ]
 }

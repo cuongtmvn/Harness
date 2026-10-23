@@ -32,6 +32,8 @@ node Log/kiem-harness.cjs          # ✅ HARNESS ĐỦ
 ```
 Bộ cài **không ghi đè** tệp đã có (liệt kê ra), không xoá, không chạy git. Chi tiết: `07-cai-dat/cai-dat.cjs` đầu tệp.
 
+**Mức máy — một lần mỗi máy (từ 1.7.0):** `node D:/OneDrive/AI/Harness/07-cai-dat/muc-may/cai-muc-may.cjs --ap-dung` — lắp hook `SessionStart` + khối luật vào `~/.claude/`, để dự án **chưa có** ProjectHarness (mới tạo, hoặc chép tay luật dự án khác) cũng bị cảnh báo khi mở phiên. **Phiên điện thoại / cloud** (không có `~/.claude` của máy): tạo dự án mới thì `git clone https://github.com/cuongtmvn/Harness.git /tmp/Harness` rồi chạy `cai-dat.cjs` như trên — ⛔ không chép tay bộ luật của dự án khác; Huynh tải skill `07-cai-dat/muc-may/skill-claude-ai/kiem-harness-du-an` lên claude.ai để luật này tới được các phiên đó. Chi tiết: `07-cai-dat/muc-may/README.md`.
+
 **Yêu cầu:** Node ≥ 18 · git · Claude Code (hook/skill). Không cài gói npm nào.
 
 ---
@@ -139,6 +141,7 @@ Round ≥2: "mở Round Rk" → khai đủ 11 Bước (cham/khong-cham/ke-thua +
 | Bảng kê trong dự án | `<dự án>/.harness-manifest.json` — bản đang dùng + mã băm từng tệp lúc cài (bộ cài ghi; **commit tệp này**) | `cap-nhat.cjs` so để biết tệp nào dự án đã tự sửa |
 | **Cơ chế 1** dự án → harness | skill `dua-vao-harness` (7 bước: pull --ff-only · viết chung · lớp · cài thử dự án trống · VERSION+CHANGELOG · đẩy GitHub kèm ghi chú · Dev Book) | Huynh gõ *"đưa vào harness"* |
 | **Cơ chế 2** harness → dự án | hook `SessionStart` `nhac-cap-nhat-harness.cjs` **chỉ nhắc** (đọc `VERSION` ổ máy, không có thì GitHub) → skill `cap-nhat-harness` → `node <Harness>/08-cap-nhat/cap-nhat.cjs <dự án> [--ap-dung]` | Huynh gõ *"cập nhật harness"* |
+| **Lớp gác mức máy** (từ 1.7.0) | `07-cai-dat/muc-may/` — hook `SessionStart` ở `~/.claude` cảnh báo dự án **chưa có** bảng kê (chỗ hook `nhac-cap-nhat-harness` im lặng) · khối luật `~/.claude/CLAUDE.md` · skill claude.ai cho phiên điện thoại / cloud. Bộ cài dự án không chép | Mỗi máy mới: `cai-muc-may.cjs --ap-dung` |
 | Đăng ký dự án cài tay | `cap-nhat.cjs <dự án> --dang-ky` — dựng bảng kê từ trạng thái hiện tại, không ghi đè | Thiên Số, Mười Ngón lần đầu |
 | Sổ đăng ký | `08-cap-nhat/DU-AN-DANG-KY.json` — dự án nào đang bản nào | nhìn ai tụt bản |
 | Hướng dẫn cho phiên khác | `08-cap-nhat/HUONG-DAN-CAP-NHAT.md` · `CLAUDE.md` của chính kho này | mở phiên ở GlobalHarness hoặc ở dự án (ProjectHarness) |

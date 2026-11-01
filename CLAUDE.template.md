@@ -36,8 +36,8 @@ Cưỡng chế: hook `SessionStart` in dòng định vị 🧭 và báo bản m�
 | Huynh gõ | CULI làm |
 |---|---|
 | *"bắt đầu làm việc"* | <lệnh khởi động môi trường nếu có, ví dụ `bash Log/start-session.sh`> rồi mới nạp context |
-| *"nạp context"* | Đọc theo thứ tự: **bàn giao mới nhất** trong `Log/` → `Log/TASKLIST.md` *(nguồn trạng thái duy nhất)* → mục **Bước đang mở** trong `Instructions/PLAYBOOK.md` |
-| *"mở Bước N"* | **In dòng khuyến nghị model + effort cho phiên chính** theo Bảng 2 mục "Chọn model + effort" (Huynh tự gõ `/model` nếu muốn đổi) → đọc mục **Bước N** trong `Instructions/PLAYBOOK.md` → chạy **cổng VÀO** `V1`–`V6` (`Instructions/PHASEGATE.md §1`) → khai vào `Log/cong-buoc/<mvp>[-<round>]-B<N>.json` → chưa đủ thì **KHÔNG mở** |
+| *"nạp context"* | Đọc theo thứ tự: **bàn giao mới nhất** trong `Log/` → `Log/TASKLIST.md` *(nguồn trạng thái duy nhất)* → mục **Bước đang mở** trong `Instructions/PIPELINE.md` |
+| *"mở Bước N"* | **In dòng khuyến nghị model + effort cho phiên chính** theo Bảng 2 mục "Chọn model + effort" (Huynh tự gõ `/model` nếu muốn đổi) → đọc mục **Bước N** trong `Instructions/PIPELINE.md` → chạy **cổng VÀO** `V1`–`V6` (`Instructions/PHASEGATE.md §1`) → khai vào `Log/cong-buoc/<mvp>[-<round>]-B<N>.json` → chưa đủ thì **KHÔNG mở** |
 | *"đóng Bước N"* | Cổng RA `R1`–`R8` + `node Log/gate-check.cjs --buoc N --mvp <nn> [--round R<k>]` → 13 điều kiện xanh **và** "Done khi" đạt mới `--ghi`. Báo trạng thái **đủ ba tầng**, ⛔ không đếm task |
 | *"mở Round R<k>"* | Khai đủ 11 Bước ở `Log/khai-round/<mvp>-R<k>.json` → `node Log/gate-check.cjs --mo-round R<k> --mvp <nn> --ghi` |
 | *"đóng MVP"* | `node Log/gate-check.cjs --dong-mvp <nn> --ghi` |
@@ -53,16 +53,16 @@ Cưỡng chế: hook `SessionStart` in dòng định vị 🧭 và báo bản m�
 | # | Mục | Ở đâu | Đọc khi nào |
 |---|---|---|---|
 | ① | **Harness** — công cụ · cổng · hook | `Instructions/PHASEGATE.md` §3–§9 · `harness.config.json` | Khi chạm cổng, bằng chứng chạy thật |
-| ② | **Thang tự hành L0–L5** | `Instructions/OPERATING-MODEL.md` §1 — tóm tắt dưới | Luôn |
-| ③ | **Dây cương A/A+ · 7 điều dừng** | `OPERATING-MODEL.md` §2, §5 — tóm tắt dưới · `Instructions/LEASH-BANG.json` | Luôn |
-| ④ | **Playbook 11 Bước** — cổng vào/ra từng Bước | `Instructions/PLAYBOOK.md` · `PHASEGATE.md` · `REVIEW-POLICY.md` | **Mở Bước nào cũng đọc mục Bước đó trước** |
-| ⑤ | **Mô hình vận hành** — 3 luật cứng · 3 cơ chế · 4 câu hỏi | `OPERATING-MODEL.md` §3, §4, §6 — tóm tắt dưới | Luôn |
-| ⑥ | **Sổ tay lái** — vòng 7 nhịp | `Instructions/RUNBOOK.md` | Đầu dự án; khi thấy mình micromanage hoặc buông tay |
+| ② | **Thang tự hành L0–L5** | `Instructions/B1-AI-AUTHORITY.md` §1 — tóm tắt dưới | Luôn |
+| ③ | **Dây cương A/A+ · 7 điều dừng** | `B1-AI-AUTHORITY.md` §2, §5 — tóm tắt dưới · `Instructions/LEASH-BANG.json` | Luôn |
+| ④ | **Quy trình SDLC 11 Bước** (luật pipeline — nhánh A, xem `Instructions/RULE-TREE.md`) — cổng vào/ra từng Bước | `Instructions/PIPELINE.md` · `PHASEGATE.md` · `REVIEW-POLICY.md` | **Mở Bước nào cũng đọc mục Bước đó trước** |
+| ⑤ | **Mô hình vận hành** — 3 luật cứng · 3 cơ chế · 4 câu hỏi | `B1-AI-AUTHORITY.md` §3, §4, §6 — tóm tắt dưới | Luôn |
+| ⑥ | **Sổ tay lái** — vòng 7 nhịp | `Instructions/B5-SESSIONS.md` | Đầu dự án; khi thấy mình micromanage hoặc buông tay |
 | ⑦ | **Dev Book** — quyết định của Huynh + bài học đúc rút | `Output/DEVBOOK.md` | Mỗi khi có quyết định của Huynh; chưng cất ở Bước 10 |
 | ⑧ | **Telemetry / AgentOps** | `Output/TELEMETRY.md` · hook tự ghi · `node Log/do-gio.cjs` | Cuối mỗi task đã xong |
 
-**Truy vết:** `Instructions/TRACEABILITY.md` — chuỗi Mục tiêu → Backlog → Scope → Story → Module → Thiết kế → Work item → Mã → Test (UT/IT/SIT/UAT) → Phát hành. Xương sống là `Output/RTM.md`.
-**Kiểm thử:** `Instructions/UT-RULES.md` · `IT-SIT-RULES.md` · `UAT-RULES.md` · `DOC-HEALTH-RULES.md`.
+**Truy vết:** `Instructions/B3-TRACEABILITY.md` — chuỗi Mục tiêu → Backlog → Scope → Story → Module → Thiết kế → Work item → Mã → Test (UT/IT/SIT/UAT) → Phát hành. Xương sống là `Output/RTM.md`.
+**Kiểm thử:** `Instructions/UT-RULES.md` · `IT-SIT-RULES.md` · `UAT-RULES.md` · `B3-DOC-HEALTH.md`.
 
 ### 🧭 MVP ↔ ROUND ↔ BƯỚC — ba tầng, đừng lẫn
 **MVP** ⛔ phải chạy đủ 11 Bước (`--dong-mvp` gác) · **Round** được bắt đầu ở Bước bất kỳ, đổi lại **khai đủ 11 Bước lúc mở** kèm việc cụ thể · **Bước** qua cổng VÀO `V1`–`V6` và cổng RA `R1`–`R8` + 13 điều kiện máy `(0)`,`(a)`…`(m)`.
@@ -165,7 +165,7 @@ Cưỡng chế: luật `L-PHIEN-01` (`kiem-luat --mat` kiểm khối này còn c
 <gốc>/
 ├── CLAUDE.md               ← file này
 ├── harness.config.json     ← cấu hình harness (⛔ CULI không sửa)
-├── Instructions/           ← luật + sổ cấu hình (PLAYBOOK · PHASEGATE · LUAT-DANGKY · LEASH-BANG · PHAM-VI-MVP …)
+├── Instructions/           ← luật + sổ cấu hình (RULE-TREE · B1–B5 · PIPELINE · PHASEGATE · LUAT-DANGKY · LEASH-BANG · PHAM-VI-MVP …)
 ├── Output/                 ← deliverable (SCOPE · SPEC · … · RTM · DEVBOOK · TELEMETRY)
 ├── App/                    ← mã sản phẩm (tests ở App/tests/)
 ├── Log/                    ← công cụ cổng + sổ ghi (TASKLIST · PHASE-GATE-LOG · PROOF-LOG · cong-buoc/ · khai-round/)

@@ -23,12 +23,17 @@ const args = process.argv.slice(2);
 const gt = (t) => { const i = args.indexOf(t); return i === -1 ? null : args[i + 1]; };
 const tu = gt('--tu'), den = gt('--den'), phien = gt('--phien');
 const NGUONG_CUM = 30;
-const locNgay = (t) => (!tu || new Date(t).toISOString().slice(0, 10) >= tu) && (!den || new Date(t).toISOString().slice(0, 10) <= den);
+for (const [co, v] of [['--tu', tu], ['--den', den]]) if (v !== null && !/^\d{4}-\d{2}-\d{2}$/.test(v)) { console.error(`❌ ${co} phải dạng YYYY-MM-DD (đang: "${v}")`); process.exit(1); }
+// Ngày theo GIỜ MÁY (không phải UTC) — phiên 01:00 giờ Việt Nam thuộc đúng ngày đó
+const ngayMay = (t) => { const d = new Date(t); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; };
+const locNgay = (t) => (!tu || ngayMay(t) >= tu) && (!den || ngayMay(t) <= den);
 
 // ---- 2.0: SỔ GIỜ (Log/so-gio/<phiên>.ndjson, hook ghi-so-gio) — định nghĩa của chủ dự án (01/11/2026):
 // AI chạy (prompt → xong) tính đủ; quãng xong → prompt kế ≤ phutNghi thì tính, quá thì LOẠI CẢ QUÃNG; gộp phiên song song.
 const SO_GIO = H.P(H.C.thuMuc.log, 'so-gio');
-const PHUT_NGHI = (H.C.doGio && H.C.doGio.phutNghi) || 15;
+const PHUT_NGHI = (H.C.doGio && typeof H.C.doGio.phutNghi === 'number') ? H.C.doGio.phutNghi : 15;
+// Chủ dự án ngắt AI giữa chừng (Esc) thì không có sự kiện "xong": prompt → prompt kế = AI đang chạy, tính đủ nhưng chặn trần
+const TRAN_NGAT_PHUT = (H.C.doGio && H.C.doGio.tranNgatPhut) || 120;
 if (H.fs.existsSync(SO_GIO) && !args.includes('--cu')) {
   const khoang = []; const theoNgay = {}; const theoMoiTruong = {};
   for (const f of H.fs.readdirSync(SO_GIO).filter((x) => x.endsWith('.ndjson'))) {
@@ -36,7 +41,8 @@ if (H.fs.existsSync(SO_GIO) && !args.includes('--cu')) {
     for (let i = 1; i < ds.length; i++) {
       const a = ds[i - 1], b = ds[i], g = b.t - a.t;
       const aiChay = a.suKien === 'prompt' && b.suKien === 'xong';
-      if (g > 0 && (aiChay || g <= PHUT_NGHI * 60000)) khoang.push([a.t, b.t, a.moiTruong || 'may']);
+      const biNgat = a.suKien === 'prompt' && b.suKien === 'prompt' && g <= TRAN_NGAT_PHUT * 60000;
+      if (g > 0 && (aiChay || biNgat || g <= PHUT_NGHI * 60000)) khoang.push([a.t, b.t, a.moiTruong || 'may']);
     }
   }
   const loc = khoang.filter((k) => locNgay(k[0])).sort((x, y) => x[0] - y[0]);
@@ -44,7 +50,7 @@ if (H.fs.existsSync(SO_GIO) && !args.includes('--cu')) {
   for (const [s, e, mt] of loc) { // gộp chồng lấn giữa các phiên song song
     theoMoiTruong[mt] = (theoMoiTruong[mt] || 0) + (e - s);
     if (cuoi === null || s > cuoi) { if (cuoi !== null) tongMs += cuoi - dau; dau = s; cuoi = e; } else cuoi = Math.max(cuoi, e);
-    const d = new Date(s).toISOString().slice(0, 10); theoNgay[d] = (theoNgay[d] || 0) + (e - s);
+    const d = ngayMay(s); theoNgay[d] = (theoNgay[d] || 0) + (e - s);
   }
   if (cuoi !== null) tongMs += cuoi - dau;
   const phutOf = (o) => Object.fromEntries(Object.entries(o).map(([k, v]) => [k, Math.round(v / 60000)]));

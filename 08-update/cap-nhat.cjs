@@ -48,6 +48,20 @@ if (!mf && !DANG_KY) {
 }
 if (!mf) mf = { harnessVersion: '0.0.0', harnessPath: HARNESS, harnessRepo: 'https://github.com/cuongtmvn/Harness.git', ngayCai: null, tep: {} };
 
+// 2.0 — `--da-gop <tệp>`: chủ dự án đã gộp tay một tệp "mẫu đổi" hoặc "xung đột" ⇒ ghi nhận băm nguồn + đích hiện tại,
+// bỏ cờ mauDoiChuaGop. Không ghi tệp nào khác.
+const iGop = args.indexOf('--da-gop');
+if (iGop !== -1) {
+  const r = String(args[iGop + 1] || '').split(path.sep).join('/');
+  const m = B.banDo(HARNESS, GOC, C, ten).find((x) => rel(x.den) === r);
+  if (!r || !m || !mf.tep[r] || !fs.existsSync(m.den)) { console.error(`🛑 --da-gop: không thấy "${r}" trong bảng kê / bản đồ chép.`); process.exit(1); }
+  const { mauDoiChuaGop, ...giu } = mf.tep[r];
+  mf.tep[r] = { ...giu, nguon: B.bam(m.tu), dich: B.bam(m.den), daGop: new Date().toISOString().slice(0, 10) };
+  fs.writeFileSync(TEP_MF, JSON.stringify(mf, null, 2) + '\n', 'utf8');
+  console.log(`✅ Ghi nhận đã gộp: ${r}${mauDoiChuaGop ? ` (mẫu đổi từ bản ${mauDoiChuaGop})` : ''}.`);
+  process.exit(0);
+}
+
 // ---- di trú đổi tên khi nâng từ bản cũ hơn (vd 1.x → 2.0): tệp dự án đổi tên theo 08-update/doi-ten.json.
 // Đổi tên giữ nguyên nội dung dự án (kể cả phần dự án tự sửa) ⇒ không mất gì; bảng kê chuyển khoá theo.
 // Xem trước: so sánh như thể đã đổi tên. Áp dụng: đổi tên thật + thay tên cũ → mới trong config / sổ luật / CLAUDE.md.
@@ -85,11 +99,11 @@ for (const m of B.banDo(HARNESS, GOC, C, ten)) {
   }
   if (!co) { ket.thieu.push(m); continue; }
   if (!rec) { mf.tep[r] = { nguon, dich: dichNow, nhom: m.nhom, giu: true }; ket.rieng.push(r); continue; }
-  if (nguon === rec.nguon) { ket.khongDoi++; if (dichNow !== rec.dich && m.nhom !== 'so') ket.tuSua.push(r); continue; }
+  if (B.khop(m.tu, rec.nguon)) { ket.khongDoi++; if (!B.khop(denThuc, rec.dich) && m.nhom !== 'so') ket.tuSua.push(r); continue; }
   if (m.nhom === 'so') { ket.khongDoi++; continue; }
   if (m.nhom === 'rieng') { ket.mauDoi.push(m); continue; }
   // rec.rieng: lúc --dang-ky tệp đã khác harness (bản riêng của dự án) ⇒ harness đổi thì luôn là xung đột, không ghi đè
-  if (dichNow === rec.dich && !rec.rieng) ket.capNhat.push(m); else ket.xungDot.push(m);
+  if (B.khop(denThuc, rec.dich) && !rec.rieng) ket.capNhat.push(m); else ket.xungDot.push(m);
 }
 
 const in_ = (tieuDe, ds, fmt) => { if (!ds.length) return; console.log(`\n${tieuDe} (${ds.length}):`); ds.forEach((x) => console.log('   · ' + (fmt ? fmt(x) : x))); };
@@ -105,12 +119,14 @@ if (DANG_KY) {
   process.exit(0);
 }
 in_('🔀 ĐỔI TÊN — bố cục bản mới (giữ nguyên nội dung dự án, bảng kê chuyển theo)', ketDoi, (d) => `${d.cu} → ${d.moi}   (bản ${d.ban})`);
-const TEP_THAY = ['harness.config.json', `${LUAT_DIR}/LUAT-DANGKY.json`, 'CLAUDE.md'];
-if (ketDoi.length) console.log(`   Kèm thay tên cũ → mới trong: ${TEP_THAY.join(' · ')} (chỉ chuỗi đường dẫn, không đổi nội dung khác).`);
+// Thay tên cũ → mới: config, sổ luật, CLAUDE.md và mọi tệp luật dự án khai ở tepLuat.danhSach (kể cả luật riêng).
+const TEP_THAY = [...new Set(['harness.config.json', `${LUAT_DIR}/LUAT-DANGKY.json`, 'CLAUDE.md', ...(((C.tepLuat || {}).danhSach) || [])])]
+  .filter((t) => !ketDoi.some((d) => d.cu === t));
+if (ketDoi.length) console.log(`   Kèm thay tên cũ → mới trong: ${TEP_THAY.join(' · ')} — chỉ đường dẫn đầy đủ (${LUAT_DIR}/<tên>), tên trong \`…\`, và giá trị JSON đúng bằng tên; không đổi nội dung khác.`);
 in_('⬆️ CẬP NHẬT ĐƯỢC — harness đổi, dự án chưa sửa', ket.capNhat, (m) => rel(m.den));
 in_('⬜ THIẾU — harness có, dự án chưa có', ket.thieu, (m) => rel(m.den));
 in_('📄 MẪU ĐỔI — tệp dự án tự điền, harness đổi mẫu: xem diff rồi gộp tay nếu cần', ket.mauDoi, (m) => `${rel(m.den)}   ← ${path.relative(HARNESS, m.tu)}`);
-in_('⛔ XUNG ĐỘT — harness đổi VÀ dự án đã sửa riêng: KHÔNG ghi đè', ket.xungDot, (m) => `${rel(m.den)}\n       git diff --no-index ${JSON.stringify(m.den)} ${JSON.stringify(m.tu)}`);
+in_('⛔ XUNG ĐỘT — harness đổi VÀ dự án đã sửa riêng: KHÔNG ghi đè', ket.xungDot, (m) => `${rel(m.den)}\n       git diff --no-index ${JSON.stringify(path.join(GOC, thuc(rel(m.den))))} ${JSON.stringify(m.tu)}`);
 if (ket.rieng.length) console.log(`\n(ghi nhận ${ket.rieng.length} tệp có trong dự án nhưng chưa có trong bảng kê — coi là bản riêng)`);
 console.log(`\nKhông đổi: ${ket.khongDoi} tệp` + (ket.tuSua.length ? ` — trong đó dự án tự sửa ${ket.tuSua.length} tệp (harness chưa đổi nên không chạm; sau này harness đổi sẽ thành xung đột): ${ket.tuSua.join(' · ')}` : '') + '.');
 
@@ -123,11 +139,19 @@ if (AP_DUNG) {
   }
   for (const [moi, cu] of Object.entries(daDoi)) if (mf.tep[cu]) { mf.tep[moi] = mf.tep[cu]; delete mf.tep[cu]; }
   if (ketDoi.length) {
-    const tenCu = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    for (const t of TEP_THAY) {
-      const p = path.join(GOC, t); if (!fs.existsSync(p)) continue;
+    const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    for (const t0 of TEP_THAY) {
+      const t = t0; const p = path.join(GOC, t); if (!fs.existsSync(p)) continue;
       let s = fs.readFileSync(p, 'utf8'); const truoc = s;
-      for (const d of ketDoi) s = s.replace(new RegExp(`(?<![-A-Za-z0-9])${tenCu(path.basename(d.cu))}(?=[/"'\`\\s)\\]]|$)`, 'gm'), path.basename(d.moi));
+      for (const d of ketDoi) {
+        const cu = path.basename(d.cu), moi = path.basename(d.moi);
+        // (1) đường dẫn đầy đủ: Instructions/PLAYBOOK.md · Instructions/goi/…  (2) tên trong backtick: `PLAYBOOK.md`
+        // (3) giá trị JSON đúng bằng tên: "PLAYBOOK.md"  (4) riêng thư mục goi: khoá JSON "goi": → "packs":
+        s = s.replace(new RegExp(`(?<![\\w-])${esc(d.cu)}(?![\\w-])`, 'g'), d.moi)
+          .replace(new RegExp('`' + esc(cu) + '`', 'g'), '`' + moi + '`')
+          .replace(new RegExp(`"${esc(cu)}"`, 'g'), `"${moi}"`);
+        if (cu === 'goi') s = s.replace(/"goi"(\s*):/g, '"packs"$1:');
+      }
       if (s !== truoc) { fs.writeFileSync(p, s, 'utf8'); if (mf.tep[t]) mf.tep[t].dich = B.bam(p); console.log(`   ✏️ ${t}: đã thay tên tệp cũ → mới`); }
     }
     console.log(`🔀 Đã đổi tên ${ketDoi.length} mục theo bố cục bản ${BAN_MOI}.`);
@@ -145,9 +169,9 @@ if (AP_DUNG) {
   console.log('   Việc tiếp: đọc CHANGELOG.md mục bản mới (mục BẮT BUỘC phải làm) · ghi Dev Book "đã cập nhật ProjectHarness lên GlobalHarness bản ' + BAN_MOI + '" · đẩy git qua skill day-git · cập nhật DU-AN-DANG-KY.json.');
   if (!args.includes('--kho')) {
     const kh = path.join(GOC, C.thuMuc.log, 'kiem-harness.cjs');
-    if (fs.existsSync(kh)) { console.log(`\n--- node ${C.thuMuc.log}/kiem-harness.cjs ---`); try { console.log(execSync(`node ${JSON.stringify(kh)}`, { cwd: GOC, encoding: 'utf8' })); } catch (e) { console.log((e.stdout || '') + (e.stderr || '')); } }
+    if (fs.existsSync(kh)) { console.log(`\n--- node ${C.thuMuc.log}/kiem-harness.cjs ---`); try { console.log(execSync(`node ${JSON.stringify(kh)}`, { cwd: GOC, encoding: 'utf8' })); } catch (e) { console.log((e.stdout || '') + (e.stderr || '')); console.log('🛑 kiem-harness ĐỎ sau khi áp dụng — sửa trước khi dùng (mã thoát 2).'); process.exitCode = 2; } }
   }
 } else if (ket.capNhat.length || ket.thieu.length) {
   console.log('\nĐây là bản XEM TRƯỚC — chưa ghi gì. Áp dụng: thêm --ap-dung.');
 }
-process.exit(ket.xungDot.length ? 2 : 0);
+process.exit(ket.xungDot.length || process.exitCode === 2 ? 2 : 0);

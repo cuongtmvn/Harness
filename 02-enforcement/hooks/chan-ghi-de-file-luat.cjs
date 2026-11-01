@@ -67,7 +67,7 @@ K.docStdin((hook) => {
   if (CO_DI_VONG.test(JSON.stringify(vao))) { K.ghiSo(SO, { ts: new Date().toISOString(), phien, loai: 'di-vong', kieu, mucTieu, chiTiet: gon }); return process.exit(0); }
   K.ghiSo(SO, { ts: new Date().toISOString(), phien, loai: 'chan', kieu, mucTieu, chiTiet: gon });
   K.chan([
-    `🛑 CHẶN — ghi đè file luật: ${mucTieu}  (${kieu}). Luật: OPERATING-MODEL §8 — sửa file luật là một phép REFACTOR.`,
+    `🛑 CHẶN — ghi đè file luật: ${mucTieu}  (${kieu}). Luật: B1-AI-AUTHORITY §8 — sửa file luật là một phép REFACTOR.`,
     '',
     'VÌ SAO: ghi đè file luật bằng nội dung dựng lại từ trí nhớ ⇒ mất luật im lặng. Cái gì không nhớ tới',
     'thì biến mất, và không có gì kêu.',

@@ -55,7 +55,7 @@ Cưỡng chế: hook `SessionStart` in dòng định vị 🧭 và báo bản m�
 | ① | **Harness** — công cụ · cổng · hook | `Instructions/PHASEGATE.md` §3–§9 · `harness.config.json` | Khi chạm cổng, bằng chứng chạy thật |
 | ② | **Thang tự hành L0–L5** | `Instructions/B1-AI-AUTHORITY.md` §1 — tóm tắt dưới | Luôn |
 | ③ | **Dây cương A/A+ · 7 điều dừng** | `B1-AI-AUTHORITY.md` §2, §5 — tóm tắt dưới · `Instructions/LEASH-BANG.json` | Luôn |
-| ④ | **Playbook 11 Bước** — cổng vào/ra từng Bước | `Instructions/PIPELINE.md` · `PHASEGATE.md` · `REVIEW-POLICY.md` | **Mở Bước nào cũng đọc mục Bước đó trước** |
+| ④ | **Quy trình SDLC 11 Bước** (luật pipeline — nhánh A, xem `Instructions/RULE-TREE.md`) — cổng vào/ra từng Bước | `Instructions/PIPELINE.md` · `PHASEGATE.md` · `REVIEW-POLICY.md` | **Mở Bước nào cũng đọc mục Bước đó trước** |
 | ⑤ | **Mô hình vận hành** — 3 luật cứng · 3 cơ chế · 4 câu hỏi | `B1-AI-AUTHORITY.md` §3, §4, §6 — tóm tắt dưới | Luôn |
 | ⑥ | **Sổ tay lái** — vòng 7 nhịp | `Instructions/B5-SESSIONS.md` | Đầu dự án; khi thấy mình micromanage hoặc buông tay |
 | ⑦ | **Dev Book** — quyết định của Huynh + bài học đúc rút | `Output/DEVBOOK.md` | Mỗi khi có quyết định của Huynh; chưng cất ở Bước 10 |
@@ -165,7 +165,7 @@ Cưỡng chế: luật `L-PHIEN-01` (`kiem-luat --mat` kiểm khối này còn c
 <gốc>/
 ├── CLAUDE.md               ← file này
 ├── harness.config.json     ← cấu hình harness (⛔ CULI không sửa)
-├── Instructions/           ← luật + sổ cấu hình (PLAYBOOK · PHASEGATE · LUAT-DANGKY · LEASH-BANG · PHAM-VI-MVP …)
+├── Instructions/           ← luật + sổ cấu hình (RULE-TREE · B1–B5 · PIPELINE · PHASEGATE · LUAT-DANGKY · LEASH-BANG · PHAM-VI-MVP …)
 ├── Output/                 ← deliverable (SCOPE · SPEC · … · RTM · DEVBOOK · TELEMETRY)
 ├── App/                    ← mã sản phẩm (tests ở App/tests/)
 ├── Log/                    ← công cụ cổng + sổ ghi (TASKLIST · PHASE-GATE-LOG · PROOF-LOG · cong-buoc/ · khai-round/)

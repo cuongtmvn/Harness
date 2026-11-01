@@ -1,6 +1,6 @@
 # Gói `desktop-tauri` — bài học riêng cho app desktop dựng bằng Tauri (webview + Rust)
 
-> Áp cho dự án có `harness.config.json › duAn.goi` chứa `"desktop-tauri"`. Bộ cài chép thư mục này vào `Instructions/goi/desktop-tauri/`. Gói này **đọc kèm gói `desktop`** (tường lửa, bản cài). Nguồn: Mười Ngón, 16–17/10/2026.
+> Áp cho dự án có `harness.config.json › duAn.packs` chứa `"desktop-tauri"`. Bộ cài chép thư mục này vào `Instructions/packs/desktop-tauri/`. Gói này **đọc kèm gói `desktop`** (tường lửa, bản cài). Nguồn: Mười Ngón, 16–17/10/2026.
 
 ## 1. CSP của Tauri chèn nonce ⇒ `style="…"` trong HTML bị chặn
 

@@ -1,5 +1,5 @@
 {
-  "_doc": "BẢNG KHAI MỞ ROUND — chép thành Log/khai-round/<mvp>-R<k>.json. Khai ĐỦ 11 Bước TRƯỚC khi chạy (PLAYBOOK §0.4). Mỗi Bước đúng một trạng thái: cham | khong-cham | ke-thua. MỌI Bước đều phải có lyDo = VIỆC CỤ THỂ (kể cả cham) — lời khai trống thì không đối chiếu được. Round 1 ngầm định không cần bảng này.",
+  "_doc": "BẢNG KHAI MỞ ROUND — chép thành Log/khai-round/<mvp>-R<k>.json. Khai ĐỦ 11 Bước TRƯỚC khi chạy (PIPELINE §0.4). Mỗi Bước đúng một trạng thái: cham | khong-cham | ke-thua. MỌI Bước đều phải có lyDo = VIỆC CỤ THỂ (kể cả cham) — lời khai trống thì không đối chiếu được. Round 1 ngầm định không cần bảng này.",
   "mvp": "01",
   "round": "R2",
   "moVi": "<Round này mở vì KHOẢNG CÁCH NÀO của Round trước — nguyên văn chủ dự án nếu có>",

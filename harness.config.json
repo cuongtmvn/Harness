@@ -12,7 +12,7 @@
     "moTaMotDong": "<một dòng nói sản phẩm là gì>",
     "ngayBatDau": "<YYYY-MM-DD>",
     "packs": [],
-    "_goi_doc": "Gói bài học theo loại dự án, chép từ <Harness>/09-packs/<loại>/ vào Instructions/goi/<loại>/. Có: \"desktop\" (app cài Windows, LAN, tường lửa) · \"desktop-tauri\" (CSP nonce; đọc kèm \"desktop\"). Web/cloud chưa có gói riêng — lõi đã đủ. Để [] nếu không dùng."
+    "_packs_doc": "Pack — bài học theo loại dự án (khoá cũ 1.x: goi, vẫn nhận), chép từ <Harness>/09-packs/<loại>/ vào Instructions/packs/<loại>/. Có: \"desktop\" (app cài Windows, LAN, tường lửa) · \"desktop-tauri\" (CSP nonce; đọc kèm \"desktop\"). Web/cloud chưa có gói riêng — lõi đã đủ. Để [] nếu không dùng."
   },
 
   "vaiTro": {

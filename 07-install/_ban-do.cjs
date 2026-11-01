@@ -55,9 +55,14 @@ function banDo(HARNESS, GOC, C, ten) {
   return ds;
 }
 
-const bam = (tep) => require('crypto').createHash('sha256').update(fs.readFileSync(tep)).digest('hex').slice(0, 16);
+// 2.0: băm bỏ ký tự CR — tệp lấy ra lại bằng git (CRLF ↔ LF) không bị coi là 'dự án tự sửa'. bamTho = cách băm 1.x (byte thô),
+// khop() nhận cả hai để bảng kê ghi từ 1.x vẫn so đúng.
+const h16 = (buf) => require('crypto').createHash('sha256').update(buf).digest('hex').slice(0, 16);
+const bamTho = (tep) => h16(fs.readFileSync(tep));
+const bam = (tep) => h16(Buffer.from(fs.readFileSync(tep, 'latin1').replace(/\r/g, ''), 'latin1'));
+const khop = (tep, ghi) => !!ghi && (ghi === bam(tep) || ghi === bamTho(tep));
 const noiDung = (m) => { const s = fs.readFileSync(m.tu, 'utf8'); return m.bienDoi ? m.bienDoi(s) : s; };
 const docVersion = (HARNESS) => { try { return fs.readFileSync(path.join(HARNESS, 'VERSION'), 'utf8').trim(); } catch { return '0.0.0'; } };
 const soSanhVersion = (a, b) => { const x = String(a).split('.').map(Number), y = String(b).split('.').map(Number); for (let i = 0; i < 3; i++) { if ((x[i] || 0) !== (y[i] || 0)) return (x[i] || 0) - (y[i] || 0); } return 0; };
 
-module.exports = { banDo, bam, noiDung, docVersion, soSanhVersion, ls, SO_CAU_HINH, TEN_MANIFEST: '.harness-manifest.json' };
+module.exports = { banDo, bam, bamTho, khop, noiDung, docVersion, soSanhVersion, ls, SO_CAU_HINH, TEN_MANIFEST: '.harness-manifest.json' };

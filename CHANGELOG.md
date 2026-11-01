@@ -18,13 +18,31 @@ Nguồn: trang Proposal của Control Tower (bản 2–4, 31/10–01/11/2026) v�
 | lõi chung | khuyến nghị | `02-enforcement/tools/kiem-luat.cjs` chế độ `--cot` | Báo ô trống thuộc tính cây luật (không chặn) |
 | lõi chung | khuyến nghị | `02-enforcement/hooks/ghi-so-gio.cjs` (mới) · `settings.json` (SessionStart / UserPromptSubmit / Stop / SessionEnd) · `tools/do-gio.cjs` · `harness.config.json › doGio` | Sổ giờ mọi thiết bị (máy, cloud — `CLAUDE_CODE_REMOTE`), mỗi phiên một tệp `Log/so-gio/<phiên>.ndjson`, **không ghi nội dung**. Giờ theo định nghĩa chủ dự án: AI chạy tính đủ; quãng AI xong → tin kế > 15 phút loại cả quãng; gộp phiên song song. Thử: ca có nghỉ 20 phút ra đúng 45 phút |
 | lõi chung | khuyến nghị | `02-enforcement/settings.json › permissions.ask` | `rm -rf`, `git reset --hard`, `git push --force`, `Remove-Item -Recurse`, `Format-Volume` phải hỏi (luật L-TOOL-04) |
-| lõi chung | khuyến nghị | `02-enforcement/tools/gate-check.cjs` điều kiện **(n)** · `01-pipeline/templates/GHI-CHU-CHU-DU-AN.md` (mới) · `01-pipeline/PROJECT-TREE.md` (mới) · `03-records/cong-buoc/_MAU.json › V6.ghiChuDaDoc` · `PHASEGATE.md` V6 | M11: cây tệp mặc định có mô tả; ghi chú chủ dự án gắn Bước, cổng vào **chặn** nếu bản khai không nêu mục mở; `chuaQuyet` phải trỏ mã sổ chờ quyết (cảnh báo). Dự án chưa có tệp ghi chú ⇒ chỉ cảnh báo |
+| lõi chung | khuyến nghị | `02-enforcement/tools/gate-check.cjs` điều kiện **(n)** · `01-pipeline/templates/GHI-CHU-CHU-DU-AN.md` (mới) · `01-pipeline/PROJECT-TREE.md` (mới) · `03-records/cong-buoc/_MAU.json › V6.ghiChuDaDoc` · `PHASEGATE.md` V6 | M11: cây tệp mặc định có mô tả; ghi chú chủ dự án gắn Bước, khai ở V6 lúc mở Bước; gate-check **chặn đóng Bước** nếu bản khai không nêu mục mở (máy chỉ kiểm lúc đóng — lúc mở là kỷ luật khai V6); `chuaQuyet` phải trỏ mã sổ chờ quyết (cảnh báo). Dự án chưa có tệp ghi chú ⇒ chỉ cảnh báo |
 | lõi chung | khuyến nghị | `02-enforcement/tools/kiem-harness.cjs` | Cảnh báo (không chặn) khi dự án chưa nhận phần 2.0: RULE-TREE, sổ giờ, ghi chú chủ dự án |
 | gói | khuyến nghị | `02-enforcement/skills/bao-cao-html/` (mới: `SKILL.md`, `khung-mau.html`) | Chuẩn báo cáo HTML tương tác: navy, sáng / tối, VI / EN / VI+EN, tooltip khi ngắn, dấu hỏi + popup khi dài, hình / bảng đánh số theo mục, sitemap, SVG không tràn chữ (góp ý Tester 01/11) |
 | tài liệu | — | `10-guidebook/` (mới) | Sổ tay: cây luật, cơ chế Claude Code mức máy / dự án, danh mục, chọn model + effort + tạo agent, tiết kiệm token (M9) |
 | mức máy | khuyến nghị | `07-install/machine/cai-muc-may.cjs` (`--log`) · `kiem-project-harness.cjs` · `07-cai-dat/muc-may/kiem-project-harness.cjs` (cầu nối) | `cleanupPeriodDays` 36500; `~/.claude/globalharness-may.json` ngưỡng log 5 GB (báo từ 4,5 GB, đo 1 lần / ngày, ⛔ không tự xoá). Cầu nối giữ hook mức máy 1.x chạy tới khi chạy lại bộ cài; bỏ ở 3.0.0 |
 | lõi chung | khuyến nghị | ký hiệu `§ⓐ / §ⓑ` → `§A / §B` (`BACKLOG`, `PIPELINE`, `B01`, …) | Khó đọc (góp ý 01/11) |
 | riêng kho | — | `.claude/skills/day-git/SKILL.md` chế độ NHÁNH | Thay đổi lớn làm trên nhánh + worktree riêng, đẩy nhánh, pull request; không tự gộp main |
+
+**Sửa sau soát của tester senior (agent độc lập, 01/11 — kết luận ban đầu NO-GO):**
+
+| Phát hiện | Sửa |
+|---|---|
+| BLOCKER — `permissions.ask` ghi trong luật L-TOOL-04 / tài liệu nhưng **không có** trong mẫu `settings.json` (phép thay chuỗi trượt vì CRLF mà vẫn báo xong) | Thêm khối `ask` bằng sửa JSON; kiểm lại mọi lần thay chuỗi khác |
+| Skill `cap-nhat-harness` 1.x gọi `08-cap-nhat/cap-nhat.cjs` — không còn sau khi đổi tên | Cầu nối `08-cap-nhat/cap-nhat.cjs` → `08-update/` (bỏ ở 3.0.0) |
+| Mã băm bảng kê phụ thuộc kiểu xuống dòng ⇒ lấy lại tệp bằng git là thành "dự án tự sửa" giả | `bam()` bỏ ký tự CR; `khop()` nhận cả mã băm kiểu 1.x để bảng kê cũ vẫn so đúng |
+| Danh sách MẪU ĐỔI chỉ in một lần, sau đó không công cụ nào nhắc | `kiem-harness` liệt kê tệp còn `mauDoiChuaGop` (trừ tài liệu `Output/`) + cảnh báo thiếu `doGio`; `cap-nhat.cjs --da-gop <tệp>` ghi nhận đã gộp (cả tệp xung đột) |
+| Điều kiện (n) chỉ chạy khi **đóng** Bước, không phải cổng vào | Sửa câu chữ ở CHANGELOG / mẫu ghi chú / PROJECT-TREE |
+| Bộ đọc ghi chú bỏ sót (`B0-B3`, `B5, *`, `**mở**`, "đang mở", Unicode NFD, dòng thiếu `|` đầu, `\|` trong nội dung) và chặn nhầm (`MVP 4 B0`, cột Bước trống) | Chuẩn hoá NFC, chỉ bỏ `**`, hiểu khoảng và `*`, bỏ phần MVP, cảnh báo dòng không đọc được, báo riêng khi chưa có bản khai — 8 ca thử đúng |
+| Thay tên theo tên trần: thay nhầm tệp khác (`App/docs/RUNBOOK.md`), chữ `goi` trong câu lệnh; sót khi theo sau là `,` `:` `.` | Chỉ thay đường dẫn đầy đủ `Instructions/<tên>`, tên trong backtick, giá trị JSON đúng bằng tên, khoá `"goi":`; áp thêm cho tệp luật riêng ở `tepLuat.danhSach` |
+| Lệnh xem diff khi xem trước trỏ tên mới chưa có · `cap-nhat` trả 0 dù `kiem-harness` đỏ | Trỏ tên đang có thật · trả 2 khi `kiem-harness` đỏ |
+| Sổ giờ ghi tên máy thật (lộ khi repo công khai) · lọc ngày theo UTC · AI bị ngắt (không có "xong") chỉ tính 5 phút · `--tu abc` im lặng | Ghi mã băm 8 ký tự của tên máy · ngày theo giờ máy · prompt → prompt tính là AI chạy (trần 120 phút, `doGio.tranNgatPhut`) · kiểm định dạng ngày; `phutNghi: 0` được tôn trọng |
+| Tên cũ còn sót: tiêu đề tệp luật, thông báo hook / gate-check ("PLAYBOOK §…", "OPERATING-MODEL §…"), README pack, `_goi_doc`, CLAUDE.template, MO-TA-HARNESS | Đổi theo tên mới |
+| Kịch bản TypingMaster: workspace mở thư mục cha (gốc khả dĩ của MV3-Q66), bảng lệnh trỏ cổng cũ `cong-buoc.mjs`, kỳ vọng sai | Ghi vào kịch bản (điều kiện trước, bước 2, 8, 10) — tệp kịch bản nằm ngoài kho |
+
+Chưa sửa (ghi nhận): `kiem-luat --diff` không thấy dòng bị xoá của tệp đổi tên (so theo tên mới với HEAD); ghi chú chủ dự án không có cột MVP (áp xong chủ dự án chuyển `đóng`); `cap-nhat` chạy không cần hỏi vì quyền allow có từ 1.x.
 
 **Dự án nhận:** không gì đổi cho tới khi chủ dự án yêu cầu nâng — dự án chạy bản đã cài. Khi nâng: làm theo `08-update/HUONG-DAN-CAP-NHAT.md` mục 6 (xem trước → `--ap-dung` → gộp tay `settings.json`, `harness.config.json`, `LUAT-DANGKY.json`, `CLAUDE.md`). **Mỗi máy:** sau khi gộp, chạy lại `node <Harness>/07-install/machine/cai-muc-may.cjs --ap-dung [--log <thư mục sao lưu>]`. Bản cũ: nhãn `v1.7.0`.
 

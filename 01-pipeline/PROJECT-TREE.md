@@ -50,7 +50,7 @@
 | TELEMETRY.md | Số đo vận hành | Bước 9–10 |
 | WEEKLY.md | Báo cáo tuần | Hằng tuần |
 | DEVBOOK.md | Quyết định của chủ dự án (nguyên văn) và bài học | Mọi Bước |
-| **GHI-CHU-CHU-DU-AN.md** | Ghi chú của chủ dự án gắn một Bước (phát hiện UAT, quan điểm giữ cho Round sau) — **cổng vào bắt buộc đọc** (gate-check (n)) | Khi chủ dự án ghi |
+| **GHI-CHU-CHU-DU-AN.md** | Ghi chú của chủ dự án gắn một Bước (phát hiện UAT, quan điểm giữ cho Round sau) — đọc khi khai cổng vào V6; máy kiểm khi đóng Bước (gate-check (n)) | Khi chủ dự án ghi |
 
 ## Log/ — sổ máy ghi (AI không sửa tay)
 

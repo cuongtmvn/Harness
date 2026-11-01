@@ -66,6 +66,7 @@ Dự án chưa yêu cầu thì **vẫn chạy bản đã cài** (bản chép tro
    - `harness.config.json`: thêm khối `doGio` (`phutNghi: 15`); thêm các tệp luật mới vào `tepLuat.danhSach` (`B2-EXTERNAL-TOOLS.md`, `B4-RULEBOOK.md`, `B5-SESSIONS.md`, `RULE-TREE.md`, `B3-DOC-HEALTH.md`, `UT/IT-SIT/UAT-RULES.md`).
    - `Instructions/LUAT-DANGKY.json`: thêm cột cây luật (`nhanh`, `phamVi`, `apDung`, `soGhiVet`) cho luật của dự án; luật mới của 2.0 lấy từ `03-records/LUAT-DANGKY.json` (`themBan: "2.0.0"`).
    - `CLAUDE.md`: thay "Playbook 11 bước" bằng "quy trình SDLC 11 bước"; trỏ tới `Instructions/RULE-TREE.md`.
+4b. Gộp xong tệp nào (mẫu đổi hoặc xung đột) thì ghi nhận: `node <Harness>/08-update/cap-nhat.cjs <dự án> --da-gop <tệp>` — `kiem-harness` thôi nhắc tệp đó.
 5. **Kiểm:** `node Log/kiem-harness.cjs` xanh (cảnh báo phần 2.0 chưa gộp là bình thường tới khi gộp xong) · `node Log/kiem-luat.cjs --mat --trung` sạch · `node Log/kiem-luat.cjs --cot` xem ô trống.
 6. Đẩy git qua skill day-git; cập nhật `08-update/DU-AN-DANG-KY.json` (thông điệp `sổ đăng ký: …`).
 

@@ -93,7 +93,7 @@ K.docStdin((hook) => {
   if (CO_DI_VONG.test(lenh)) { K.ghiSo(SO, { ts: new Date().toISOString(), phien, loai: 'di-vong', lenh: gon, ghiChu: 'Cắm cờ #QUA-DAY-GIT — CỐ Ý đi vòng qua skill day-git. ⚠️ Có thể khớp nhầm lệnh chỉ NHẮC TÊN cờ — đọc kèm trường lenh.' }); return process.exit(0); }
   K.ghiSo(SO, { ts: new Date().toISOString(), phien, loai: 'chan', repo, lenh: gon, lyDoRepo: lyDoRepo || undefined });
   K.chan([
-    '🛑 CHẶN — `git commit` gõ tay. Luật: PLAYBOOK §0.5 — mọi commit đi qua skill day-git.',
+    '🛑 CHẶN — `git commit` gõ tay. Luật: PIPELINE §0.5 — mọi commit đi qua skill day-git.',
     '',
     ...(lyDoRepo ? ['⚠️ ' + lyDoRepo, ''] : []),
     ...(khacRepo ? ['Repo đích: ' + repo + ' — mốc phải do skill day-git CỦA repo đó sinh ra (' + moc + ').', ''] : []),

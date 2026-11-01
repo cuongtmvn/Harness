@@ -17,7 +17,9 @@ K.docStdin((hook) => {
     const ten = { SessionStart: 'bat-dau', UserPromptSubmit: 'prompt', Stop: 'xong', SessionEnd: 'ket-thuc' }[hook.hook_event_name];
     const sid = String(hook.session_id || process.env.CLAUDE_CODE_SESSION_ID || '').replace(/[^\w-]/g, '');
     if (!ten || !sid) return process.exit(0);
-    const ban = { ts: new Date().toISOString(), suKien: ten, sessionId: sid, may: os.hostname(), moiTruong: process.env.CLAUDE_CODE_REMOTE === 'true' ? 'cloud' : 'may' };
+    // may = mã băm 8 ký tự của tên máy — phân biệt thiết bị mà không lộ tên máy khi sổ được commit (repo có thể công khai)
+    const may = require('crypto').createHash('sha256').update(os.hostname()).digest('hex').slice(0, 8);
+    const ban = { ts: new Date().toISOString(), suKien: ten, sessionId: sid, may, moiTruong: process.env.CLAUDE_CODE_REMOTE === 'true' ? 'cloud' : 'may' };
     if (ten === 'bat-dau' && hook.source) ban.nguon = String(hook.source).slice(0, 12);
     if (ten === 'ket-thuc' && hook.reason) ban.lyDo = String(hook.reason).slice(0, 24);
     K.ghiSo(K.path.join(K.GOC, K.LOG, 'so-gio', `${sid}.ndjson`), ban);

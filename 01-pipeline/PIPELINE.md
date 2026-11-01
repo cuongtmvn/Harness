@@ -1,4 +1,4 @@
-# PLAYBOOK — Đường ray 11 Bước, mỗi Bước có cổng vào và cổng ra
+# PIPELINE — Quy trình SDLC 11 Bước, mỗi Bước có cổng vào và cổng ra
 
 > **Nhánh A · Pipeline rules** của cây luật (`RULE-TREE.md`) — bản 2.0 đổi tên tệp từ PLAYBOOK.md ("playbook 11 bước" nay gọi là quy trình SDLC 11 bước).
 

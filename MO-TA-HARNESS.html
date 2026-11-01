@@ -1041,7 +1041,7 @@ khong                     ⇒ tu-soi được</pre>
   </table></div>
   <div class="grid2" style="margin-top:16px">
     <div class="panel">
-      <h3>Vòng 7 nhịp — dùng cho mọi việc (RUNBOOK §1)</h3>
+      <h3>Vòng 7 nhịp — dùng cho mọi việc (B5-SESSIONS §1)</h3>
       <ol>
         <li><strong>Context</strong> — CLAUDE.md tự nạp; "nạp context" đọc bàn giao → TASKLIST → mục Bước đang mở</li>
         <li><strong>Plan</strong> — Plan mode, chờ duyệt kế hoạch (V4/V5 là kế hoạch tối thiểu)</li>
@@ -1243,7 +1243,7 @@ const STEPS=[
 {n:6,name:"Rủi ro & phân quyền",art:"RISK.md · DELEGATION-MAP.md · LEASH-BANG.json",ma:"R-xx · mục dây cương",review:"dau",
  muc:"Rủi ro có người sở hữu + cách giảm; quy tắc ủy quyền AI rõ: việc nào A, việc nào A+.",
  vao:["Rủi ro mới do Round này lộ ra đã liệt kê"],
- doc:["WBS.md đã đóng","RISK.md: mã tiếp theo","LEASH-BANG.json hiện tại","OPERATING-MODEL §5: 7 điều dừng"],
+ doc:["WBS.md đã đóng","RISK.md: mã tiếp theo","LEASH-BANG.json hiện tại","B1-AI-AUTHORITY §5: 7 điều dừng"],
  duoc:"Rủi ro xác suất × tác động · cách giảm · người sở hữu · nhóm rủi ro do AI sinh · đề xuất mức dây cương",
  dung:"Sửa chính luật quản AI: dây cương, 7 điều dừng, cơ chế cổng (5). Phải khai xung đột lợi ích",
  khong:"Tự hạ mức việc chạm dữ liệu nhạy · cách giảm sáo rỗng không ai sở hữu",
@@ -1429,7 +1429,7 @@ const IV=[
  ["cfg","VERSION · CHANGELOG.md · .harness-manifest.json","Số bản semver của kho · lịch sử từng mục (dự án nguồn · lớp · bắt buộc/khuyến nghị · tệp · vì sao) · bảng kê trong dự án: bản đang dùng + mã băm nguồn/đích từng tệp lúc cài (bộ cài ghi, commit cùng dự án).","mọi lần sửa kho · mọi lần cài / cập nhật"],
  ["skill","cap-nhat-harness","4 bước: đọc CHANGELOG từ bản đang dùng tới bản mới → xem trước cap-nhat.cjs → Huynh gật mới --ap-dung → ghi Dev Book, DU-AN-DANG-KY.json, đẩy git. Xung đột ở hạ tầng gác luật phải khai 'CULI được lợi nếu nới'.","\"cập nhật harness\" · khi hook nhắc"],
  ["skill","dua-vao-harness","7 bước: git pull --ff-only (dở thì dừng) → trả lời 'chặn lỗi gì / tiết kiệm gì' + gắn lớp lõi/gói/riêng → sửa đúng chỗ → cài thử vào thư mục trống + kiem-harness xanh → VERSION + CHANGELOG → đẩy GitHub với commit theo khuôn → Dev Book dự án gốc.","\"đưa vào harness …\""],
- ["cfg","09-packs/ · duAn.goi","Gói bài học theo loại dự án: desktop (tường lửa LAN, UAT = bản cài thật, mo-tuong-lua.mau.ps1) · desktop-tauri (CSP nonce chặn style=, csp-tauri.mau.py, mẫu config). Bộ cài / cap-nhat chép vào Instructions/goi/<loại>/ theo harness.config.json › duAn.goi.","cài đặt · cập nhật · từ 1.2.0"],
+ ["cfg","09-packs/ · duAn.packs","Gói bài học theo loại dự án: desktop (tường lửa LAN, UAT = bản cài thật, mo-tuong-lua.mau.ps1) · desktop-tauri (CSP nonce chặn style=, csp-tauri.mau.py, mẫu config). Bộ cài / cap-nhat chép vào Instructions/goi/<loại>/ theo harness.config.json › duAn.goi.","cài đặt · cập nhật · từ 1.2.0"],
  ["cfg",".claude/agents/ 5 vai","tester · dung-tai-nguyen · viet-noi-dung · ve-hinh · tra-cuu, mỗi vai có model + effort trong frontmatter; CULI gọi đúng tên vai, không hỏi lại. Nhóm riêng: dự án sửa theo sản phẩm, harness đổi chỉ báo.","mọi lần giao việc cho subagent · từ 1.2.0"],
  ["skill","day-git","5 bước có kiểm chứng: kiểm → đưa file vào (+ moc-day-git) → commit → đẩy lên → kiểm lại (+ ghi-vet). Chốt C1–C4 dừng, W1–W4 cảnh báo. LOCAL vs ĐẦY ĐỦ do câu Huynh gõ quyết định.","\"đẩy git đi\" · \"đẩy GitHub đi\""],
  ["so","TASKLIST.md","Nguồn trạng thái duy nhất: task cấp 3, ô cuối đọc theo ký tự đầu ✅🔒🔄⬜⛔.","Bước 4 tạo · mọi Bước cập nhật"],

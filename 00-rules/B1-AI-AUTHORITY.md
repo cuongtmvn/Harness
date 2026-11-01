@@ -1,4 +1,4 @@
-# OPERATING-MODEL — Mô hình vận hành: ai quyết gì, AI được tự chạy tới đâu
+# B1 · AI AUTHORITY (OPERATING-MODEL) — Mô hình vận hành: ai quyết gì, AI được tự chạy tới đâu
 
 > **Nhánh B1 · Quyền hạn AI** của cây luật (`RULE-TREE.md`) — bản 2.0 đổi tên tệp từ OPERATING-MODEL.md, nội dung giữ nguyên.
 

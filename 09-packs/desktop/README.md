@@ -1,6 +1,6 @@
 # Gói `desktop` — bài học riêng cho app cài trên máy Windows (mọi khung: Tauri, Electron, .NET…)
 
-> Áp cho dự án có `harness.config.json › duAn.goi` chứa `"desktop"`. Bộ cài chép thư mục này vào `Instructions/goi/desktop/`. Nguồn: Mười Ngón, 16/10/2026.
+> Áp cho dự án có `harness.config.json › duAn.packs` chứa `"desktop"`. Bộ cài chép thư mục này vào `Instructions/packs/desktop/`. Nguồn: Mười Ngón, 16/10/2026.
 
 ## 1. App có mạng LAN: hộp hỏi tường lửa bị Cancel ⇒ Windows tạo luật CHẶN
 

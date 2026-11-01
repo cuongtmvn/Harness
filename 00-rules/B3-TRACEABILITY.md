@@ -1,4 +1,4 @@
-# TRACEABILITY — Chuỗi truy vết từ yêu cầu tới kiểm thử và phát hành
+# B3 · TRACEABILITY — Chuỗi truy vết từ yêu cầu tới kiểm thử và phát hành
 
 > **Nhánh B3 · Thông tin dự án** của cây luật (`RULE-TREE.md`) — bản 2.0 đổi tên tệp từ TRACEABILITY.md.
 

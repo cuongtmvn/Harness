@@ -160,7 +160,7 @@ if (co('--dong-mvp')) {
     }
     const moTa = khai.length ? khai.map((x) => `${x.round}:${x.trangThai}`).join(', ') : 'không Round nào khai';
     console.log(`  🛑 Bước ${k.padStart(2)} — CHƯA CHẠY  (${moTa})`);
-    chan.push(`Bước ${n} chưa có bản ghi đóng nào ở MVP ${mvp}` + (kt.length ? `, và chỉ ${kt.length}/${khai.length} Round khai "ke-thua" — phải MỌI Round mới được miễn` : ', và không Round nào khai "ke-thua"') + `. ⛔ MVP phải chạy đủ 11 Bước (PLAYBOOK §0.1).`);
+    chan.push(`Bước ${n} chưa có bản ghi đóng nào ở MVP ${mvp}` + (kt.length ? `, và chỉ ${kt.length}/${khai.length} Round khai "ke-thua" — phải MỌI Round mới được miễn` : ', và không Round nào khai "ke-thua"') + `. ⛔ MVP phải chạy đủ 11 Bước (PIPELINE §0.1).`);
   }
   console.log('');
   if (keThua.length) {
@@ -236,7 +236,7 @@ if (co('--buoc')) {
   });
   if (!tasks.length) {
     console.log(`\n⚠️  Không tìm thấy task nào khớp trong ${H.rel(H.tep('TASKLIST'))}.`);
-    console.log('   Bước này CHƯA MỞ — không có gì để đóng. (Vào Bước là phải chẻ việc — PLAYBOOK §0.2.)');
+    console.log('   Bước này CHƯA MỞ — không có gì để đóng. (Vào Bước là phải chẻ việc — PIPELINE §0.2.)');
     process.exit(2);
   }
 
@@ -355,17 +355,37 @@ if (co('--buoc')) {
     const v6 = (congKhai || {}).V6 || {};
     if (!fs.existsSync(fGhiChu)) canhBao.push(`(n) Chưa có ${H.rel(fGhiChu)} — dự án chưa nhận M11 (bản 2.0); ghi chú của ${CHU} cho Bước này không được kiểm.`);
     else {
-      const mo = [];
-      for (const l of fs.readFileSync(fGhiChu, 'utf8').replace(/<!--[\s\S]*?-->/g, '').split(/\r?\n/)) { // bỏ dòng ví dụ trong chú thích
-        const c = l.split('|').map((x) => x.trim());
-        if (c.length < 7 || !/^GC-\d+/.test(c[1])) continue;
-        const buocGhi = c[3].replace(/^B(ước)?\s*/i, '');
-        if (/^(mở|mo|open)$/i.test(c[5]) && (buocGhi === '*' || buocGhi.split(/[,\s]+/).map((x) => String(Number(x.replace(/^B/i, '')))).includes(String(Number(soBuoc))))) mo.push(c[1]);
+      const mo = [], khongDoc = [];
+      const tachBuoc = (o) => { // "B0" · "0" · "B08, B09" · "B0-B3" · "*" · "MVP 4 B0" (bỏ phần MVP) ⇒ tập số Bước, hoặc null nếu không đọc được
+        const t = o.replace(/MVP\s*\d+/gi, ' ').replace(/Bước/gi, 'B').trim();
+        if (!t) return null;
+        const ra = new Set();
+        for (const p of t.split(/[,;\s]+/).filter(Boolean)) {
+          if (p === '*') { ra.add('*'); continue; }
+          const k = /^B?(\d{1,2})(?:[-–]B?(\d{1,2}))?$/i.exec(p);
+          if (!k) return null;
+          for (let n = Number(k[1]); n <= Number(k[2] || k[1]); n++) ra.add(String(n));
+        }
+        return ra.size ? ra : null;
+      };
+      const noiDung = fs.readFileSync(fGhiChu, 'utf8').normalize('NFC').replace(/<!--[\s\S]*?-->/g, ''); // bỏ dòng ví dụ trong chú thích
+      for (const l of noiDung.split(/\r?\n/)) {
+        if (!/GC-\d+/.test(l)) continue;
+        const c = l.replace(/\\\|/g, '¦').replace(/^\s*\|?/, '|').split('|').map((x) => x.replace(/\*\*/g, '').trim()); // bỏ chữ đậm **…**, giữ '*' = mọi Bước
+        if (c.length < 6 || !/^GC-\d+$/.test(c[1])) { khongDoc.push(l.trim().slice(0, 60)); continue; }
+        const tt = (c[5] || '').toLowerCase();
+        const dongLai = /đóng|dong|closed|xong/.test(tt), moTT = /mở|\bmo\b|open/.test(tt);
+        if (!moTT || dongLai) continue;
+        const bs = tachBuoc(c[3]);
+        if (!bs) { khongDoc.push(`${c[1]}: cột Bước "${c[3]}"`); continue; }
+        if (bs.has('*') || bs.has(String(Number(soBuoc)))) mo.push(c[1]);
       }
+      if (khongDoc.length) canhBao.push(`(n) ${khongDoc.length} dòng ghi chú không đọc được (sửa cho đúng bảng | GC-nnn | Ngày | Bước | Nội dung | Trạng thái |): ${khongDoc.slice(0, 5).join(' · ')}`);
       const daDoc = Array.isArray(v6.ghiChuDaDoc) ? v6.ghiChuDaDoc.map(String) : [];
       const sot = mo.filter((m) => !daDoc.includes(m));
       if (!mo.length) console.log(`\n(n) ✅ Ghi chú ${CHU}: không có mục mở cho Bước ${soBuoc}.`);
       else if (sot.length && congKhai) { chan.push(`(n) Ghi chú của ${CHU} còn ${sot.length} mục MỞ cho Bước ${soBuoc} mà bản khai chưa nêu đã đọc: ${sot.join(', ')} — thêm vào V6.ghiChuDaDoc và nói cách áp trong V6.canCu (${H.rel(fGhiChu)}).`); console.log(`\n(n) ⛔ chưa đọc ghi chú: ${sot.join(', ')}`); }
+      else if (!congKhai) console.log(`\n(n) ⚠️ Ghi chú ${CHU}: ${mo.length} mục mở cho Bước ${soBuoc} (${mo.join(', ')}) — chưa có bản khai để đối chiếu (điều kiện (f) chặn).`);
       else console.log(`\n(n) ✅ Ghi chú ${CHU}: ${mo.length} mục mở cho Bước ${soBuoc}, bản khai đã nêu đủ.`);
     }
     // chuaQuyet phải trỏ mã trong sổ chờ quyết (Log/CHO-QUYET.ndjson) — không để chữ trôi nổi trong bản khai

@@ -2,7 +2,7 @@
 
 > Nơi cố định cho những điều chủ dự án muốn AI nhớ và áp ở một Bước cụ thể: phát hiện khi UAT, quan điểm giữ cho Round sau, điều không muốn lặp lại.
 > AI ghi khi chủ dự án bảo ("ghi chú lại …"); chỉ chủ dự án đổi trạng thái sang `đóng`.
-> **Cổng vào mọi Bước** đọc tệp này: mục `mở` gắn Bước đó (hoặc `*` = mọi Bước) phải được nêu trong bản khai `V6.ghiChuDaDoc` kèm cách áp — gate-check điều kiện (n) chặn nếu sót.
+> **Khai cổng vào (V6) lúc mở mọi Bước** phải đọc tệp này: mục `mở` gắn Bước đó (hoặc `*` = mọi Bước) nêu ở `V6.ghiChuDaDoc` kèm cách áp. Máy kiểm khi **đóng Bước** (gate-check điều kiện (n)) — sót thì không đóng được. Ghi chú gắn Bước của mọi MVP / Round; áp xong thì chủ dự án chuyển `đóng`.
 
 **Trạng thái tệp:** Chưa có thông tin — thêm dòng đầu tiên khi chủ dự án có ghi chú.
 

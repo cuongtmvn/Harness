@@ -1,4 +1,4 @@
-# NGUYÊN TẮC THIẾT KẾ CỔNG — 15 bài học rút từ dự án thật, đã chưng cất thành luật
+# B4 · RULEBOOK — Nguyên tắc thiết kế cổng: 15 bài học rút từ dự án thật, đã chưng cất thành luật
 
 > **Nhánh B4 · Bộ luật** của cây luật (`RULE-TREE.md`) — bản 2.0 đổi tên tệp từ NGUYEN-TAC-THIET-KE-CONG.md; thêm mục cuối "Vòng đời bộ luật".
 

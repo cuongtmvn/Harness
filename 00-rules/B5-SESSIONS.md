@@ -1,4 +1,4 @@
-# RUNBOOK — Sổ tay lái AI: vòng 7 nhịp, cần điều khiển, câu lệnh mẫu, bẫy
+# B5 · SESSIONS (RUNBOOK) — Sổ tay lái AI: vòng 7 nhịp, cần điều khiển, câu lệnh mẫu, bẫy
 
 > **Nhánh B5 · Phiên & phối hợp** của cây luật (`RULE-TREE.md`) — bản 2.0 đổi tên tệp từ RUNBOOK.md; thêm mục cuối "Phối hợp phiên, agent, bộ nhớ".
 

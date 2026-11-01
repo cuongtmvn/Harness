@@ -52,7 +52,14 @@ for (const s of ['cap-nhat-harness', 'dua-vao-harness']) if (!fs.existsSync(H.P(
 // 2.0 — cây luật, sổ giờ, ghi chú chủ dự án: thiếu thì CẢNH BÁO (dự án 1.x vẫn chạy được, chỉ chưa nhận phần mới)
 if (!fs.existsSync(H.P(H.C.thuMuc.luat, 'RULE-TREE.md'))) canh.push(`Chưa có ${H.C.thuMuc.luat}/RULE-TREE.md (harness 2.0: cây luật) — chạy cap-nhat.cjs --ap-dung để nhận`);
 if (st && st.hooks && !JSON.stringify(st.hooks).includes('ghi-so-gio.cjs')) canh.push('settings.json chưa lắp hook ghi-so-gio.cjs (harness 2.0: sổ giờ) — gộp khối SessionStart/UserPromptSubmit/Stop/SessionEnd từ mẫu 02-enforcement/settings.json');
-if (!fs.existsSync(H.P(H.C.thuMuc.output, 'GHI-CHU-CHU-DU-AN.md'))) canh.push(`Chưa có ${H.C.thuMuc.output}/GHI-CHU-CHU-DU-AN.md (harness 2.0: ghi chú chủ dự án, cổng vào đọc) — chạy cap-nhat.cjs --ap-dung để nhận`);
+if (!fs.existsSync(H.P(H.C.thuMuc.output, 'GHI-CHU-CHU-DU-AN.md'))) canh.push(`Chưa có ${H.C.thuMuc.output}/GHI-CHU-CHU-DU-AN.md (harness 2.0: ghi chú chủ dự án, đọc khi khai V6) — chạy cap-nhat.cjs --ap-dung để nhận`);
+if (!H.C.doGio) canh.push('harness.config.json chưa có khối doGio (harness 2.0: ngưỡng nghỉ của sổ giờ) — thêm { "phutNghi": 15 } theo mẫu');
+// 2.0 — tệp riêng của dự án mà mẫu ở GlobalHarness đã đổi, chưa gộp tay (cap-nhat chỉ báo một lần lúc áp dụng)
+{
+  const mf = H.docJson('.harness-manifest.json', null);
+  const chua = mf && mf.tep ? Object.entries(mf.tep).filter(([k, v]) => v.mauDoiChuaGop && !k.startsWith(H.C.thuMuc.output + '/')).map(([k, v]) => `${k} (từ ${v.mauDoiChuaGop})`) : [];
+  if (chua.length) canh.push(`${chua.length} tệp riêng còn MẪU ĐỔI chưa gộp: ${chua.slice(0, 10).join(' · ')}${chua.length > 10 ? ` … +${chua.length - 10}` : ''} — gộp tay theo mẫu ở GlobalHarness rồi ghi nhận: node <Harness>/08-update/cap-nhat.cjs . --da-gop <tệp>`);
+}
 
 // ② bis — ProjectHarness tụt bản so với GlobalHarness (từ 1.5.0 · L-HARNESS-01 luật 5). Chỉ CẢNH BÁO, không chặn:
 // GlobalHarness có bản mới thì mọi lần kiểm / đóng Bước đều thấy, không chỉ lúc mở phiên.

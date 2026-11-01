@@ -1,4 +1,4 @@
-# DOC-HEALTH-RULES — 7 chỉ số sức khoẻ tài liệu
+# B3 · DOC HEALTH — 7 chỉ số sức khoẻ tài liệu
 
 > **Nhánh B3 · Thông tin dự án** của cây luật (`RULE-TREE.md`) — bản 2.0 đổi tên tệp từ DOC-HEALTH-RULES.md.
 

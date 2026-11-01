@@ -3,6 +3,16 @@
 > Mỗi mục ghi đủ: **dự án nguồn** · **lớp** (*lõi chung* = mọi dự án · *gói `<loại>`* = dự án cùng loại · *riêng* = không đưa) · **bắt buộc / khuyến nghị** với dự án nhận · **tệp đổi** · **vì sao** (bằng chứng). Mục *bắt buộc* mà `cap-nhat.cjs` không tự làm được thì ghi rõ dự án nhận phải làm gì.
 > Số bản: `VERSION`. PATCH sửa chữ / lỗi công cụ · MINOR thêm luật, công cụ, hook, skill, gói · MAJOR đổi cấu trúc thư mục, khoá `harness.config.json`, cách khai cổng.
 
+## 2.0.2 — 2026-11-01 · đăng ký luật L-TOOL-07 cho dòng luật CSDL ngoài repo
+
+Nguồn: Mười Ngón · khi nâng lên 2.0.1, cổng day-git của dự án (`kiem-luat --dongbo`) chặn vì `B2-EXTERNAL-TOOLS.md` có dòng luật mới mà sổ luật không đổi — bản 2.0.1 thêm dòng luật nhưng quên đăng ký vào sổ nguồn (cổng kho không chạy `--dongbo` trên tệp luật nguồn).
+
+| Lớp | Mức | Tệp | Vì sao |
+|---|---|---|---|
+| lõi chung | khuyến nghị | `03-records/LUAT-DANGKY.json` | Thêm L-TOOL-07 (nhánh B2): CSDL ngoài repo vẫn phải được gác bằng `csdlThat` — neo vào dòng luật đã có ở `00-rules/B2-EXTERNAL-TOOLS.md` mục 4 |
+
+**Dự án nhận:** sổ luật là tệp riêng của dự án — thêm dòng L-TOOL-07 khi nhận 2.0.1 (Mười Ngón đã thêm).
+
 ## 2.0.1 — 2026-11-01 · hook chặn ghi CSDL thật gác được dữ liệu nằm ngoài repo
 
 Nguồn: dự án Mười Ngón · khi nâng lên 2.0.0, chủ dự án chọn *"Có, khai đường dẫn"* cho dữ liệu của hai bé, rồi *"Sửa hook 2.0.1 rồi khai"*. Dữ liệu thật của app nằm ở thư mục dữ liệu của app trên máy (`%APPDATA%\<app>\…db`, ngoài repo); hook 2.0.0 ghép `thuMucSaoLuu` vào gốc dự án nên không trỏ được ra ngoài, và chỉ coi câu SQL là "ghi" — lệnh xoá / dời tệp CSDL lọt qua. Chạm hook (điều dừng 5): **ĐỆ được lợi nếu nới — không**, sửa này chỉ siết.

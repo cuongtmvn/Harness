@@ -1123,6 +1123,23 @@
       ],
       "soGhiVet": "Log/DOC-HEALTH.json",
       "themBan": "2.0.0"
+    },
+    {
+      "id": "L-TOOL-07",
+      "muc": "—",
+      "tomtat": "CSDL ngoài repo (thư mục dữ liệu của app) vẫn phải được gác bằng csdlThat",
+      "file": "Instructions/B2-EXTERNAL-TOOLS.md",
+      "neo": "CSDL nằm **ngoài repo** (thư mục dữ liệu của app trên máy) vẫn phải được gác",
+      "cochequuongche": "hook chan-ghi-csdl-that.cjs (2.0.1) · harness.config.json › csdlThat",
+      "botdi_thi_sao": "Dữ liệu người dùng thật ngoài repo bị xoá / ghi đè không có bản sao lưu",
+      "trangthai": "song",
+      "nhanh": "B2",
+      "phamVi": "global",
+      "apDung": [
+        "*"
+      ],
+      "soGhiVet": "Log/CHAN-CSDL-THAT.ndjson",
+      "themBan": "2.0.2"
     }
   ]
 }

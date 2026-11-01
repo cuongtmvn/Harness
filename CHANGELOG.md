@@ -12,7 +12,11 @@ Nguồn: dự án Mười Ngón · khi nâng lên 2.0.0, chủ dự án chọn *
 | lõi chung | khuyến nghị | `02-enforcement/hooks/chan-ghi-csdl-that.cjs` | (1) `thuMucSaoLuu` nhận đường dẫn tuyệt đối, `~`, `%BIẾN%`, `$BIẾN` (path.resolve thay path.join); (2) xoá / dời / ghi đè / chuyển hướng ghi lên tệp CSDL thật tính là ghi; chép (`cp` / `Copy-Item`) không tính — đó là cách sao lưu. Thử 9 ca trên CSDL giả lập ngoài repo: chặn xoá / WAL / SQL ghi / chuyển hướng khi chưa sao lưu, cho qua SQL đọc, chép sao lưu, lệnh không liên quan; có sao lưu < 120 phút thì qua, quá hạn thì chặn |
 | tài liệu | — | `harness.config.json › csdlThat._doc` · `00-rules/B2-EXTERNAL-TOOLS.md` mục 4 | Cách khai cho CSDL ngoài repo |
 
-Giới hạn (giữ nguyên, đã ghi trong hook): hook chỉ thấy chuỗi lệnh; chép đè vào tệp CSDL (`cp khac.db typingmaster.db`) không bị nhận ra.
+**Sửa thêm sau soát của tester senior (GO, kèm điều kiện):** nhận bí danh PowerShell (`ri`, `mi`, `rni`, `sc`, `ac`, `clc`, `tee`), `Add-Content`, ghi qua node / python (`unlinkSync`, `rmSync`, `os.remove`, `shutil.rmtree`), lệnh dot của sqlite3 (`.read`, `.restore`, `.import`) và `sqlite3 <db> < tệp.sql`; **chép đè** vào CSDL (đích của `cp` / `Copy-Item` là CSDL, không phải thư mục sao lưu) bị chặn; chuyển hướng `>` chỉ tính khi đích là CSDL (xuất csv ra chỗ khác vẫn được); `PRAGMA wal_checkpoint(…)` và `VACUUM INTO` không bị coi là ghi; giờ bản sao lưu = max(giờ sửa, giờ tạo) để bản chép bằng `Copy-Item` được tính; khoá mới `csdlThat.saoLuuToiThieuByte` (tệp nhỏ hơn không tính là sao lưu). Khuyến nghị khuôn **mức thư mục** dữ liệu của app (xoá cả thư mục / wildcard / đường dẫn tách qua biến đều bị chặn) và sao lưu bằng `sqlite3 <db> ".backup '<thư mục sao lưu>/<tên>.db'"` (an toàn với WAL). Thử 23 ca trên CSDL giả lập: đúng hết.
+
+**Đổi hành vi:** dự án có `csdlThat.khuon` mặc định (`App/db/…`) nay bị chặn `rm App/db/app.db` khi chưa có bản sao lưu (trước 2.0.1 lọt qua).
+
+Giới hạn còn lại: hook chỉ thấy chuỗi lệnh Bash / PowerShell (lệnh ghi bằng công cụ Write, hoặc SQL nằm trong tệp script, không thấy); đường dẫn tách qua `cd` rồi gọi tên trần chỉ bị chặn khi khuôn ở mức thư mục; bản sao lưu nằm trong chính thư mục được gác thì xoá cả thư mục là mất cả hai — nên có thêm bản ngoài thư mục đó.
 
 **Dự án nhận:** `cap-nhat.cjs --ap-dung` chép hook mới (nhóm công cụ). Dự án có CSDL ngoài repo thì khai `csdlThat` (luật quản AI — chủ dự án duyệt).
 

@@ -9,7 +9,7 @@ Chủ dự án = **Huynh**. AI = **ĐỆ** (ở dự án thì là CULI theo `har
 ## Đọc gì trước
 1. `README.md` — bản đồ thư mục, bộ cài, §8 phiên bản & cập nhật.
 2. `CHANGELOG.md` mục trên cùng — kho đang ở bản nào, vừa đổi gì. `VERSION` là số bản.
-3. `08-cap-nhat/HUONG-DAN-CAP-NHAT.md` — hai chiều cập nhật, bốn điều cấm.
+3. `08-update/HUONG-DAN-CAP-NHAT.md` — hai chiều cập nhật, bốn điều cấm.
 4. `MO-TA-HARNESS.html` — mở trong trình duyệt khi cần nhìn toàn cảnh (pipeline, ma trận 11 Bước, điểm can thiệp).
 
 ## ⚡ Lệnh kích hoạt tại kho này
@@ -17,20 +17,20 @@ Chủ dự án = **Huynh**. AI = **ĐỆ** (ở dự án thì là CULI theo `har
 | Huynh gõ | ĐỆ làm |
 |---|---|
 | *"nạp context"* | Đọc 4 tệp trên · `git status` · `git log --oneline -5` · báo bản hiện tại và tệp dở |
-| *"cập nhật GlobalHarness …"* *(câu cũ: "đưa vào harness …")* | Skill `05-hook-skill/skills/dua-vao-harness/SKILL.md` — 7 bước; Bước 4 **phải** cài thử vào thư mục trống và `kiem-harness` xanh |
-| *"cập nhật harness"* (cho dự án X) | Tầng ProjectHarness của X: skill `05-hook-skill/skills/cap-nhat-harness/SKILL.md` — `node 08-cap-nhat/cap-nhat.cjs <X>` xem trước (dry run, chưa ghi), `--ap-dung` sau khi Huynh gật |
-| *"đẩy git đi"* | **Skill `.claude/skills/day-git`** của kho (từ 1.6.0): kho đã cài hook chặn commit tay (`.claude/settings.json` → `05-hook-skill/hooks/chan-git-commit-tay.cjs`); công cụ mốc / vết ở `04-cong-may/`. ⛔ Không `#QUA-DAY-GIT`, không commit tay, không bỏ bước (Huynh 19/10/2026) — kẹt thì dừng báo Huynh |
+| *"cập nhật GlobalHarness …"* *(câu cũ: "đưa vào harness …")* | Skill `02-enforcement/skills/dua-vao-harness/SKILL.md` — 7 bước; Bước 4 **phải** cài thử vào thư mục trống và `kiem-harness` xanh |
+| *"cập nhật harness"* (cho dự án X) | Tầng ProjectHarness của X: skill `02-enforcement/skills/cap-nhat-harness/SKILL.md` — `node 08-update/cap-nhat.cjs <X>` xem trước (dry run, chưa ghi), `--ap-dung` sau khi Huynh gật |
+| *"đẩy git đi"* | **Skill `.claude/skills/day-git`** của kho (từ 1.6.0): kho đã cài hook chặn commit tay (`.claude/settings.json` → `02-enforcement/hooks/chan-git-commit-tay.cjs`); công cụ mốc / vết ở `02-enforcement/tools/`. ⛔ Không `#QUA-DAY-GIT`, không commit tay, không bỏ bước (Huynh 19/10/2026) — kẹt thì dừng báo Huynh |
 | *"đẩy GitHub đi"* | Skill `day-git` chế độ ĐẦY ĐỦ + `git push origin main` — **chỉ khi** `VERSION` đã tăng và `CHANGELOG.md` có mục mới; thông điệp commit theo khuôn `harness <bản>: <tóm tắt>` + từng mục lớp/mức/tệp/vì sao |
 
 ## 🔒 Luật của kho
 
-1. **Mọi thay đổi nội dung GlobalHarness = tăng `VERSION` + mục `CHANGELOG.md`** (PATCH chữ/lỗi · MINOR thêm · MAJOR đổi cấu trúc/khoá). Sửa `MO-TA-HARNESS.html` hay README không đổi luật thì PATCH. Ngoại lệ duy nhất không cần tăng bản: sổ `08-cap-nhat/DU-AN-DANG-KY.json` (ghi dự án nào ở bản nào) — vẫn commit + đẩy GitHub với thông điệp `sổ đăng ký: …`.
+1. **Mọi thay đổi nội dung GlobalHarness = tăng `VERSION` + mục `CHANGELOG.md`** (PATCH chữ/lỗi · MINOR thêm · MAJOR đổi cấu trúc/khoá). Sửa `MO-TA-HARNESS.html` hay README không đổi luật thì PATCH. Ngoại lệ duy nhất không cần tăng bản: sổ `08-update/DU-AN-DANG-KY.json` (ghi dự án nào ở bản nào) — vẫn commit + đẩy GitHub với thông điệp `sổ đăng ký: …`.
 2. **Không đẩy GitHub mà thiếu ghi chú** — ghi chú = mục CHANGELOG + thông điệp commit trùng nhau.
-3. **Sửa tệp luật (`00`–`03`) = Edit từng khối**, không ghi đè cả tệp; thêm luật thì thêm dòng vào `06-so-ghi/LUAT-DANGKY.json`; chạy `node 04-cong-may/kiem-luat.cjs --mat --trung` sau khi sửa (chạy trong một dự án đã cài, hoặc thư mục cài thử).
+3. **Sửa tệp luật (`00-rules`, `01-pipeline`) = Edit từng khối**, không ghi đè cả tệp; thêm luật thì thêm dòng vào `03-records/LUAT-DANGKY.json`; chạy `node 02-enforcement/tools/kiem-luat.cjs --mat --trung` sau khi sửa (chạy trong một dự án đã cài, hoặc thư mục cài thử).
 4. **Chạm luật quản AI** (dây cương, 7 điều dừng, cổng, `reviewPolicy`, `congRaRieng`, `csdlThat`, hook, `gate-check.cjs`, `kiem-luat.cjs`, `settings.json`) ⇒ khai *"ĐỆ được lợi nếu nới"* rồi dừng chờ Huynh — điều dừng 5.
 5. **Mọi thứ đưa vào phải trả lời "chặn lỗi gì / tiết kiệm gì"** và gắn lớp lõi / gói / riêng; mặc định gói. Chi tiết riêng dự án (đường dẫn, cổng, tên bảng) không được vào kho. **GlobalHarness chỉ giữ cơ chế điều hành AI theo pipeline** (Bước, cổng, truy vết, review, dây cương, đo lường) để tối ưu và không thiếu sót; **nguồn dữ liệu, cách thu thập (web, trình duyệt, API…), nội dung miền nghiệp vụ là riêng dự án** — ở lại ProjectHarness (Huynh chốt 18/10/2026).
-6. **Công cụ mới**: `.cjs`, không gói npm, đọc config qua `04-cong-may/_harness-config.cjs`, thoát 0 / 2; bản đồ chép ở `07-cai-dat/_ban-do.cjs` tự nhận tệp mới trong các thư mục đã liệt kê.
-7. **Trước khi đẩy**: `node 07-cai-dat/cai-dat.cjs <thư-mục-tạm> --ten "Thu nghiem" --kho` → `cd <tạm> && git init -q && node Log/kiem-harness.cjs` phải xanh (cảnh báo về chỗ trống `<...>` và `mocGoc` là bình thường).
+6. **Công cụ mới**: `.cjs`, không gói npm, đọc config qua `02-enforcement/tools/_harness-config.cjs`, thoát 0 / 2; bản đồ chép ở `07-install/_ban-do.cjs` tự nhận tệp mới trong các thư mục đã liệt kê.
+7. **Trước khi đẩy**: `node 07-install/cai-dat.cjs <thư-mục-tạm> --ten "Thu nghiem" --kho` → `cd <tạm> && git init -q && node Log/kiem-harness.cjs` phải xanh (cảnh báo về chỗ trống `<...>` và `mocGoc` là bình thường).
 
-## Bố cục kho
-`00-nguyen-tac` luật nền · `01-playbook` 11 Bước + phasegate + review + checklist · `02-truy-vet` RTM + 15 mẫu artefact · `03-kiem-thu` 4 tầng kiểm thử · `04-cong-may` 17 công cụ · `05-hook-skill` 6+1 hook, 3 skill · `06-so-ghi` sổ mẫu · `07-cai-dat` bộ cài + bản đồ + `muc-may/` (lớp gác mức máy `~/.claude`, bộ cài dự án không chép) · `08-cap-nhat` công cụ nâng cấp, sổ đăng ký dự án, hướng dẫn · `09-goi/` (chưa có) gói theo loại dự án · `MO-TA-HARNESS.html` mô tả tương tác · `tomtat.md` ghi chú quyết định 17/10/2026 (việc còn chờ Huynh ở mục 8).
+## Bố cục kho (2.0 — theo cây luật, `00-rules/RULE-TREE.md`)
+`00-rules` luật chung nhánh B1–B5 + cây luật · `01-pipeline` luật pipeline (SDLC 11 bước, phasegate, review, cây tệp mặc định, `steps/`, `testing/`, `templates/`) · `02-enforcement` máy thi hành (`tools/` 18 công cụ, `hooks/` 8 hook, `skills/` 4 skill, `agents/` 5 vai, `settings.json`) · `03-records` sổ mẫu · `07-install` bộ cài + `machine/` (lớp gác mức máy `~/.claude`, bộ cài dự án không chép) · `07-cai-dat/muc-may/` cầu nối đường dẫn cũ của hook mức máy (bỏ ở 3.0.0) · `08-update` nâng bản + bản đồ đổi tên `doi-ten.json` + sổ đăng ký dự án · `09-packs` luật theo loại dự án · `10-guidebook` sổ tay (cây luật, cơ chế Claude Code, danh mục, model + effort + agent, token) · `MO-TA-HARNESS.html` mô tả tương tác · `tomtat.md` ghi chú quyết định 17/10/2026.

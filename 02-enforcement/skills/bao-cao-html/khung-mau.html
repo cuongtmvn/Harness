@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Report Template</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* Quy tắc 1: màu qua biến trên :root; sáng + tối; body có nền tường minh */
+:root{
+  --bg:#f4f7fb; --panel:#ffffff; --ink:#13203a; --mute:#566781; --line:#d6deea;
+  --navy:#0B2545; --accent:#0070C0; --link:#0070C0; --linkh:#b45309;
+  --sel:#dcecfb; --code:#eef2f8; --tip:#0B2545; --tipink:#ffffff;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0c1524; --panel:#142036; --ink:#e6edf7; --mute:#9fb0c9; --line:#2a3b58;
+    --navy:#08172b; --accent:#4aa3e8; --link:#6cb6ff; --linkh:#ffd166;
+    --sel:#1f3a5e; --code:#1b2a44; --tip:#e6edf7; --tipink:#0c1524;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0c1524; --panel:#142036; --ink:#e6edf7; --mute:#9fb0c9; --line:#2a3b58;
+  --navy:#08172b; --accent:#4aa3e8; --link:#6cb6ff; --linkh:#ffd166;
+  --sel:#1f3a5e; --code:#1b2a44; --tip:#e6edf7; --tipink:#0c1524;
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:72px}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.65 "Be Vietnam Pro",system-ui,Segoe UI,Arial,sans-serif}
+header{position:sticky;top:0;z-index:30;background:var(--navy);color:#fff;display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;padding:10px 16px}
+header h1{font-size:17px;margin:0;flex:1 1 200px;color:#fff}
+.seg{display:inline-flex;border:1px solid rgba(255,255,255,.4);border-radius:6px;overflow:hidden}
+.seg button,.tbtn,#menu{background:transparent;color:#fff;border:0;padding:6px 12px;font:inherit;font-size:13px;cursor:pointer}
+.seg button+button{border-left:1px solid rgba(255,255,255,.4)}
+.seg button.on{background:var(--accent)}
+.tbtn,#menu{border:1px solid rgba(255,255,255,.4);border-radius:6px}
+#menu{display:none}
+.wrap{display:grid;grid-template-columns:270px minmax(0,1fr);gap:0;max-width:1500px;margin:0 auto}
+nav{position:sticky;top:56px;align-self:start;max-height:calc(100vh - 56px);overflow:auto;padding:16px 12px 16px 16px;border-right:1px solid var(--line);font-size:14px}
+nav .grp{display:block;width:100%;text-align:left;background:none;border:0;color:var(--mute);font:inherit;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:8px 0;cursor:pointer}
+nav .grp::before{content:"\25BE  "}
+nav .grp.closed::before{content:"\25B8  "}
+nav a{display:block;padding:5px 8px;margin:0;color:var(--ink);text-decoration:none;border-left:3px solid transparent;border-radius:0 4px 4px 0}
+nav a:hover{background:var(--sel)}
+nav a.cur{border-left-color:var(--accent);background:var(--sel);font-weight:600}
+nav .items.closed{display:none}
+main{min-width:0;padding:8px 16px 80px}
+section{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin:16px 0}
+h2{margin:0 0 10px;color:var(--navy);font-size:21px}
+:root[data-theme="dark"] h2{color:#9cc9f2}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) h2{color:#9cc9f2}}
+p{margin:8px 0}
+code{background:var(--code);padding:1px 5px;border-radius:4px;font-size:.92em}
+/* Quy tắc 2: thuật ngữ = màu như liên kết, KHÔNG gạch chân, đổi màu khi rê */
+.term{color:var(--link);text-decoration:none;cursor:default;border:0}
+.term:hover,.term:focus{color:var(--linkh);outline:0}
+.term.long{cursor:help}
+#tip{position:fixed;z-index:60;max-width:300px;background:var(--tip);color:var(--tipink);padding:6px 10px;border-radius:6px;font-size:12.5px;line-height:1.45;pointer-events:none;display:none;box-shadow:0 3px 10px rgba(0,0,0,.25)}
+/* Quy tắc 4: chú thích đánh số */
+figure{margin:14px 0}
+figcaption,.tcap{font-size:13px;color:var(--mute);margin:6px 0;font-style:italic}
+/* Bảng rộng cuộn trong khung riêng, cột đầu dính */
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:8px;max-width:100%}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:14px}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--navy);color:#fff;font-weight:600}
+th:first-child,td:first-child{position:sticky;left:0;z-index:1;background:var(--panel)}
+th:first-child{background:var(--navy);z-index:2}
+tbody tr{cursor:pointer}
+tbody tr:hover td{background:var(--sel)}
+tbody tr.sel td{background:var(--sel);box-shadow:inset 0 0 0 9999px transparent}
+tbody tr.sel td:first-child{border-left:3px solid var(--accent)}
+/* Sơ đồ SVG: KHÔNG đặt font-size cho text bằng class; kích thước đặt bằng thuộc tính */
+.sw{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--panel)}
+.sw svg{display:block;width:100%;min-width:680px;height:auto}
+.node rect{fill:var(--panel);stroke:var(--accent);stroke-width:1.4;cursor:pointer}
+.node:hover rect{fill:var(--sel)}
+.node.sel rect{fill:var(--sel);stroke:var(--linkh);stroke-width:2.6}
+.node text{fill:var(--ink);pointer-events:none}
+.colh{fill:var(--mute);font-weight:700}
+.edge{stroke:var(--mute);stroke-width:1.2;fill:none}
+/* Popup */
+#ov{position:fixed;inset:0;background:rgba(5,12,25,.55);z-index:50;display:none;align-items:center;justify-content:center;padding:16px}
+#ov.on{display:flex}
+#pop{background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:10px;max-width:560px;width:100%;max-height:85vh;overflow:auto;padding:18px 20px;box-shadow:0 10px 40px rgba(0,0,0,.4)}
+#pop h3{margin:0 0 8px;color:var(--accent);font-size:18px}
+#pop .x{float:right;background:none;border:1px solid var(--line);color:var(--ink);border-radius:6px;cursor:pointer;padding:2px 9px;font-size:16px}
+@media (max-width:900px){
+  .wrap{display:block}
+  #menu{display:inline-block}
+  nav{position:fixed;left:0;top:0;bottom:0;width:280px;max-height:none;background:var(--panel);z-index:40;transform:translateX(-105%);transition:transform .2s;padding-top:70px}
+  nav.open{transform:none}
+  section{padding:14px 14px}
+}
+</style>
+</head>
+<body>
+<header>
+  <button id="menu" aria-label="Menu">Menu</button>
+  <h1 data-k="title"></h1>
+  <div class="seg" role="group" aria-label="Language">
+    <button data-lang="vi" class="on">VI</button><button data-lang="en">EN</button><button data-lang="both">VI+EN</button>
+  </div>
+  <button class="tbtn" id="theme">Theme</button>
+</header>
+<div class="wrap">
+  <nav id="nav" aria-label="Sitemap"></nav>
+  <main id="main">
+    <section id="s1">
+      <h2 data-k="s1"></h2>
+      <p data-k="p1"></p>
+      <p data-k="p2"></p>
+    </section>
+
+    <section id="s2">
+      <h2 data-k="s2"></h2>
+      <p data-k="p3"></p>
+      <figure>
+        <div class="sw"><svg id="dg" role="img" aria-label="Diagram"></svg></div>
+        <figcaption data-kind="fig" data-k="cap_f1"></figcaption>
+      </figure>
+    </section>
+
+    <section id="s3">
+      <h2 data-k="s3"></h2>
+      <p data-k="p4"></p>
+      <div class="tcap" data-kind="tab" data-k="cap_t1"></div>
+      <div class="tw">
+        <table>
+          <thead><tr><th data-k="th1"></th><th data-k="th2"></th><th data-k="th3"></th><th data-k="th4"></th></tr></thead>
+          <tbody>
+            <tr data-pop="r1"><td data-k="r1_t"></td><td data-k="r1_a"></td><td data-k="r1_b2"></td><td data-k="r1_c"></td></tr>
+            <tr data-pop="r2"><td data-k="r2_t"></td><td data-k="r2_a"></td><td data-k="r2_b2"></td><td data-k="r2_c"></td></tr>
+            <tr data-pop="r3"><td data-k="r3_t"></td><td data-k="r3_a"></td><td data-k="r3_b2"></td><td data-k="r3_c"></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+</div>
+<div id="tip"></div>
+<div id="ov"><div id="pop" role="dialog" aria-modal="true"><button class="x" id="px" aria-label="Close">&times;</button><h3 id="pt"></h3><div id="pb"></div></div></div>
+
+<script>
+/* ===== Nội dung: mọi chuỗi là cặp [vi, en] ===== */
+const C = {
+  title:["Khung báo cáo mẫu","Report Template"],
+  g1:["Phần nền","Foundations"], g2:["Dữ liệu","Data"],
+  s1:["Tổng quan","Overview"], s2:["Luồng xử lý","Processing Flow"], s3:["Bảng so sánh","Comparison Table"],
+  p1:["Trang này là khung chuẩn cho báo cáo HTML tương tác: hai ngôn ngữ, giao diện sáng và tối, thuật ngữ có giải thích, hình và bảng đánh số theo mục.","This page is the standard frame for interactive HTML reports: two languages, light and dark themes, glossary help, and figures and tables numbered by section."],
+  p2:["Mỗi yêu cầu được nối tới thiết kế và kiểm thử qua RTM, và mỗi giai đoạn kết thúc ở một Phase gate. Rê chuột lên thuật ngữ để xem giải thích; thuật ngữ dài hiện con trỏ dấu hỏi và mở hộp thoại khi bấm.","Each requirement is linked to design and tests through the RTM, and each stage ends at a Phase gate. Hover a term for its explanation; long entries show a question-mark cursor and open a dialog on click."],
+  p3:["Bấm vào một khối trong sơ đồ để xem chi tiết. Khối được chọn giữ viền nổi bật cho đến khi hộp thoại đóng.","Click a block in the diagram for details. The selected block keeps a highlighted outline until the dialog closes."],
+  p4:["Bấm vào một dòng để mở chi tiết. Bảng rộng cuộn ngang trong khung riêng, cột đầu cố định.","Click a row to open its details. A wide table scrolls horizontally inside its own frame with the first column fixed."],
+  cap_f1:["Luồng từ đầu vào đến đầu ra","Flow from inputs to outputs"],
+  cap_t1:["Ba hạng mục và mức độ ưu tiên","Three items and their priority"],
+  c0:["Đầu vào","Input"], c1:["Xử lý","Process"], c2:["Đầu ra","Output"],
+  n1_t:["Yêu cầu đầu vào","Input requirements"], n1_b:["Danh sách yêu cầu đã được duyệt, mỗi yêu cầu có mã riêng để truy vết về sau.","The approved list of requirements; each has its own code for later tracing."],
+  n2_t:["Ràng buộc và giả định","Constraints and assumptions"], n2_b:["Giới hạn về thời gian, ngân sách và kỹ thuật tác động đến cách làm.","Limits on time, budget and technology that shape the approach."],
+  n3_t:["Lập kế hoạch","Planning"], n3_b:["Chia việc thành các bước nhỏ, gán người phụ trách và mốc kiểm tra.","Split the work into small steps with owners and checkpoints."],
+  n4_t:["Xây dựng và kiểm thử","Build and test"], n4_b:["Thực hiện từng bước, chạy kiểm thử ngay sau mỗi thay đổi, ghi lại kết quả.","Carry out each step, run tests after every change and record the results."],
+  n5_t:["Báo cáo kết quả","Result report"], n5_b:["Tài liệu tổng hợp số liệu, bài học rút ra và đề xuất bước tiếp theo.","A document summarising figures, lessons learned and next steps."],
+  n6_t:["Rà soát độc lập","Independent review"], n6_b:["Một người khác đọc lại kết quả theo danh mục kiểm tra trước khi chốt.","A second person re-reads the result against a checklist before sign-off."],
+  th1:["Hạng mục","Item"], th2:["Mô tả","Description"], th3:["Ưu tiên","Priority"], th4:["Trạng thái","Status"],
+  r1_t:["Đăng nhập","Sign-in"], r1_a:["Người dùng vào hệ thống bằng tài khoản công ty.","Users enter the system with a company account."], r1_b2:["Cao","High"], r1_c:["Hoàn tất","Done"],
+  r1_b:["Đăng nhập dùng tài khoản công ty, khóa sau năm lần sai. Kiểm thử bao phủ cả trường hợp hết hạn phiên.","Sign-in uses the company account and locks after five failures. Tests also cover session expiry."],
+  r2_t:["Báo cáo tuần","Weekly report"], r2_a:["Tổng hợp số liệu theo tuần, gửi tự động.","Weekly figures compiled and sent automatically."], r2_b2:["Trung bình","Medium"], r2_c:["Đang làm","In progress"],
+  r2_b:["Báo cáo gom số liệu vào thứ Sáu và gửi cho nhóm. Phần biểu đồ đang hoàn thiện.","The report gathers figures on Friday and sends them to the team. The chart part is being finished."],
+  r3_t:["Xuất dữ liệu","Data export"], r3_a:["Tải bảng dữ liệu về dạng tệp.","Download tables as a file."], r3_b2:["Thấp","Low"], r3_c:["Chờ","Waiting"],
+  r3_b:["Xuất ra tệp bảng tính, giới hạn mười nghìn dòng mỗi lần.","Exports to a spreadsheet file, limited to ten thousand rows per run."],
+  fig:["Hình","Figure"], tab:["Bảng","Table"]
+};
+/* Từ điển: tv/bv = tiêu đề/nội dung VI; te/be = EN; al = các cách viết nhận diện (cả hai ngôn ngữ) */
+const G = {
+  rtm:{tv:"RTM",bv:"Ma trận truy vết: nối từng yêu cầu tới thiết kế, mã nguồn và kiểm thử.",te:"RTM",be:"Traceability matrix: links each requirement to design, code and tests.",al:["RTM"]},
+  gate:{tv:"Phase gate (cổng giai đoạn)",bv:"Điểm kiểm tra cuối mỗi giai đoạn. Giai đoạn chỉ được coi là xong khi mọi tiêu chí của cổng đạt. Nếu một tiêu chí chưa đạt, việc dừng lại để sửa thay vì chuyển sang giai đoạn sau. Cổng giúp phát hiện lỗi sớm, khi chi phí sửa còn thấp.",te:"Phase gate",be:"A checkpoint at the end of each stage. A stage counts as done only when every gate criterion passes. If one fails, work stops to fix it instead of moving on. Gates catch defects early, when fixing is still cheap.",al:["Phase gate","cổng giai đoạn"]},
+  checklist:{tv:"Danh mục kiểm tra",bv:"Danh sách các điểm cần xác nhận trước khi chốt.",te:"Checklist",be:"A list of points to confirm before sign-off.",al:["danh mục kiểm tra","checklist"]}
+};
+const LONG_AT = 110; // body dài hơn ngưỡng này => con trỏ help + bấm mở popup
+
+/* ===== Trạng thái ===== */
+const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+let lang = 'vi', cur = null;
+const closedGroups = new Set();
+const NAV = [{g:'g1',secs:['s1','s2']},{g:'g2',secs:['s3']}];
+try { lang = localStorage.getItem('lang') || 'vi'; } catch(e){}
+
+function tx(k, blk){
+  const p = C[k]; if(!p) return k;
+  if(lang==='vi') return p[0];
+  if(lang==='en') return p[1];
+  return p[0] + (blk ? '<br><span style="color:var(--mute)">' : ' / ') + p[1] + (blk ? '</span>' : '');
+}
+function gx(id, part){ // part: 't' | 'b'
+  const g = G[id];
+  const v = part==='t' ? [g.tv,g.te] : [g.bv,g.be];
+  return lang==='vi' ? v[0] : lang==='en' ? v[1] : v[0] + ' / ' + v[1];
+}
+const isLong = id => Math.max(G[id].bv.length, G[id].be.length) > LONG_AT;
+
+/* ===== Hiển thị ===== */
+function render(){
+  document.documentElement.lang = lang==='en' ? 'en' : 'vi';
+  $$('[data-lang]').forEach(b => b.classList.toggle('on', b.dataset.lang===lang));
+  $$('[data-k]').forEach(el => { el.innerHTML = tx(el.dataset.k, el.tagName==='P'); });
+  // Đánh số mục + chú thích theo mục: Hình 2.1 / Bảng 3.1
+  $$('main section').forEach((sec, i) => {
+    const n = i+1, h = sec.querySelector('h2');
+    h.innerHTML = n + '. ' + tx(h.dataset.k);
+    const cnt = {fig:0, tab:0};
+    sec.querySelectorAll('[data-kind]').forEach(c => {
+      const kind = c.dataset.kind; cnt[kind]++;
+      c.innerHTML = '<b>' + tx(kind) + ' ' + n + '.' + cnt[kind] + '.</b> ' + tx(c.dataset.k);
+    });
+  });
+  buildNav(); drawDiagram(); linkify($('#main')); refreshPop();
+  updateCur();
+}
+function setLang(l){ lang = l; try{ localStorage.setItem('lang', l); }catch(e){} render(); }
+
+/* ===== Sitemap ===== */
+function buildNav(){
+  const nav = $('#nav'); nav.innerHTML = '';
+  NAV.forEach(gr => {
+    const b = document.createElement('button');
+    b.className = 'grp' + (closedGroups.has(gr.g) ? ' closed' : ''); b.innerHTML = tx(gr.g);
+    const box = document.createElement('div');
+    box.className = 'items' + (closedGroups.has(gr.g) ? ' closed' : '');
+    b.onclick = () => { closedGroups.has(gr.g) ? closedGroups.delete(gr.g) : closedGroups.add(gr.g); b.classList.toggle('closed'); box.classList.toggle('closed'); };
+    gr.secs.forEach(id => {
+      const a = document.createElement('a'); a.href = '#' + id; a.dataset.sec = id;
+      a.textContent = ($$('main section').findIndex(s => s.id===id) + 1) + '. ' + (lang==='both' ? C[id][0] + ' / ' + C[id][1] : C[id][lang==='en'?1:0]);
+      a.onclick = () => $('#nav').classList.remove('open');
+      box.appendChild(a);
+    });
+    nav.append(b, box);
+  });
+}
+function updateCur(){
+  let id = null;
+  $$('main section').forEach(s => { if(s.getBoundingClientRect().top <= 110) id = s.id; });
+  if(!id) id = $('main section').id;
+  $$('nav a').forEach(a => a.classList.toggle('cur', a.dataset.sec===id));
+}
+addEventListener('scroll', updateCur, {passive:true});
+
+/* ===== Sơ đồ SVG: tự xuống dòng theo ước lượng 6.2px/ký tự ở cỡ 10.5 ===== */
+const CH = 6.2, FS = 10.5, LH = 14;
+function wrap(text, maxPx){
+  const maxCh = Math.max(8, Math.floor(maxPx / CH)), out = []; let line = '';
+  text.split(' ').forEach(w => {
+    while(w.length > maxCh){ if(line){ out.push(line); line=''; } out.push(w.slice(0,maxCh)); w = w.slice(maxCh); }
+    if((line ? line.length+1 : 0) + w.length <= maxCh) line = line ? line+' '+w : w;
+    else { out.push(line); line = w; }
+  });
+  if(line) out.push(line); return out;
+}
+const COLS = [{h:'c0',n:['n1','n2']},{h:'c1',n:['n3','n4']},{h:'c2',n:['n5','n6']}];
+const EDGES = [['n1','n3'],['n2','n4'],['n3','n5'],['n4','n6']];
+function drawDiagram(){
+  const svg = $('#dg'), W = 900, CW = 250, GAP = 55, X0 = 20, NS = 'http://www.w3.org/2000/svg';
+  svg.innerHTML = ''; const box = {}; let maxY = 0;
+  const mk = (t, a, p) => { const e = document.createElementNS(NS, t); for(const k in a) e.setAttribute(k, a[k]); (p||svg).appendChild(e); return e; };
+  COLS.forEach((col, ci) => {
+    const x = X0 + ci*(CW+GAP);
+    const h = mk('text', {x:x, y:18, class:'colh', 'font-size':11}); h.textContent = lang==='both' ? C[col.h][0]+' / '+C[col.h][1] : C[col.h][lang==='en'?1:0];
+    let y = 32;
+    col.n.forEach(id => {
+      const label = lang==='both' ? C[id+'_t'][0] + ' / ' + C[id+'_t'][1] : C[id+'_t'][lang==='en'?1:0];
+      const lines = wrap(label, CW - 20), hh = lines.length*LH + 18;
+      const g = mk('g', {class:'node', tabindex:0, role:'button', 'data-pop':id});
+      mk('rect', {x:x, y:y, width:CW, height:hh, rx:8}, g);
+      const t = mk('text', {x:x+10, y:y+18, 'font-size':FS}, g);
+      lines.forEach((ln, i) => { const s = mk('tspan', {x:x+10, dy: i? LH : 0}, t); s.textContent = ln; });
+      box[id] = {x:x, y:y, w:CW, h:hh}; y += hh + 24; maxY = Math.max(maxY, y);
+    });
+  });
+  EDGES.forEach(([a,b]) => {
+    const p = box[a], q = box[b];
+    mk('path', {class:'edge', d:`M${p.x+p.w},${p.y+p.h/2} L${q.x},${q.y+q.h/2}`});
+  });
+  svg.setAttribute('viewBox', `0 0 ${W} ${maxY}`);
+  if(cur && cur.type==='k'){ const g = svg.querySelector(`[data-pop="${cur.key}"]`); if(g) g.classList.add('sel'); cur.el = g || cur.el; }
+}
+
+/* ===== Linkify thuật ngữ ===== */
+const SKIP = new Set(['h1','h2','h3','h4','h5','h6','button','code','pre','a','svg','text','tspan','script','style','textarea']);
+const AMAP = {}; let RX;
+(function(){
+  const al = [];
+  for(const id in G) G[id].al.forEach(a => { AMAP[a.toLowerCase()] = id; al.push(a.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')); });
+  al.sort((a,b) => b.length - a.length);
+  RX = new RegExp('(?<![\\p{L}\\p{N}])(' + al.join('|') + ')(?![\\p{L}\\p{N}])', 'giu');
+})();
+function linkify(root){
+  const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT), nodes = [];
+  while(w.nextNode()){
+    const n = w.currentNode; let ok = n.nodeValue.trim().length > 0;
+    for(let p = n.parentNode; ok && p && p !== document; p = p.parentNode){
+      if(p.nodeType===1 && (SKIP.has(p.tagName.toLowerCase()) || p.classList.contains('term'))) ok = false;
+    }
+    if(ok) nodes.push(n);
+  }
+  nodes.forEach(n => {
+    const t = n.nodeValue; let last = 0, m, hit = false; const f = document.createDocumentFragment(); RX.lastIndex = 0;
+    while((m = RX.exec(t))){
+      hit = true; f.append(t.slice(last, m.index));
+      const id = AMAP[m[0].toLowerCase()], s = document.createElement('span');
+      s.className = 'term' + (isLong(id) ? ' long' : ''); s.dataset.g = id; s.tabIndex = 0; s.textContent = m[0]; f.append(s);
+      last = m.index + m[0].length;
+    }
+    if(hit){ f.append(t.slice(last)); n.replaceWith(f); }
+  });
+}
+
+/* ===== Tooltip (thuật ngữ ngắn) ===== */
+const tip = $('#tip');
+function showTip(el){
+  tip.innerHTML = '<b>' + gx(el.dataset.g,'t') + '</b><br>' + gx(el.dataset.g,'b'); tip.style.display = 'block';
+  const r = el.getBoundingClientRect(), tw = tip.offsetWidth, th = tip.offsetHeight;
+  let x = Math.min(Math.max(8, r.left), innerWidth - tw - 8), y = r.bottom + 6;
+  if(y + th > innerHeight - 8) y = Math.max(8, r.top - th - 6);
+  tip.style.left = x + 'px'; tip.style.top = y + 'px';
+}
+const hideTip = () => { tip.style.display = 'none'; };
+document.addEventListener('mouseover', e => { const t = e.target.closest && e.target.closest('.term:not(.long)'); if(t) showTip(t); });
+document.addEventListener('mouseout', e => { const t = e.target.closest && e.target.closest('.term'); if(t) hideTip(); });
+addEventListener('scroll', hideTip, {passive:true});
+
+/* ===== Popup ===== */
+function setSel(el){ $$('.sel').forEach(x => x.classList.remove('sel')); if(el) el.classList.add('sel'); }
+function openPop(type, key, el){
+  hideTip(); cur = {type:type, key:key, el:el};
+  if(type==='k') setSel(el); else setSel(null);
+  $('#ov').classList.add('on'); refreshPop();
+}
+function refreshPop(){
+  if(!cur) return;
+  if(cur.type==='g'){ $('#pt').innerHTML = gx(cur.key,'t'); $('#pb').innerHTML = gx(cur.key,'b'); }
+  else { $('#pt').innerHTML = tx(cur.key+'_t'); $('#pb').innerHTML = tx(cur.key+'_b'); }
+}
+function closePop(){ cur = null; $('#ov').classList.remove('on'); setSel(null); }
+$('#px').onclick = closePop;
+$('#ov').addEventListener('click', e => { if(e.target.id==='ov') closePop(); });
+document.addEventListener('keydown', e => {
+  if(e.key==='Escape') closePop();
+  if(e.key==='Enter' || e.key===' '){
+    const t = e.target.closest && e.target.closest('.term, .node');
+    if(t){ e.preventDefault(); t.click(); }
+  }
+});
+document.addEventListener('click', e => {
+  const t = e.target.closest && e.target.closest('.term');
+  if(t){ if(t.classList.contains('long')) openPop('g', t.dataset.g, t); else showTip(t); return; }
+  const n = e.target.closest && e.target.closest('[data-pop]');
+  if(n && !e.target.closest('#ov')) openPop('k', n.dataset.pop, n);
+});
+
+/* ===== Điều khiển ===== */
+$$('[data-lang]').forEach(b => b.onclick = () => setLang(b.dataset.lang));
+$('#menu').onclick = () => $('#nav').classList.toggle('open');
+$('#theme').onclick = () => {
+  const root = document.documentElement, dark = root.dataset.theme ? root.dataset.theme==='dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+  root.dataset.theme = dark ? 'light' : 'dark';
+  try{ localStorage.setItem('theme', root.dataset.theme); }catch(e){}
+};
+try{ const th = localStorage.getItem('theme'); if(th) document.documentElement.dataset.theme = th; }catch(e){}
+render();
+</script>
+</body>
+</html>

@@ -779,7 +779,7 @@ khong                     ⇒ tu-soi được</pre>
         </g>
         <rect x="14" y="158" width="202" height="30" rx="5" fill="var(--surface)" stroke="var(--accent)"/>
         <use href="#ic-node" x="20" y="164" width="18" height="18"/>
-        <text x="44" y="177" font-size="10" class="mo" fill="var(--accent-ink)">node 07-cai-dat/cai-dat.cjs</text>
+        <text x="44" y="177" font-size="10" class="mo" fill="var(--accent-ink)">node 07-install/cai-dat.cjs</text>
       </g>
       <g stroke="var(--accent)" stroke-width="2" fill="none">
         <path d="M250 130 H300 V100 H330" marker-end="url(#mhA)"/>
@@ -943,7 +943,7 @@ khong                     ⇒ tu-soi được</pre>
       <!-- chú thích -->
       <g font-size="10" fill="currentColor" transform="translate(20,500)">
         <text x="0" y="0" fill="var(--cho)">* còn chờ Huynh quyết (tomtat.md mục 8.3): bố cục workspace tối thiểu / đầy đủ. Thiên Số giữ bố cục gốc (chép tay theo CHANGELOG); Mười Ngón đã lên 1.2.0.</text>
-        <text x="0" y="18" opacity=".8">1.1.0: VERSION · CHANGELOG · manifest · cap-nhat.cjs · hook nhắc · 2 skill · sổ đăng ký. 1.2.0: 5 vai agents/ · RUNBOOK §8 (4 nếp) · gói 09-goi/desktop, desktop-tauri · duAn.goi. Tech stack ở bảng dưới.</text>
+        <text x="0" y="18" opacity=".8">1.1.0: VERSION · CHANGELOG · manifest · cap-nhat.cjs · hook nhắc · 2 skill · sổ đăng ký. 1.2.0: 5 vai agents/ · RUNBOOK §8 (4 nếp) · gói 09-packs/desktop, desktop-tauri · duAn.goi. Tech stack ở bảng dưới.</text>
       </g>
     </svg>
     </div>
@@ -1032,7 +1032,7 @@ khong                     ⇒ tu-soi được</pre>
       <tr><td></td><td></td><td>kéo bản harness mới về dự án (cơ chế 2)</td><td><code>cap-nhat-harness</code>: đọc CHANGELOG → <code>cap-nhat.cjs</code> xem trước (dry run) → Huynh gật → <code>--ap-dung</code>; tệp đã sửa riêng chỉ hiện diff</td><td><span class="chip ok">có · 1.1.0</span></td></tr>
       <tr><td><strong>Hook</strong></td><td>cứng: theo sự kiện công cụ</td><td>việc AI có thể quên mà hậu quả không hoàn lại</td><td>PreToolUse ×3 chặn · PostToolUse ×2 ghi/kiểm · Stop ×1 ghi usage · SessionStart ×1 nhắc</td><td><span class="chip ok">7 hook</span></td></tr>
       <tr><td></td><td>SessionStart</td><td>nhắc harness có bản mới</td><td><code>nhac-cap-nhat-harness.cjs</code>: so <code>.harness-manifest.json</code> với <code>VERSION</code> (ổ máy, không có thì GitHub raw ≤2,5 s); chỉ nhắc</td><td><span class="chip ok">có · 1.1.0</span></td></tr>
-      <tr><td><strong>Subagent</strong></td><td>AI gọi, không thấy hội thoại</td><td>lớp kiểm độc lập; việc lớn chạy song song</td><td>Tester Middle/Senior (PHASEGATE §8) · 5 vai <code>05-hook-skill/agents/</code>: tester · dung-tai-nguyen · viet-noi-dung · ve-hinh · tra-cuu kèm model + effort, bộ cài chép vào <code>.claude/agents/</code></td><td><span class="chip ok">Tester</span> <span class="chip ok">5 vai · 1.2.0</span></td></tr>
+      <tr><td><strong>Subagent</strong></td><td>AI gọi, không thấy hội thoại</td><td>lớp kiểm độc lập; việc lớn chạy song song</td><td>Tester Middle/Senior (PHASEGATE §8) · 5 vai <code>02-enforcement/agents/</code>: tester · dung-tai-nguyen · viet-noi-dung · ve-hinh · tra-cuu kèm model + effort, bộ cài chép vào <code>.claude/agents/</code></td><td><span class="chip ok">Tester</span> <span class="chip ok">5 vai · 1.2.0</span></td></tr>
       <tr><td><strong>Plan mode</strong></td><td>Huynh/AI bật</td><td>việc nhiều bước, rủi ro</td><td>mọi lát cắt Bước 8 trình kế hoạch trước</td><td><span class="chip ok">luật</span></td></tr>
       <tr><td><strong>Permission</strong></td><td>settings.json</td><td>đặt đúng dây cương</td><td>allow sẵn 17 lệnh <code>node Log/*.cjs</code> + <code>git status/diff/log</code></td><td><span class="chip ok">có</span></td></tr>
       <tr><td><strong>MCP tools</strong></td><td>cắm công cụ ngoài</td><td>đụng hệ thống thật</td><td>tuỳ dự án</td><td><span class="chip">tuỳ</span></td></tr>
@@ -1065,7 +1065,7 @@ khong                     ⇒ tu-soi được</pre>
           <tr><td>phiên chính</td><td>lõi, tích hợp, gỡ lỗi khó</td><td>Opus</td><td>high</td></tr>
         </tbody>
       </table></div>
-      <p class="hint" style="margin-top:8px">Công cụ giao việc chỉ cho AI đặt effort khi CLAUDE.md yêu cầu rõ; model phiên chính chỉ Huynh đổi được (<code>/model</code>). Vai nằm ở <code>05-hook-skill/agents/</code>, bảng ở <code>CLAUDE.template.md</code> mục "Chọn model + effort".</p>
+      <p class="hint" style="margin-top:8px">Công cụ giao việc chỉ cho AI đặt effort khi CLAUDE.md yêu cầu rõ; model phiên chính chỉ Huynh đổi được (<code>/model</code>). Vai nằm ở <code>02-enforcement/agents/</code>, bảng ở <code>CLAUDE.template.md</code> mục "Chọn model + effort".</p>
     </div>
   </div>
 </section>
@@ -1102,77 +1102,77 @@ khong                     ⇒ tu-soi được</pre>
   </table></div>
 </section>
 
-<footer>Nguồn: <code>01-playbook/PLAYBOOK.md</code> · <code>PHASEGATE.md</code> · <code>REVIEW-POLICY.md</code> · <code>checklist/B00–B10.md</code> · <code>00-nguyen-tac/OPERATING-MODEL.md</code> · <code>RUNBOOK.md</code> · <code>05-hook-skill/settings.json</code> · <code>04-cong-may/*.cjs</code> · <code>harness.config.json</code> — repo Harness, bản đóng gói 2026-10-16; phần đánh dấu * là đề xuất trong <code>tomtat.md</code> 17/10/2026. Trang này tóm lược, không thay tệp luật.</footer>
+<footer>Nguồn: <code>01-pipeline/PIPELINE.md</code> · <code>PHASEGATE.md</code> · <code>REVIEW-POLICY.md</code> · <code>checklist/B00–B10.md</code> · <code>00-rules/B1-AI-AUTHORITY.md</code> · <code>B5-SESSIONS.md</code> · <code>02-enforcement/settings.json</code> · <code>02-enforcement/tools/*.cjs</code> · <code>harness.config.json</code> — repo Harness, bản đóng gói 2026-10-16; phần đánh dấu * là đề xuất trong <code>tomtat.md</code> 17/10/2026. Trang này tóm lược, không thay tệp luật.</footer>
 </div>
 <div class="pop" id="pop" hidden role="dialog" aria-modal="false" aria-labelledby="pop-ttl"><button class="x" type="button" aria-label="Đóng" id="pop-x">×</button><div class="ttl" id="pop-ttl"></div><div id="pop-body"></div><div class="src" id="pop-src"></div><a class="more" id="pop-more" href="#">Chi tiết →</a></div>
 <script>
 // ===== TỪ ĐIỂN: key → [tên đầy đủ, nghĩa, tệp nguồn, anchor chi tiết] =====
 const GLOSS={
  ab:["Gạch chấm","Ký hiệu của trang này: chữ có gạch chấm là viết tắt hoặc mã, bấm vào để hiện giải thích. Mọi popup có liên kết tới mục chi tiết.","—","#tu-dien"],
- MVP:["Minimum Viable Product — sản phẩm tối thiểu dùng được","Tầng cao nhất của harness. Một MVP PHẢI chạy đủ 11 Bước (qua một hoặc nhiều Round) và giao đủ mục tiêu nguyên văn trong PHAM-VI-MVP.json mới đóng được.","PLAYBOOK.md §0.1 · gate-check.cjs --dong-mvp","#mvp-round"],
- Round:["Round — một lượt chạy qua pipeline trong MVP","Được bắt đầu ở Bước bất kỳ; đổi lại phải khai đủ 11 Bước lúc mở (cham / khong-cham / ke-thua). Mở Round là hành vi có cổng.","PLAYBOOK.md §0.4 · Log/khai-round/","#mvp-round"],
+ MVP:["Minimum Viable Product — sản phẩm tối thiểu dùng được","Tầng cao nhất của harness. Một MVP PHẢI chạy đủ 11 Bước (qua một hoặc nhiều Round) và giao đủ mục tiêu nguyên văn trong PHAM-VI-MVP.json mới đóng được.","PIPELINE.md §0.1 · gate-check.cjs --dong-mvp","#mvp-round"],
+ Round:["Round — một lượt chạy qua pipeline trong MVP","Được bắt đầu ở Bước bất kỳ; đổi lại phải khai đủ 11 Bước lúc mở (cham / khong-cham / ke-thua). Mở Round là hành vi có cổng.","PIPELINE.md §0.4 · Log/khai-round/","#mvp-round"],
  V:["V1–V6 — sáu mục cổng VÀO","V1 Bước trước đã đóng · V2 đọc RTM, chép keThua[] · V3 nguồn có mặt · V4 điểm mơ hồ viết trước · V5 bốn câu phản xạ · V6 quyết định áp. Khai trong Log/cong-buoc/…-B<N>.json.","PHASEGATE.md §1","#cong"],
  R:["R1–R8 — tám mục cổng RA","R1 Done khi · R2 bằng chứng · R3 review · R4 13 điều kiện máy · R5 ràng buộc → RTM · R6 V4 đã giải · R7 7 chỉ số · R8 đã đẩy git.","PHASEGATE.md §2","#cong"],
  V1:["V1 — Bước trước đã đóng","Bản ghi mới nhất của Bước N−1 trong PHASE-GATE-LOG.ndjson là qua, không phải huy (trừ Bước Round khai khong-cham/ke-thua). Không đạt ⇒ không mở Bước.","PHASEGATE.md §1","#cong"],
  V2:["V2 — đã đọc RTM và chép keThua[]","Mảng V2.keThua chứa từng ràng buộc R5 của Bước trước. Điều kiện máy (g) chặn nếu rỗng khi Bước trước có R5.canCu.","PHASEGATE.md §1b","#cong"],
  V3:["V3 — nguồn dữ liệu có mặt","Ghi đường dẫn và ai xác nhận. Thiếu thì nêu tên, không lấp bằng suy đoán ⇒ dừng hỏi Huynh.","PHASEGATE.md §1","#cong"],
  V4:["V4 — danh sách điểm mơ hồ viết TRƯỚC khi làm","Mỗi điểm gắn 'tự quyết' hoặc 'hỏi Huynh (điều dừng số mấy)'; điểm phải hỏi vào CHO-QUYET.ndjson kèm điều kiện bung. Cờ doiThietKe:true ở đây nâng review lên doc-lap.","PHASEGATE.md §1 · REVIEW-POLICY §3","#cong"],
- V5:["V5 — bốn câu hỏi phản xạ","(1) quyền tác động tới đâu (2) mức L nào, A hay A+ (3) cổng nào gác đầu ra (4) ai đích thân duyệt phần nguy hiểm.","OPERATING-MODEL.md §6","#quy-dinh"],
+ V5:["V5 — bốn câu hỏi phản xạ","(1) quyền tác động tới đâu (2) mức L nào, A hay A+ (3) cổng nào gác đầu ra (4) ai đích thân duyệt phần nguy hiểm.","B1-AI-AUTHORITY.md §6","#quy-dinh"],
  V6:["V6 — quyết định đã chốt áp cho Bước","Liệt kê D-…, NFR-…, M… áp cho Bước; cái chưa có ghi ở chuaQuyet.","PHASEGATE.md §1","#cong"],
- R1:["R1 — Done khi, từng tiêu chí PASS/FAIL","Tiêu chí 'Done khi' của Bước trong PLAYBOOK; không có 'gần đúng'.","PLAYBOOK.md mục Bước","#cong"],
+ R1:["R1 — Done khi, từng tiêu chí PASS/FAIL","Tiêu chí 'Done khi' của Bước trong PLAYBOOK; không có 'gần đúng'.","PIPELINE.md mục Bước","#cong"],
  R2:["R2 — bằng chứng chỉ được","Đường dẫn · lệnh chạy lại được · dòng sổ bằng chứng; đúng một trong năm loại http · sql · ma-thoat · doi-chieu-tep · nguoi-quyet.","PHASEGATE.md §6","#cong"],
  R3:["R3 — đã qua vòng review","lopReview doc-lap / tu-soi · nguoiReview · phatHien[] · quyetDinh nguyên văn Huynh → Dev Book. Điều kiện máy (l) kiểm theo reviewPolicy.","REVIEW-POLICY.md","#cong"],
  R4:["R4 — 13 điều kiện máy","Do gate-check.cjs chạy, không khai tay.","PHASEGATE.md §3","#cong"],
  R5:["R5 — ràng buộc cho Bước sau đã ghi vào RTM","Khối RÀNG BUỘC THEO BƯỚC trong Output/RTM.md; Bước sau phải chép vào V2.keThua.","PHASEGATE.md §2","#cong"],
  R6:["R6 — mọi điểm V4 đã giải hoặc ghi nợ","Không mục nào bỏ lửng; không giải ⇒ dat:false + lyDo = nợ đã ghi, không phải việc đã làm.","PHASEGATE.md §2","#cong"],
- R7:["R7 — 7 chỉ số sức khoẻ tài liệu đã đo","node Log/doc-health.cjs; R7.canCu dẫn đủ c1…c7. Không đo được thì ghi rõ, không bịa.","DOC-HEALTH-RULES.md · doc-health.cjs","#cong"],
+ R7:["R7 — 7 chỉ số sức khoẻ tài liệu đã đo","node Log/doc-health.cjs; R7.canCu dẫn đủ c1…c7. Không đo được thì ghi rõ, không bịa.","B3-DOC-HEALTH.md · doc-health.cjs","#cong"],
  R8:["R8 — đã đẩy git","Thư mục thuMuc.gacGit (App, Output) không còn file dở. File phiên song song: khai dat:false + lyDo, chặn → cảnh báo.","PHASEGATE.md §2 · harness.config.json › thuMuc.gacGit","#cong"],
- RTM:["Requirements Traceability Matrix — ma trận truy vết yêu cầu","Output/RTM.md, xương sống truy vết: M → PB → US/AC → module → D-ARCH → work item → mã → test → UAT → môi trường → phát hành. rtm-check.cjs kiểm hai chiều.","TRACEABILITY.md §2 · rtm-check.cjs","#cong"],
- SRS:["Software Requirements Specification — đặc tả yêu cầu","Bước 1: Output/SPEC.md (story, AC, NFR) + BACKLOG.md §ⓐ.","PLAYBOOK.md Bước 1","#cong"],
- DoR:["Definition of Ready — điều kiện được phép bắt đầu viết mã","Bước 7, 'cổng vào harness': 6 câu đạt toàn bộ (đặc tả · dữ liệu · API · AC đo được · phân quyền · cổng kiểm) thì mới giao AI chạy tự hành.","PLAYBOOK.md Bước 7 · Output/DOR.md","#cong"],
- WBS:["Work Breakdown Structure — chẻ việc","Bước 4: Output/WBS.md + Log/TASKLIST.md; task cấp 3 là đơn vị telemetry và cổng bám vào.","PLAYBOOK.md Bước 4","#cong"],
- EST:["Estimate — ước lượng","Bước 5: Output/EST.md, giờ người thật, không suy từ token.","PLAYBOOK.md Bước 5","#cong"],
- AC:["Acceptance Criteria — tiêu chí chấp nhận","Dạng Given/When/Then đo được, mỗi ca UAT = một AC. Mã AC<n> gắn với US-xx.","PLAYBOOK.md Bước 1 · UAT-RULES.md","#cong"],
- NFR:["Non-Functional Requirement — yêu cầu phi chức năng","Phải có con số. Mã NFR-xx; cũng phải có PB-xxx trong backlog.","PLAYBOOK.md Bước 1","#cong"],
- US:["User Story — tình huống dùng theo vai","Mã US-xx trong SPEC.md; mỗi story có AC kiểm được và trỏ về một PB-.","PLAYBOOK.md Bước 1","#cong"],
- PB:["Product Backlog item — mã tính năng","PB-xxx trong BACKLOG.md §ⓐ. Hết Bước 1 mọi tính năng (chức năng + phi chức năng) có mã; kiem-backlog.cjs là cổng RA riêng Bước 1.","kiem-backlog.cjs","#cong"],
+ RTM:["Requirements Traceability Matrix — ma trận truy vết yêu cầu","Output/RTM.md, xương sống truy vết: M → PB → US/AC → module → D-ARCH → work item → mã → test → UAT → môi trường → phát hành. rtm-check.cjs kiểm hai chiều.","B3-TRACEABILITY.md §2 · rtm-check.cjs","#cong"],
+ SRS:["Software Requirements Specification — đặc tả yêu cầu","Bước 1: Output/SPEC.md (story, AC, NFR) + BACKLOG.md §A.","PIPELINE.md Bước 1","#cong"],
+ DoR:["Definition of Ready — điều kiện được phép bắt đầu viết mã","Bước 7, 'cổng vào harness': 6 câu đạt toàn bộ (đặc tả · dữ liệu · API · AC đo được · phân quyền · cổng kiểm) thì mới giao AI chạy tự hành.","PIPELINE.md Bước 7 · Output/DOR.md","#cong"],
+ WBS:["Work Breakdown Structure — chẻ việc","Bước 4: Output/WBS.md + Log/TASKLIST.md; task cấp 3 là đơn vị telemetry và cổng bám vào.","PIPELINE.md Bước 4","#cong"],
+ EST:["Estimate — ước lượng","Bước 5: Output/EST.md, giờ người thật, không suy từ token.","PIPELINE.md Bước 5","#cong"],
+ AC:["Acceptance Criteria — tiêu chí chấp nhận","Dạng Given/When/Then đo được, mỗi ca UAT = một AC. Mã AC<n> gắn với US-xx.","PIPELINE.md Bước 1 · UAT-RULES.md","#cong"],
+ NFR:["Non-Functional Requirement — yêu cầu phi chức năng","Phải có con số. Mã NFR-xx; cũng phải có PB-xxx trong backlog.","PIPELINE.md Bước 1","#cong"],
+ US:["User Story — tình huống dùng theo vai","Mã US-xx trong SPEC.md; mỗi story có AC kiểm được và trỏ về một PB-.","PIPELINE.md Bước 1","#cong"],
+ PB:["Product Backlog item — mã tính năng","PB-xxx trong BACKLOG.md §A. Hết Bước 1 mọi tính năng (chức năng + phi chức năng) có mã; kiem-backlog.cjs là cổng RA riêng Bước 1.","kiem-backlog.cjs","#cong"],
  UAT:["User Acceptance Test — kiểm thử nghiệm thu","Hai lượt: Tester độc lập (BÁO CÁO) rồi Huynh tự bấm (PHÁN QUYẾT). Ba điều kiện nhị phân, không có ngưỡng %. CULI không được tuyên bố UAT đạt.","UAT-RULES.md · PLAYBOOK Bước 9","#cong"],
  SIT:["System Integration Test — kiểm thử tích hợp hệ thống","Bộ ca ghép nối AI tự soạn, soạn xong trước khi chạy; ngưỡng % chỉ có nghĩa ở đây.","IT-SIT-RULES.md","#cong"],
  IT:["Integration Test — kiểm thử tích hợp","Mã IT-Px; exit criteria trong IT-SIT-RULES.md.","IT-SIT-RULES.md","#cong"],
  UT:["Unit Test — kiểm thử đơn vị","Tệp test_* theo UT-RULES.md; RTM phải nhắc mọi tệp test (điều kiện k).","UT-RULES.md","#cong"],
- TD:["Test Data — dữ liệu kiểm giả có mã TD-xx","Bước 9 dùng dữ liệu giả có mã, không dùng dữ liệu người thật.","PLAYBOOK.md Bước 9","#cong"],
- CULI:["CULI — vai AI thực thi","Tên đặt ở harness.config.json › vaiTro.ai. Huynh = chủ dự án, người quyết.","OPERATING-MODEL.md","#quy-dinh"],
- Huynh:["Huynh — vai chủ dự án","Người quyết và chịu trách nhiệm. harness.config.json › vaiTro.chu.","OPERATING-MODEL.md","#quy-dinh"],
- L:["L0–L5 — thang tự hành","L0 Observe · L1 Draft · L2 Recommend · L3 Execute (Leash A) · L4 Operate (Leash A+) · L5 Restricted, cố ý không cấp.","OPERATING-MODEL.md §1","#quy-dinh"],
- "A+":["A+ — dây cương việc chạm vùng nhạy","≈ L4. Như A + cổng bảo mật thật + cờ --huynh-xac-nhan <ngày>; AI không tự cắm cờ. Vùng A+ trong Instructions/LEASH-BANG.json.","OPERATING-MODEL.md §2","#quy-dinh"],
- "Leash A":["A — dây cương việc an toàn","≈ L3. Làm + tự kiểm tới bản nháp, không tự đẩy / gộp / phát hành; tự đóng khi cổng máy xanh.","OPERATING-MODEL.md §2","#quy-dinh"],
- "fail-closed":["Fail-closed — không xác minh được = CHẶN","Áp cho cả cổng vào lẫn cổng ra. Mọi công cụ thoát 2 là chặn; đọc không được tệp bắt buộc cũng chặn.","OPERATING-MODEL.md §4","#quy-dinh"],
- "BUILT-flagged":["BUILT-flagged — làm xong ≠ được phát hành","Việc rủi ro cao dừng ở 'đã xây, cổng xanh, chờ người duyệt' (🔒 trong TASKLIST).","OPERATING-MODEL.md §4","#quy-dinh"],
- c2:["c2 — change coupling, chỉ số 2 của doc-health","Mã đổi thì tài liệu RTM liên quan đổi cùng commit. kiem-c2-staged.cjs chặn trước commit (điều kiện c).","TRACEABILITY.md §4 · kiem-c2-staged.cjs","#can-thiep"],
- c4:["c4 — chỉ số 4 của doc-health","Mỗi module có cột tệp thực thi; chiều ngược: cơ chế chết trong mã.","DOC-HEALTH-RULES.md","#cong"],
- c6:["c6 — chỉ số 6 của doc-health","Rủi ro L×I ≥ ngưỡng cao có mã quyết định gắn vào.","DOC-HEALTH-RULES.md","#cong"],
- c7:["c1…c7 — 7 chỉ số sức khoẻ tài liệu","Đo bằng doc-health.cjs lúc đóng Bước (R7, điều kiện h); cổng không đặt ngưỡng, ngưỡng là điều dừng 4.","DOC-HEALTH-RULES.md","#cong"],
- "D-ARCH":["D-ARCH-n — mã quyết định kiến trúc","Mọi thay đổi kiến trúc ở Bước 3 có mã; quyết định chỉ tồn tại trong chat thì người sau lấp bằng phỏng đoán.","PLAYBOOK.md Bước 3","#cong"],
+ TD:["Test Data — dữ liệu kiểm giả có mã TD-xx","Bước 9 dùng dữ liệu giả có mã, không dùng dữ liệu người thật.","PIPELINE.md Bước 9","#cong"],
+ CULI:["CULI — vai AI thực thi","Tên đặt ở harness.config.json › vaiTro.ai. Huynh = chủ dự án, người quyết.","B1-AI-AUTHORITY.md","#quy-dinh"],
+ Huynh:["Huynh — vai chủ dự án","Người quyết và chịu trách nhiệm. harness.config.json › vaiTro.chu.","B1-AI-AUTHORITY.md","#quy-dinh"],
+ L:["L0–L5 — thang tự hành","L0 Observe · L1 Draft · L2 Recommend · L3 Execute (Leash A) · L4 Operate (Leash A+) · L5 Restricted, cố ý không cấp.","B1-AI-AUTHORITY.md §1","#quy-dinh"],
+ "A+":["A+ — dây cương việc chạm vùng nhạy","≈ L4. Như A + cổng bảo mật thật + cờ --huynh-xac-nhan <ngày>; AI không tự cắm cờ. Vùng A+ trong Instructions/LEASH-BANG.json.","B1-AI-AUTHORITY.md §2","#quy-dinh"],
+ "Leash A":["A — dây cương việc an toàn","≈ L3. Làm + tự kiểm tới bản nháp, không tự đẩy / gộp / phát hành; tự đóng khi cổng máy xanh.","B1-AI-AUTHORITY.md §2","#quy-dinh"],
+ "fail-closed":["Fail-closed — không xác minh được = CHẶN","Áp cho cả cổng vào lẫn cổng ra. Mọi công cụ thoát 2 là chặn; đọc không được tệp bắt buộc cũng chặn.","B1-AI-AUTHORITY.md §4","#quy-dinh"],
+ "BUILT-flagged":["BUILT-flagged — làm xong ≠ được phát hành","Việc rủi ro cao dừng ở 'đã xây, cổng xanh, chờ người duyệt' (🔒 trong TASKLIST).","B1-AI-AUTHORITY.md §4","#quy-dinh"],
+ c2:["c2 — change coupling, chỉ số 2 của doc-health","Mã đổi thì tài liệu RTM liên quan đổi cùng commit. kiem-c2-staged.cjs chặn trước commit (điều kiện c).","B3-TRACEABILITY.md §4 · kiem-c2-staged.cjs","#can-thiep"],
+ c4:["c4 — chỉ số 4 của doc-health","Mỗi module có cột tệp thực thi; chiều ngược: cơ chế chết trong mã.","B3-DOC-HEALTH.md","#cong"],
+ c6:["c6 — chỉ số 6 của doc-health","Rủi ro L×I ≥ ngưỡng cao có mã quyết định gắn vào.","B3-DOC-HEALTH.md","#cong"],
+ c7:["c1…c7 — 7 chỉ số sức khoẻ tài liệu","Đo bằng doc-health.cjs lúc đóng Bước (R7, điều kiện h); cổng không đặt ngưỡng, ngưỡng là điều dừng 4.","B3-DOC-HEALTH.md","#cong"],
+ "D-ARCH":["D-ARCH-n — mã quyết định kiến trúc","Mọi thay đổi kiến trúc ở Bước 3 có mã; quyết định chỉ tồn tại trong chat thì người sau lấp bằng phỏng đoán.","PIPELINE.md Bước 3","#cong"],
  "D-":["D-… — mã quyết định nền","Quyết định ở Bước 0; regex harness.config.json › ma.quyetDinh.","harness.config.json","#cong"],
- M:["M<n> — mã mục tiêu nguyên văn của chủ dự án","Trong Instructions/PHAM-VI-MVP.json; AI không sửa trangThai, round, nguyenVan.","OPERATING-MODEL.md §7 · kiem-pham-vi.cjs","#quy-dinh"],
+ M:["M<n> — mã mục tiêu nguyên văn của chủ dự án","Trong Instructions/PHAM-VI-MVP.json; AI không sửa trangThai, round, nguyenVan.","B1-AI-AUTHORITY.md §7 · kiem-pham-vi.cjs","#quy-dinh"],
  BUILD:["BUILD — loại task sinh mã chạy được","Task .BUILD. bắt buộc có dòng bằng chứng trong PROOF-LOG.ndjson (điều kiện b).","PHASEGATE.md §5","#cong"],
  CSDL:["CSDL — cơ sở dữ liệu","Cấu trúc CSDL là vùng A+; ghi vào CSDL thật bị hook chan-ghi-csdl-that chặn khi chưa có sao lưu mới.","chan-ghi-csdl-that.cjs","#can-thiep"],
- API:["API — giao ước giữa các thành phần","Bước 3 ghi giao ước API; Bước 7 đòi có API trước khi xây.","PLAYBOOK.md Bước 3","#cong"],
- ndjson:["ndjson — newline-delimited JSON","Sổ ghi mỗi dòng một bản ghi, chỉ append, an toàn nhiều phiên song song.","06-so-ghi/","#can-thiep"],
+ API:["API — giao ước giữa các thành phần","Bước 3 ghi giao ước API; Bước 7 đòi có API trước khi xây.","PIPELINE.md Bước 3","#cong"],
+ ndjson:["ndjson — newline-delimited JSON","Sổ ghi mỗi dòng một bản ghi, chỉ append, an toàn nhiều phiên song song.","03-records/","#can-thiep"],
  "PROOF-LOG":["PROOF-LOG.ndjson — sổ bằng chứng chạy thật","Mỗi dòng: taskId · cmd · output nguyên văn · loaiBangChung · lyDoKhongHttp.","PHASEGATE.md §6","#cong"],
- "day-git":["day-git — skill đẩy git 5 bước","Kiểm → đưa file vào → commit → đẩy lên → kiểm lại. Chốt C1 bí mật · C2 dữ liệu thật · C3 repo lồng · C4 detached HEAD. 'đẩy git đi' = LOCAL, 'đẩy GitHub đi' = đầy đủ.","05-hook-skill/skills/day-git/SKILL.md","#skill"],
+ "day-git":["day-git — skill đẩy git 5 bước","Kiểm → đưa file vào → commit → đẩy lên → kiểm lại. Chốt C1 bí mật · C2 dữ liệu thật · C3 repo lồng · C4 detached HEAD. 'đẩy git đi' = LOCAL, 'đẩy GitHub đi' = đầy đủ.","02-enforcement/skills/day-git/SKILL.md","#skill"],
  CSP:["Content Security Policy","Bài học Mười Ngón: Tauri chèn nonce ⇒ 'unsafe-inline' bị bỏ ⇒ style= trong HTML bị chặn. Thuộc gói desktop-tauri, không vào lõi.","tomtat.md mục 6","#mo-hinh"],
  LAN:["Local Area Network — mạng nội bộ","Bài học Mười Ngón: hộp tường lửa bị Cancel ⇒ Windows tạo luật CHẶN; ping thông không chứng minh cổng mở.","tomtat.md mục 6","#mo-hinh"],
- "dieu-dung":["Bảy điều dừng","(1) nguồn mâu thuẫn (2) cần bằng chứng ngoài kho mã (3) quyết định phạm vi (4) 'đủ tốt' là câu hỏi kinh doanh (5) sửa luật quản CULI (6) phát ra ngoài / không hoàn lại (7) mã bên thứ ba.","OPERATING-MODEL.md §5","#quy-dinh"],
+ "dieu-dung":["Bảy điều dừng","(1) nguồn mâu thuẫn (2) cần bằng chứng ngoài kho mã (3) quyết định phạm vi (4) 'đủ tốt' là câu hỏi kinh doanh (5) sửa luật quản CULI (6) phát ra ngoài / không hoàn lại (7) mã bên thứ ba.","B1-AI-AUTHORITY.md §5","#quy-dinh"],
  "dk-may":["13 điều kiện máy (0)(a)…(m)","(0) Round mở (a) task (b) bằng chứng (c) c2 (d) telemetry (e) thứ tự (f) bản khai (g) khép RTM (h) 7 chỉ số (i) git sạch (j) chờ quyết (k) rtm-check (l) review (m) cổng RA riêng.","PHASEGATE.md §3","#cong"],
- ĐD1:["Điều dừng 1 — nguồn mâu thuẫn","Không nguồn nào phân xử được; dấu hiệu: sắp viết 'chọn A vì đơn giản hơn'.","OPERATING-MODEL.md §5","#quy-dinh"],
- ĐD2:["Điều dừng 2 — cần bằng chứng ngoài kho mã","Số liệu thật, tài liệu gốc, bảng giá, xác nhận bên thứ ba.","OPERATING-MODEL.md §5","#quy-dinh"],
- ĐD3:["Điều dừng 3 — quyết định phạm vi","Làm hay không, rộng hay hẹp, hoãn sang Round sau. Phạm vi là của Huynh.","OPERATING-MODEL.md §5, §7","#quy-dinh"],
- ĐD4:["Điều dừng 4 — 'đủ tốt để dùng chưa'","Câu hỏi kinh doanh: chấp nhận rủi ro còn lại, đặt ngưỡng, ca 'gần đúng'.","OPERATING-MODEL.md §5","#quy-dinh"],
- ĐD5:["Điều dừng 5 — sửa chính luật quản CULI","CULI có xung đột lợi ích, phải nói thẳng. Gồm hạ tầng gác: hook, settings, gate-check, config, reviewPolicy.","OPERATING-MODEL.md §5, §8","#quy-dinh"],
- ĐD6:["Điều dừng 6 — phát ra ngoài / không hoàn lại","push · merge · release · lên máy chủ thật · xoá/ghi đè dữ liệu thật · khoá bí mật.","OPERATING-MODEL.md §5","#quy-dinh"],
- ĐD7:["Điều dừng 7 — đưa mã bên thứ ba vào","Báo trước: tên · giấy phép · phụ thuộc · nguồn gốc.","OPERATING-MODEL.md §5","#quy-dinh"],
- PM:["PM — Project Manager / quản lý dự án","Khung 11 Bước lấy từ chương trình đào tạo PM-AI; chỗ khung gốc ghi 🎓, chỗ harness thêm ghi 🔧.","PLAYBOOK.md đầu tệp","#tom-tat"]
+ ĐD1:["Điều dừng 1 — nguồn mâu thuẫn","Không nguồn nào phân xử được; dấu hiệu: sắp viết 'chọn A vì đơn giản hơn'.","B1-AI-AUTHORITY.md §5","#quy-dinh"],
+ ĐD2:["Điều dừng 2 — cần bằng chứng ngoài kho mã","Số liệu thật, tài liệu gốc, bảng giá, xác nhận bên thứ ba.","B1-AI-AUTHORITY.md §5","#quy-dinh"],
+ ĐD3:["Điều dừng 3 — quyết định phạm vi","Làm hay không, rộng hay hẹp, hoãn sang Round sau. Phạm vi là của Huynh.","B1-AI-AUTHORITY.md §5, §7","#quy-dinh"],
+ ĐD4:["Điều dừng 4 — 'đủ tốt để dùng chưa'","Câu hỏi kinh doanh: chấp nhận rủi ro còn lại, đặt ngưỡng, ca 'gần đúng'.","B1-AI-AUTHORITY.md §5","#quy-dinh"],
+ ĐD5:["Điều dừng 5 — sửa chính luật quản CULI","CULI có xung đột lợi ích, phải nói thẳng. Gồm hạ tầng gác: hook, settings, gate-check, config, reviewPolicy.","B1-AI-AUTHORITY.md §5, §8","#quy-dinh"],
+ ĐD6:["Điều dừng 6 — phát ra ngoài / không hoàn lại","push · merge · release · lên máy chủ thật · xoá/ghi đè dữ liệu thật · khoá bí mật.","B1-AI-AUTHORITY.md §5","#quy-dinh"],
+ ĐD7:["Điều dừng 7 — đưa mã bên thứ ba vào","Báo trước: tên · giấy phép · phụ thuộc · nguồn gốc.","B1-AI-AUTHORITY.md §5","#quy-dinh"],
+ PM:["PM — Project Manager / quản lý dự án","Khung 11 Bước lấy từ chương trình đào tạo PM-AI; chỗ khung gốc ghi 🎓, chỗ harness thêm ghi 🔧.","PIPELINE.md đầu tệp","#tom-tat"]
 };
 
 const DK={ "0":"Round đã mở: có bản ghi mo-round, bảng khai đủ 11 Bước (Round 1 miễn)", a:"Task cấp 3: mọi task ✅ hoặc ghi lý do gác lại, đọc theo ký tự đầu", b:"Bằng chứng chạy thật: task .BUILD. ✅ có dòng PROOF-LOG đúng 1 trong 5 loại", c:"c2 staged: kiem-c2-staged.cjs thoát 0", d:"Telemetry: mỗi task ✅ có dòng **[mã]** trong TELEMETRY.md", e:"Thứ tự: mọi Bước trước có bản ghi qua, trừ Bước Round khai khong-cham/ke-thua", f:"Bản khai cổng: cong-buoc/…-B<n>.json đủ 13 mục; --round đòi file của chính Round", g:"Khép vòng RTM: V2.keThua không rỗng khi Bước trước có R5.canCu", h:"Bộ 7 chỉ số: doc-health.cjs chạy được, R7.canCu đủ 7 mã", i:"Đã đẩy git: git status --porcelain trên gacGit rỗng, hoặc R8 dat:false + lyDo", j:"Sổ chờ quyết: mục CHO-QUYET đến hạn, chan:true đã được Huynh quyết nguyên văn", k:"rtm-check thoát 0: không story mồ côi, số ca khớp, mọi tệp test được nhắc", l:"Review theo chính sách: khi reviewPolicy đòi doc-lap thì R3 phải doc-lap đủ trường", m:"Cổng RA riêng: mọi lệnh congRaRieng[n] thoát 0 (B1 backlog · B9 phủ môi trường · B10 phạm vi)"};
@@ -1183,14 +1183,14 @@ const STEPS=[
 {n:0,name:"Nhận đề & làm rõ phạm vi",art:"SCOPE.md · PHAM-VI-MVP.json",ma:"M&lt;n&gt; mục tiêu · D-…-n quyết định nền",review:"moi",
  muc:"Biến đề mơ hồ thành phạm vi chốt được: làm gì, bỏ gì, cược vào giả định nào.",
  vao:["Có brief / yêu cầu gốc của Huynh","Biết quỹ giờ thật còn lại","Biết Round này mở vì khoảng cách nào của Round trước"],
- doc:["Đề gốc — nguyên văn, chép vào PHAM-VI-MVP.json, không diễn đạt lại","SCOPE.md: phạm vi Round trước, phần đã ghi ngoài phạm vi","RTM.md: dòng mồ côi, khối RÀNG BUỘC cho Bước 0","BACKLOG.md §ⓑ: việc hoãn tới điều kiện bung chưa","TELEMETRY.md: giờ thật, vận tốc Round trước"],
+ doc:["Đề gốc — nguyên văn, chép vào PHAM-VI-MVP.json, không diễn đạt lại","SCOPE.md: phạm vi Round trước, phần đã ghi ngoài phạm vi","RTM.md: dòng mồ côi, khối RÀNG BUỘC cho Bước 0","BACKLOG.md §B: việc hoãn tới điều kiện bung chưa","TELEMETRY.md: giờ thật, vận tốc Round trước"],
  duoc:"Viết phát biểu vấn đề · liệt kê giả định · đề xuất ngoài phạm vi · lập bảng lựa chọn kèm hệ quả · chép nguyên văn mục tiêu, trangThai chua-lam",
  dung:"Chốt phạm vi — làm gì, bỏ gì, chia Round (điều dừng 3). AI trình bảng, Huynh chọn",
  khong:"Tự chốt rồi báo 'đã chốt' · im lặng bỏ một mục · tự xếp mục tiêu sang Round sau",
  done:["Đọc SCOPE biết MVP gồm gì · bỏ gì · cược giả định nào; ngoài phạm vi ghi rõ","Mọi quyết định nền có mã D-… tra được","PHAM-VI-MVP.json đủ mọi mục tiêu Huynh nêu, mỗi mục một nguyên văn"],
  ra:null,
  bay:"Nhảy vào tính năng khi phạm vi mơ hồ · không ghi giả định · AI tự chia Round rồi mục hoãn 'tự rơi khỏi định nghĩa xong'"},
-{n:1,name:"Đặc tả yêu cầu (SRS)",art:"SPEC.md · BACKLOG.md §ⓐ",ma:"US-xx · AC · NFR-xx · PB-xxx",review:"dau",
+{n:1,name:"Đặc tả yêu cầu (SRS)",art:"SPEC.md · BACKLOG.md §A",ma:"US-xx · AC · NFR-xx · PB-xxx",review:"dau",
  muc:"Yêu cầu đủ để thiết kế và kiểm thử: chức năng + phi chức năng + tình huống dùng theo vai + tiêu chí chấp nhận.",
  vao:["Nguồn tri thức miền thật đã mở và đọc thật (một dòng viết khi chưa ai mở nguồn đã sai 3 chỗ và sống nhiều ngày)"],
  doc:["SCOPE.md đã đóng","Nguồn tri thức miền: nguyên văn để AC có chỗ trỏ về, cấm viết AC từ trí nhớ","SPEC.md: story hiện có, số hiệu tiếp, NFR","RTM.md: ràng buộc cho Bước 1"],
@@ -1198,7 +1198,7 @@ const STEPS=[
  dung:"Nguồn mâu thuẫn (1) · story nào thuộc phạm vi (3) · mọi ngưỡng 'đủ tốt' (4)",
  khong:"Tự kiểm AC của mình rồi tuyên bố đạt · AC không đo được · bỏ ca nghịch / phân quyền",
  done:["Mỗi story có AC kiểm được","Có bảng vai × tình huống dùng","NFR ghi rõ con số"],
- ra:"node Log/kiem-backlog.cjs → 0: mọi tính năng (chức năng + phi chức năng) có PB-xxx trong BACKLOG §ⓐ; mọi dòng RTM có US-xx trỏ về một PB-",
+ ra:"node Log/kiem-backlog.cjs → 0: mọi tính năng (chức năng + phi chức năng) có PB-xxx trong BACKLOG §A; mọi dòng RTM có US-xx trỏ về một PB-",
  bay:"Chỉ viết đường thuận · quên ca nghịch, phân quyền · NFR bỏ trắng · AC không đo được"},
 {n:2,name:"Bản đồ module & phân tầng",art:"MODULEMAP.md",ma:"L0-n / M-n module",review:"dau",
  muc:"Chia module, tách tầng nền (xác thực · dữ liệu · phân quyền · cổng vào) khỏi bề mặt; chỉ ra lát cắt dọc mỏng đầu tiên.",
@@ -1304,7 +1304,7 @@ const MX={
  7:{can:"Đọc PHASE-GATE-LOG (bản ghi, không trí nhớ)",tool:"gate-check.cjs --buoc 1..6 (xác nhận qua)",tep:"Output/DOR.md · Log/PHASE-GATE-LOG.ndjson",chk:"checklist/B07.md",dung:"A+ lát cắt chạm vùng nhạy"},
  8:{can:"Plan mode từng lát cắt · skill day-git · Tester Senior · hook csdl-that",tool:"gate-check <task> --deliverable BUILD · kiem-c2-staged · moc-day-git · kiem-khoa-lo",tep:"App/ · Output/DEVBOOK.md · Log/PROOF-LOG.ndjson · RTM.md",chk:"checklist/B08.md · PHASEGATE §6–§8",dung:"ĐD6 phát ra ngoài · ĐD7 gói · ĐD1 · A+"},
  9:{can:"Tester lượt 1 · Huynh lượt 2 · subagent tester",tool:"kiem-phu-moi-truong.cjs (cổng RA riêng) · rtm-check.cjs · lệnh kiemThu.lenhChayBo",tep:"Output/SITUAT.md · App/tests/ · Instructions/PHU-MOI-TRUONG.json · UT/IT-SIT/UAT-RULES",chk:"checklist/B09.md",dung:"ĐD4 ca 'gần đúng' · ĐD7 công cụ mới"},
- 10:{can:"Chưng cất Dev Book → luật CLAUDE.md hoặc phép kiểm",tool:"rtm-check · doc-health · kiem-backlog · kiem-pham-vi --cho-phep-chua-giao (cổng RA riêng) · do-gio",tep:"Output/RTM.md · TELEMETRY.md · WEEKLY.md · DOC-HEALTH-RULES.md · PHAM-VI-MVP.json",chk:"checklist/B10.md",dung:"ĐD2 bằng chứng ngoài kho · ĐD4 ngưỡng 7 chỉ số"}
+ 10:{can:"Chưng cất Dev Book → luật CLAUDE.md hoặc phép kiểm",tool:"rtm-check · doc-health · kiem-backlog · kiem-pham-vi --cho-phep-chua-giao (cổng RA riêng) · do-gio",tep:"Output/RTM.md · TELEMETRY.md · WEEKLY.md · B3-DOC-HEALTH.md · PHAM-VI-MVP.json",chk:"checklist/B10.md",dung:"ĐD2 bằng chứng ngoài kho · ĐD4 ngưỡng 7 chỉ số"}
 };
 const REV={moi:["moi","mọi Round"],dau:["dau","Round đầu"],khong:["khong","không bắt buộc"]};
 let cur=8;
@@ -1329,7 +1329,7 @@ function renderMatrix(){
   b+=row('Cổng vào riêng',s=>cellBtn(s.n,`<div class="cell">${s.vao.join('<br>')}</div>`));
   b+=row('Done khi (R1)',s=>cellBtn(s.n,`<div class="cell">${s.done.map(d=>'• '+d).join('<br>')}</div>`));
   b+=row('Cổng RA riêng (m)',s=>s.ra?`<div class="cell mono">${s.ra}</div>`:`<span class="empty">chung 13 điều kiện</span>`);
-  b+=row('Checklist',s=>cellBtn(s.n,`<div class="cell"><span class="mono">01-playbook/${MX[s.n].chk}</span><span class="l">V1–V6 · R1–R8 đủ 13 mục trong cong-buoc/…-B${s.n}.json</span></div>`));
+  b+=row('Checklist',s=>cellBtn(s.n,`<div class="cell"><span class="mono">01-pipeline/${MX[s.n].chk}</span><span class="l">V1–V6 · R1–R8 đủ 13 mục trong cong-buoc/…-B${s.n}.json</span></div>`));
   b+=grp('Cách làm');
   b+=row('AI được / dừng / không',s=>cellBtn(s.n,`<div class="cell"><span><span class="tag ok">✅</span> ${s.duoc}</span><span><span class="tag stop">⛔</span> ${s.dung}</span><span><span class="tag no">🚫</span> ${s.khong}</span></div>`));
   b+=row('Điều dừng hay gặp',s=>`<div class="cell">${MX[s.n].dung}</div>`);
@@ -1353,7 +1353,7 @@ function renderDetail(){
   document.getElementById('detail').innerHTML=`
   <div class="detail-head">
     <div class="num">${s.n}</div>
-    <div><h3 style="font-size:18px">Bước ${s.n} — ${s.name}</h3><div class="meta"><span>Artefact: <span class="mono">${s.art}</span></span><span>Mã truy vết sinh ra: <span class="mono">${s.ma}</span></span><span>Checklist gốc: <span class="mono">01-playbook/${m.chk}</span> · luật: <span class="mono">PLAYBOOK.md Bước ${s.n}</span></span></div></div>
+    <div><h3 style="font-size:18px">Bước ${s.n} — ${s.name}</h3><div class="meta"><span>Artefact: <span class="mono">${s.art}</span></span><span>Mã truy vết sinh ra: <span class="mono">${s.ma}</span></span><span>Checklist gốc: <span class="mono">01-pipeline/${m.chk}</span> · luật: <span class="mono">PIPELINE.md Bước ${s.n}</span></span></div></div>
     <div style="display:grid;gap:4px;justify-items:end"><span style="font-size:11px;color:var(--muted)">Review độc lập</span>${badge(s.review)}</div>
   </div>
   <div class="detail-col" style="border-bottom:1px solid var(--line)"><p><strong>Mục tiêu.</strong> ${s.muc}</p></div>
@@ -1425,11 +1425,11 @@ const IV=[
  ["tool","day-len-may-chu.sh","Đường ống đẩy production chặng 1: cổng tài liệu · backlog · phủ môi trường · phạm vi --truoc-prod · UAT→Prod, mỗi cổng if/else tường minh; chặng 2 khói chỉ đọc.","\"đẩy lên production\""],
  ["tool","_harness-config.cjs","Bộ nạp cấu hình chung: mọi công cụ require tệp này thay vì gõ cứng đường dẫn; thiếu config ⇒ thoát 2.","mọi công cụ Log/*.cjs"],
  ["hook","nhac-cap-nhat-harness.cjs","SessionStart: so .harness-manifest.json › harnessVersion với VERSION của kho (ổ máy; không có ổ thì GitHub raw, chờ ≤2,5 s). Có bản mới ⇒ thêm một dòng nhắc vào ngữ cảnh phiên. Chỉ nhắc, không sửa; không bao giờ làm tê liệt phiên.","mở phiên · từ bản 1.1.0"],
- ["tool","cap-nhat.cjs (08-cap-nhat)","Kéo bản harness mới về dự án theo bảng kê: xem trước (dry run) báo 4 nhóm (cập nhật được · thiếu · mẫu đổi · xung đột); --ap-dung chỉ ghi 2 nhóm đầu; --dang-ky dựng bảng kê cho dự án cài tay. Thoát 2 khi có xung đột.","\"cập nhật harness\" · đăng ký lần đầu"],
+ ["tool","cap-nhat.cjs (08-update)","Kéo bản harness mới về dự án theo bảng kê: xem trước (dry run) báo 4 nhóm (cập nhật được · thiếu · mẫu đổi · xung đột); --ap-dung chỉ ghi 2 nhóm đầu; --dang-ky dựng bảng kê cho dự án cài tay. Thoát 2 khi có xung đột.","\"cập nhật harness\" · đăng ký lần đầu"],
  ["cfg","VERSION · CHANGELOG.md · .harness-manifest.json","Số bản semver của kho · lịch sử từng mục (dự án nguồn · lớp · bắt buộc/khuyến nghị · tệp · vì sao) · bảng kê trong dự án: bản đang dùng + mã băm nguồn/đích từng tệp lúc cài (bộ cài ghi, commit cùng dự án).","mọi lần sửa kho · mọi lần cài / cập nhật"],
  ["skill","cap-nhat-harness","4 bước: đọc CHANGELOG từ bản đang dùng tới bản mới → xem trước cap-nhat.cjs → Huynh gật mới --ap-dung → ghi Dev Book, DU-AN-DANG-KY.json, đẩy git. Xung đột ở hạ tầng gác luật phải khai 'CULI được lợi nếu nới'.","\"cập nhật harness\" · khi hook nhắc"],
  ["skill","dua-vao-harness","7 bước: git pull --ff-only (dở thì dừng) → trả lời 'chặn lỗi gì / tiết kiệm gì' + gắn lớp lõi/gói/riêng → sửa đúng chỗ → cài thử vào thư mục trống + kiem-harness xanh → VERSION + CHANGELOG → đẩy GitHub với commit theo khuôn → Dev Book dự án gốc.","\"đưa vào harness …\""],
- ["cfg","09-goi/ · duAn.goi","Gói bài học theo loại dự án: desktop (tường lửa LAN, UAT = bản cài thật, mo-tuong-lua.mau.ps1) · desktop-tauri (CSP nonce chặn style=, csp-tauri.mau.py, mẫu config). Bộ cài / cap-nhat chép vào Instructions/goi/<loại>/ theo harness.config.json › duAn.goi.","cài đặt · cập nhật · từ 1.2.0"],
+ ["cfg","09-packs/ · duAn.goi","Gói bài học theo loại dự án: desktop (tường lửa LAN, UAT = bản cài thật, mo-tuong-lua.mau.ps1) · desktop-tauri (CSP nonce chặn style=, csp-tauri.mau.py, mẫu config). Bộ cài / cap-nhat chép vào Instructions/goi/<loại>/ theo harness.config.json › duAn.goi.","cài đặt · cập nhật · từ 1.2.0"],
  ["cfg",".claude/agents/ 5 vai","tester · dung-tai-nguyen · viet-noi-dung · ve-hinh · tra-cuu, mỗi vai có model + effort trong frontmatter; CULI gọi đúng tên vai, không hỏi lại. Nhóm riêng: dự án sửa theo sản phẩm, harness đổi chỉ báo.","mọi lần giao việc cho subagent · từ 1.2.0"],
  ["skill","day-git","5 bước có kiểm chứng: kiểm → đưa file vào (+ moc-day-git) → commit → đẩy lên → kiểm lại (+ ghi-vet). Chốt C1–C4 dừng, W1–W4 cảnh báo. LOCAL vs ĐẦY ĐỦ do câu Huynh gõ quyết định.","\"đẩy git đi\" · \"đẩy GitHub đi\""],
  ["so","TASKLIST.md","Nguồn trạng thái duy nhất: task cấp 3, ô cuối đọc theo ký tự đầu ✅🔒🔄⬜⛔.","Bước 4 tạo · mọi Bước cập nhật"],

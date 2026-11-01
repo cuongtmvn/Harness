@@ -12,27 +12,27 @@
 >
 > | # | Yêu cầu | Ở đâu |
 > |---|---|---|
-> | 1 | *Đủ đường ray các bước* | `01-playbook/PLAYBOOK.md` — 11 Bước, mỗi Bước: mục tiêu · artefact · đọc gì · cổng vào riêng · AI được/dừng/không · Done khi · bẫy |
-> | 2 | *Bước quan trọng cần kiểm duyệt, có thể chỉ round đầu* | `01-playbook/REVIEW-POLICY.md` + `harness.config.json › reviewPolicy` + điều kiện máy **(l)** |
-> | 3 | *Mọi bước có checklist (phasegate) để sang bước tiếp* | `01-playbook/PHASEGATE.md` (V1–V6 · R1–R8 · 13 điều kiện máy) + `checklist/B00…B10.md` + `04-cong-may/gate-check.cjs` |
-> | 4 | *Traceability Requirements → Scope → … → Design → Test (IT/SIT/UAT)* | `02-truy-vet/TRACEABILITY.md` — 15 mắt xích có mã, sổ, cổng gác; `rtm-check` · `kiem-backlog` · `kiem-pham-vi` · `kiem-c2-staged` · `doc-health` |
-> | 5 | *Đóng gói thành folder* | Chính thư mục này. Cài: `node 07-cai-dat/cai-dat.cjs <dự án>` |
+> | 1 | *Đủ đường ray các bước* | `01-pipeline/PIPELINE.md` — 11 Bước, mỗi Bước: mục tiêu · artefact · đọc gì · cổng vào riêng · AI được/dừng/không · Done khi · bẫy |
+> | 2 | *Bước quan trọng cần kiểm duyệt, có thể chỉ round đầu* | `01-pipeline/REVIEW-POLICY.md` + `harness.config.json › reviewPolicy` + điều kiện máy **(l)** |
+> | 3 | *Mọi bước có checklist (phasegate) để sang bước tiếp* | `01-pipeline/PHASEGATE.md` (V1–V6 · R1–R8 · 13 điều kiện máy) + `checklist/B00…B10.md` + `02-enforcement/tools/gate-check.cjs` |
+> | 4 | *Traceability Requirements → Scope → … → Design → Test (IT/SIT/UAT)* | `00-rules/B3-TRACEABILITY.md` — 15 mắt xích có mã, sổ, cổng gác; `rtm-check` · `kiem-backlog` · `kiem-pham-vi` · `kiem-c2-staged` · `doc-health` |
+> | 5 | *Đóng gói thành folder* | Chính thư mục này. Cài: `node 07-install/cai-dat.cjs <dự án>` |
 
 ---
 
 ## 1. Cài vào dự án mới — 15 phút
 
 ```bash
-node D:/OneDrive/AI/Harness/07-cai-dat/cai-dat.cjs D:/duong/dan/du-an --ten "Tên dự án"
+node D:/OneDrive/AI/Harness/07-install/cai-dat.cjs D:/duong/dan/du-an --ten "Tên dự án"
 cd D:/duong/dan/du-an
 # 1. sửa harness.config.json (duAn · moiTruong · kiemThu · route · csdlThat · maCode)
 # 2. sửa CLAUDE.md (bối cảnh · kiến trúc không được phá · vùng cấm · dữ liệu nhạy)
 # 3. git init; commit đầu qua skill day-git; đặt dayGit.mocGoc
 node Log/kiem-harness.cjs          # ✅ HARNESS ĐỦ
 ```
-Bộ cài **không ghi đè** tệp đã có (liệt kê ra), không xoá, không chạy git. Chi tiết: `07-cai-dat/cai-dat.cjs` đầu tệp.
+Bộ cài **không ghi đè** tệp đã có (liệt kê ra), không xoá, không chạy git. Chi tiết: `07-install/cai-dat.cjs` đầu tệp.
 
-**Mức máy — một lần mỗi máy (từ 1.7.0):** `node D:/OneDrive/AI/Harness/07-cai-dat/muc-may/cai-muc-may.cjs --ap-dung` — lắp hook `SessionStart` + khối luật vào `~/.claude/`, để dự án **chưa có** ProjectHarness (mới tạo, hoặc chép tay luật dự án khác) cũng bị cảnh báo khi mở phiên. **Phiên điện thoại / cloud** (không có `~/.claude` của máy): tạo dự án mới thì `git clone https://github.com/cuongtmvn/Harness.git /tmp/Harness` rồi chạy `cai-dat.cjs` như trên — ⛔ không chép tay bộ luật của dự án khác; Huynh tải skill `07-cai-dat/muc-may/skill-claude-ai/kiem-harness-du-an` lên claude.ai để luật này tới được các phiên đó. Chi tiết: `07-cai-dat/muc-may/README.md`.
+**Mức máy — một lần mỗi máy (từ 1.7.0):** `node D:/OneDrive/AI/Harness/07-install/machine/cai-muc-may.cjs --ap-dung` — lắp hook `SessionStart` + khối luật vào `~/.claude/`, để dự án **chưa có** ProjectHarness (mới tạo, hoặc chép tay luật dự án khác) cũng bị cảnh báo khi mở phiên. **Phiên điện thoại / cloud** (không có `~/.claude` của máy): tạo dự án mới thì `git clone https://github.com/cuongtmvn/Harness.git /tmp/Harness` rồi chạy `cai-dat.cjs` như trên — ⛔ không chép tay bộ luật của dự án khác; Huynh tải skill `07-install/machine/skill-claude-ai/kiem-harness-du-an` lên claude.ai để luật này tới được các phiên đó. Chi tiết: `07-install/machine/README.md`.
 
 **Yêu cầu:** Node ≥ 18 · git · Claude Code (hook/skill). Không cài gói npm nào.
 
@@ -40,18 +40,21 @@ Bộ cài **không ghi đè** tệp đã có (liệt kê ra), không xoá, khôn
 
 ## 2. Bản đồ thư mục GlobalHarness → ProjectHarness (vị trí trong dự án)
 
+> **Bản 2.0 — bố cục theo cây luật** (`00-rules/RULE-TREE.md`): luật chung theo nhánh B1–B5, luật pipeline, máy thi hành, sổ. Bố cục **phía dự án** (`Instructions/` · `Output/` · `Log/` · `.claude/`) giữ nguyên; một số tệp luật đổi tên — `cap-nhat.cjs` tự đổi tên khi nâng từ 1.x (bản đồ ở `08-update/doi-ten.json`).
+
 | Trong GlobalHarness | Là gì | Cài vào ProjectHarness |
 |---|---|---|
-| `harness.config.json` | **Một file cấu hình** — mọi công cụ đọc từ đây; ba khối `reviewPolicy` · `congRaRieng` · `csdlThat` là luật quản AI | `<gốc>/` |
-| `CLAUDE.template.md` | Trí nhớ dự án tự nạp mọi phiên: luật luôn đúng + bảng lệnh kích hoạt + bảng chỉ đường 8 mục | `<gốc>/CLAUDE.md` |
-| `00-nguyen-tac/` | `OPERATING-MODEL.md` (L0–L5 · A/A+ · 3 luật cứng · 3 cơ chế · 7 điều dừng · phạm vi là của chủ dự án) · `RUNBOOK.md` (vòng 7 nhịp, 8 cần điều khiển, câu lệnh mẫu, bẫy) · `NGUYEN-TAC-THIET-KE-CONG.md` (15 bài học) | `Instructions/` |
-| `01-playbook/` | `PLAYBOOK.md` · `PHASEGATE.md` · `REVIEW-POLICY.md` · `checklist/B00–B10.md` | `Instructions/` |
-| `02-truy-vet/` | `TRACEABILITY.md` + `templates/` 15 artefact đúng cấu trúc máy đọc | `Instructions/` + `Output/` |
-| `03-kiem-thu/` | `UT-RULES` · `IT-SIT-RULES` · `UAT-RULES` · `DOC-HEALTH-RULES` (7 chỉ số) | `Instructions/` |
-| `04-cong-may/` | 17 công cụ `.cjs` + mẫu đường ống đẩy production | `Log/` |
-| `05-hook-skill/` | `settings.json` · 6 hook · skill `day-git` | `.claude/` |
-| `06-so-ghi/` | Sổ cấu hình (`LEASH-BANG` · `PHAM-VI-MVP` · `PHU-MOI-TRUONG` · `LUAT-DANGKY`) → `Instructions/`; sổ ghi (`TASKLIST` · ndjson · mẫu `cong-buoc`/`khai-round`) → `Log/` | |
-| `07-cai-dat/` | Bộ cài | — |
+| `harness.config.json` | **Một file cấu hình** — mọi công cụ đọc từ đây; ba khối `reviewPolicy` · `congRaRieng` · `csdlThat` là luật quản AI; `doGio` ngưỡng nghỉ của sổ giờ | `<gốc>/` |
+| `CLAUDE.template.md` | Trí nhớ dự án tự nạp mọi phiên: luật luôn đúng + bảng lệnh kích hoạt + bảng chỉ đường | `<gốc>/CLAUDE.md` |
+| `00-rules/` | **Luật chung (nhánh B)**: `RULE-TREE.md` (cây luật, luật phân xử, kiểm đủ) · `B1-AI-AUTHORITY.md` (L0–L5 · A/A+ · 3 luật cứng · 7 điều dừng · phạm vi) · `B2-EXTERNAL-TOOLS.md` (Git · GitHub · deploy · CSDL · shell · web/MCP · đăng tải) · `B3-TRACEABILITY.md` + `B3-DOC-HEALTH.md` (truy vết, 7 chỉ số) · `B4-RULEBOOK.md` (thiết kế cổng, vòng đời bộ luật) · `B5-SESSIONS.md` (lái AI, phiên, agent, bộ nhớ, sổ giờ) | `Instructions/` |
+| `01-pipeline/` | **Luật pipeline (nhánh A)**: `PIPELINE.md` (SDLC 11 bước) · `PHASEGATE.md` · `REVIEW-POLICY.md` · `PROJECT-TREE.md` (cây tệp mặc định) · `steps/B00–B10.md` · `testing/` (UT · IT/SIT · UAT) · `templates/` 16 tài liệu (gồm ghi chú chủ dự án) | `Instructions/` (+ `checklist/`) · `Output/` |
+| `02-enforcement/` | **Máy thi hành**: `tools/` 18 công cụ cổng · `hooks/` 8 hook · `skills/` (day-git · cap-nhat-harness · dua-vao-harness · bao-cao-html) · `agents/` 5 vai · `settings.json` (hook + quyền allow / ask) | `Log/` · `.claude/` |
+| `03-records/` | **Sổ**: cấu hình (`LEASH-BANG` · `PHAM-VI-MVP` · `PHU-MOI-TRUONG` · `LUAT-DANGKY`) → `Instructions/`; sổ ghi (`TASKLIST` · ndjson · mẫu `cong-buoc`/`khai-round`) → `Log/` | |
+| `07-install/` | Bộ cài dự án + `machine/` lớp gác mức máy (`~/.claude`) | — |
+| `08-update/` | Công cụ nâng bản, bản đồ đổi tên, sổ đăng ký dự án, hướng dẫn hai chiều | — |
+| `09-packs/` | Luật theo loại dự án (`desktop`, `desktop-tauri`) — khai `duAn.packs` | `Instructions/packs/` |
+| `10-guidebook/` | Sổ tay cho người và AI: cây luật, cơ chế Claude Code, danh mục, chọn model + effort + agent, tiết kiệm token | — (đọc tại kho) |
+| `07-cai-dat/muc-may/` | Cầu nối đường dẫn cũ cho hook mức máy đã lắp từ 1.x — bỏ ở 3.0.0 | — |
 
 ---
 
@@ -77,7 +80,7 @@ Round ≥2: "mở Round Rk" → khai đủ 11 Bước (cham/khong-cham/ke-thua +
 
 ## 4. Chuỗi truy vết — một dòng
 
-`M<n>` mục tiêu *(nguyên văn, AI không sửa)* → `PB-xxx` backlog → `SCOPE §` / `D-…` → `US-xx AC<n>` / `NFR` → `L0-n`/`M-n` module → `D-ARCH-n` + trường có độ nhạy → `MVP_nn.b.X.Y.n` work item → tệp mã → `test_*` (UT) → `IT-Px` / `SIT-Px` → `UAT-xx ↔ 1 AC` → ô môi trường đã đo → bản phát hành. Xương sống: `Output/RTM.md`. Hai chiều, mỗi mắt xích có cổng — `02-truy-vet/TRACEABILITY.md`.
+`M<n>` mục tiêu *(nguyên văn, AI không sửa)* → `PB-xxx` backlog → `SCOPE §` / `D-…` → `US-xx AC<n>` / `NFR` → `L0-n`/`M-n` module → `D-ARCH-n` + trường có độ nhạy → `MVP_nn.b.X.Y.n` work item → tệp mã → `test_*` (UT) → `IT-Px` / `SIT-Px` → `UAT-xx ↔ 1 AC` → ô môi trường đã đo → bản phát hành. Xương sống: `Output/RTM.md`. Hai chiều, mỗi mắt xích có cổng — `00-rules/B3-TRACEABILITY.md`.
 
 ---
 
@@ -140,15 +143,17 @@ Round ≥2: "mở Round Rk" → khai đủ 11 Bước (cham/khong-cham/ke-thua +
 | Lịch sử | `CHANGELOG.md` — mỗi mục: dự án nguồn · lớp (lõi / gói / riêng) · bắt buộc/khuyến nghị · tệp · vì sao | trước khi cập nhật dự án |
 | Bảng kê trong dự án | `<dự án>/.harness-manifest.json` — bản đang dùng + mã băm từng tệp lúc cài (bộ cài ghi; **commit tệp này**) | `cap-nhat.cjs` so để biết tệp nào dự án đã tự sửa |
 | **Cơ chế 1** dự án → harness | skill `dua-vao-harness` (7 bước: pull --ff-only · viết chung · lớp · cài thử dự án trống · VERSION+CHANGELOG · đẩy GitHub kèm ghi chú · Dev Book) | Huynh gõ *"đưa vào harness"* |
-| **Cơ chế 2** harness → dự án | hook `SessionStart` `nhac-cap-nhat-harness.cjs` **chỉ nhắc** (đọc `VERSION` ổ máy, không có thì GitHub) → skill `cap-nhat-harness` → `node <Harness>/08-cap-nhat/cap-nhat.cjs <dự án> [--ap-dung]` | Huynh gõ *"cập nhật harness"* |
-| **Lớp gác mức máy** (từ 1.7.0) | `07-cai-dat/muc-may/` — hook `SessionStart` ở `~/.claude` cảnh báo dự án **chưa có** bảng kê (chỗ hook `nhac-cap-nhat-harness` im lặng) · khối luật `~/.claude/CLAUDE.md` · skill claude.ai cho phiên điện thoại / cloud. Bộ cài dự án không chép | Mỗi máy mới: `cai-muc-may.cjs --ap-dung` |
+| **Cơ chế 2** harness → dự án | hook `SessionStart` `nhac-cap-nhat-harness.cjs` **chỉ nhắc** (đọc `VERSION` ổ máy, không có thì GitHub) → skill `cap-nhat-harness` → `node <Harness>/08-update/cap-nhat.cjs <dự án> [--ap-dung]` | Huynh gõ *"cập nhật harness"* |
+| **Lớp gác mức máy** (từ 1.7.0) | `07-install/machine/` — hook `SessionStart` ở `~/.claude` cảnh báo dự án **chưa có** bảng kê (chỗ hook `nhac-cap-nhat-harness` im lặng) · khối luật `~/.claude/CLAUDE.md` · skill claude.ai cho phiên điện thoại / cloud. Bộ cài dự án không chép | Mỗi máy mới: `cai-muc-may.cjs --ap-dung` |
 | Đăng ký dự án cài tay | `cap-nhat.cjs <dự án> --dang-ky` — dựng bảng kê từ trạng thái hiện tại, không ghi đè | Thiên Số, Mười Ngón lần đầu |
-| Sổ đăng ký | `08-cap-nhat/DU-AN-DANG-KY.json` — dự án nào đang bản nào | nhìn ai tụt bản |
-| Hướng dẫn cho phiên khác | `08-cap-nhat/HUONG-DAN-CAP-NHAT.md` · `CLAUDE.md` của chính kho này | mở phiên ở GlobalHarness hoặc ở dự án (ProjectHarness) |
+| Sổ đăng ký | `08-update/DU-AN-DANG-KY.json` — dự án nào đang bản nào | nhìn ai tụt bản |
+| Hướng dẫn cho phiên khác | `08-update/HUONG-DAN-CAP-NHAT.md` · `CLAUDE.md` của chính kho này | mở phiên ở GlobalHarness hoặc ở dự án (ProjectHarness) |
 | Mô tả tương tác | `MO-TA-HARNESS.html` — pipeline, ma trận 11 Bước, checklist phasegate, MVP × Round, mô hình dự án, điểm can thiệp, từ điển | đọc để hiểu / kiểm toàn bộ harness |
 
 ---
 
-## 9. Tám mục của bộ luật điều hành AI — để kiểm "có thiếu mục nào không"
+## 9. Kiểm "có thiếu mục nào không" — từ 2.0 dùng cây luật
 
-① Harness (công cụ · cổng · hook) · ② Thang L0–L5 · ③ Dây cương + 7 điều dừng · ④ Playbook 11 Bước + Phasegate + Review policy · ⑤ Mô hình vận hành · ⑥ Sổ tay lái · ⑦ Dev Book (quyết định + bài học chưng cất) · ⑧ Telemetry / AgentOps. Mỗi mục phải nói được **nội dung gì · ở file nào · cưỡng chế bằng gì** — mục nào không chỉ ra được cơ chế thì **khai là đang hở**.
+> **Bản 2.0:** câu hỏi "bộ luật đã đủ chưa" trả lời bằng **cây luật** `00-rules/RULE-TREE.md` (A pipeline + B1–B5) và `kiem-luat.cjs --cot` (ô trống của từng luật). Tám mục dưới đây là cách chia của bản 1.x, giữ lại để đối chiếu.
+
+① Harness (công cụ · cổng · hook) · ② Thang L0–L5 · ③ Dây cương + 7 điều dừng · ④ Quy trình SDLC 11 Bước + Phasegate + Review policy · ⑤ Mô hình vận hành · ⑥ Sổ tay lái · ⑦ Dev Book (quyết định + bài học chưng cất) · ⑧ Telemetry / AgentOps. Mỗi mục phải nói được **nội dung gì · ở file nào · cưỡng chế bằng gì** — mục nào không chỉ ra được cơ chế thì **khai là đang hở**.

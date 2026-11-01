@@ -1,5 +1,5 @@
 {
-  "_doc": "Hook CỦA CHÍNH KHO GlobalHarness (không phải tệp khuôn cho dự án — bộ cài chép từ 05-hook-skill/, không chép thư mục này). Kho tự gác commit bằng skill day-git như mọi dự án (Huynh duyệt 19/10/2026).",
+  "_doc": "Hook CỦA CHÍNH KHO GlobalHarness (không phải tệp khuôn cho dự án — bộ cài chép từ 02-enforcement/, không chép thư mục này). Kho tự gác commit bằng skill day-git như mọi dự án (Huynh duyệt 19/10/2026).",
   "hooks": {
     "PreToolUse": [
       {
@@ -7,7 +7,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"${CLAUDE_PROJECT_DIR}/05-hook-skill/hooks/chan-git-commit-tay.cjs\"",
+            "command": "node \"${CLAUDE_PROJECT_DIR}/02-enforcement/hooks/chan-git-commit-tay.cjs\"",
             "statusMessage": "Kiểm git commit có đi qua skill day-git không...",
             "timeout": 10
           }

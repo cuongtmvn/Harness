@@ -1,0 +1,18 @@
+{
+  "_doc": "Bản đồ đổi tên tệp phía DỰ ÁN khi nâng bản. cap-nhat.cjs áp cho dự án có harnessVersion nhỏ hơn 'ban'. {luat} = harness.config.json › thuMuc.luat (mặc định Instructions). Đổi tên giữ nguyên nội dung dự án; thêm mục mới khi một bản đổi tên tệp đã cài vào dự án.",
+  "doiTen": [
+    {
+      "ban": "2.0.0",
+      "lyDo": "Bố cục theo cây luật: luật chung theo nhánh B1–B5, 'playbook' đổi thành 'pipeline', 'goi' đổi thành 'packs'.",
+      "tep": {
+        "{luat}/OPERATING-MODEL.md": "{luat}/B1-AI-AUTHORITY.md",
+        "{luat}/TRACEABILITY.md": "{luat}/B3-TRACEABILITY.md",
+        "{luat}/DOC-HEALTH-RULES.md": "{luat}/B3-DOC-HEALTH.md",
+        "{luat}/NGUYEN-TAC-THIET-KE-CONG.md": "{luat}/B4-RULEBOOK.md",
+        "{luat}/RUNBOOK.md": "{luat}/B5-SESSIONS.md",
+        "{luat}/PLAYBOOK.md": "{luat}/PIPELINE.md",
+        "{luat}/goi": "{luat}/packs"
+      }
+    }
+  ]
+}

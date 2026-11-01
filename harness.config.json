@@ -157,7 +157,7 @@
   },
 
   "csdlThat": {
-    "_doc": "Hook chan-ghi-csdl-that: lệnh có ý định GHI vào CSDL thật chỉ chạy khi có bản sao lưu mới. Để `khuon` rỗng nếu dự án chưa có CSDL thật. ⛔ AI không được tự nới.",
+    "_doc": "Hook chan-ghi-csdl-that: lệnh có ý định GHI vào CSDL thật (câu SQL ghi, hoặc xoá / dời / ghi đè tệp CSDL) chỉ chạy khi có bản sao lưu mới. (2.0.1) thuMucSaoLuu nhận đường dẫn ngoài repo: tuyệt đối, ~, %APPDATA% (Windows), $HOME — dùng khi dữ liệu nằm ở thư mục dữ liệu của app. Chép (cp / Copy-Item) không tính là ghi — đó là cách sao lưu. Để `khuon` rỗng nếu dự án chưa có CSDL thật. ⛔ AI không được tự nới.",
     "khuon": ["\\bApp[\\/\\\\]db[\\/\\\\][\\w.-]+\\.(db|sqlite3?)\\b"],
     "khuonProd": "",
     "kichBanNguy": "\\b(init_db|migrate_\\w+|seed_\\w+)\\.(py|js|ts|sql)\\b",

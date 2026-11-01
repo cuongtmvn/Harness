@@ -23,13 +23,23 @@ const KHUON_THAT = (CFG.khuon || []).map((s) => K.re(s, 'i')).filter(Boolean);
 const KHUON_PROD = K.re(CFG.khuonProd, 'i');
 const KICH_BAN = K.re(CFG.kichBanNguy, 'i');
 const Y_DINH_GHI = /\b(DELETE|UPDATE|INSERT|REPLACE|DROP|ALTER|TRUNCATE|VACUUM|CREATE\s+TABLE|--lam-that)\b/i;
+// 2.0.1 — thao tác TỆP xoá / dời / ghi đè lên tệp CSDL thật cũng là ghi (dữ liệu ngoài repo, ví dụ thư mục dữ liệu của app).
+// Chép (cp / Copy-Item) KHÔNG tính — đó là cách sao lưu; giới hạn: chép đè vào tệp CSDL thì hook không nhận ra.
+const GHI_TEP = /(^|[\s;&|(])(rm|del|erase|rd|rmdir|mv|move|Remove-Item|Move-Item|Rename-Item|Set-Content|Clear-Content|Out-File|truncate)(\s|$)|\s>{1,2}\s*\S/i;
 const CHI_DOC = /\b(SELECT|PRAGMA|\.schema|\.tables|mode=ro)\b/i;
 const CO_DI_VONG = /#\s*DA-SAO-LUU/i;
 const HAN = Number(CFG.hanSaoLuuPhut || 120);
 
+// 2.0.1 — thư mục sao lưu có thể nằm NGOÀI repo: nhận đường dẫn tuyệt đối, ~, %BIẾN% (Windows), $BIẾN / ${BIẾN}.
+function moRongDuongDan(s) {
+  return String(s || '')
+    .replace(/%([A-Za-z_][\w]*)%/g, (m, v) => process.env[v] || m)
+    .replace(/\$\{([A-Za-z_]\w*)\}|\$([A-Za-z_]\w*)/g, (m, a, b) => process.env[a || b] || m)
+    .replace(/^~(?=[\\/]|$)/, require('os').homedir());
+}
 function tuoiSaoLuu() {
   try {
-    const thu = K.path.join(K.GOC, CFG.thuMucSaoLuu || '');
+    const thu = K.path.resolve(K.GOC, moRongDuongDan(CFG.thuMucSaoLuu));
     const reBak = K.re(CFG.khuonSaoLuu, 'i');
     if (!reBak) return null;
     const ds = K.fs.readdirSync(thu).filter((f) => reBak.test(f)).map((f) => { const t = K.fs.statSync(K.path.join(thu, f)); return { f, ms: t.mtimeMs, byte: t.size }; }).filter((x) => x.byte > 0).sort((a, b) => b.ms - a.ms);
@@ -47,7 +57,7 @@ K.docStdin((hook) => {
   const chamProd = KHUON_PROD && KHUON_PROD.test(lenh);
   const chamThat = KHUON_THAT.some((r) => r.test(lenh));
   const chayKichBan = KICH_BAN && KICH_BAN.test(lenh);
-  const coYGhi = Y_DINH_GHI.test(lenh);
+  const coYGhi = Y_DINH_GHI.test(lenh) || (chamThat && GHI_TEP.test(lenh));
   if (chamProd && (coYGhi || chayKichBan)) {
     if (CO_DI_VONG.test(lenh)) { K.ghiSo(SO, { ts: new Date().toISOString(), phien, loai: 'di-vong-prod', lenh: gon }); return process.exit(0); }
     K.ghiSo(SO, { ts: new Date().toISOString(), phien, loai: 'chan-prod', lenh: gon });

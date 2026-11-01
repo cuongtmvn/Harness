@@ -29,11 +29,15 @@
     ],
     "ask": [
       "Bash(rm -rf *)",
+      "Bash(rm -fr *)",
       "Bash(rm -r *)",
+      "Bash(rm -R *)",
       "Bash(git reset --hard*)",
       "Bash(git push --force*)",
       "Bash(git push -f*)",
-      "PowerShell(Remove-Item * -Recurse*)",
+      "Bash(git push * --force*)",
+      "Bash(git push * -f*)",
+      "PowerShell(Remove-Item *-Recurse*)",
       "PowerShell(Format-Volume*)"
     ]
   },

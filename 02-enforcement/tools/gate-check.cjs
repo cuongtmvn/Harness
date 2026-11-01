@@ -357,7 +357,7 @@ if (co('--buoc')) {
     else {
       const mo = [], khongDoc = [];
       const tachBuoc = (o) => { // "B0" · "0" · "B08, B09" · "B0-B3" · "*" · "MVP 4 B0" (bỏ phần MVP) ⇒ tập số Bước, hoặc null nếu không đọc được
-        const t = o.replace(/MVP\s*\d+/gi, ' ').replace(/Bước/gi, 'B').trim();
+        const t = o.replace(/MVP\s*\d+/gi, ' ').replace(/Bước\s*/gi, 'B').trim();
         if (!t) return null;
         const ra = new Set();
         for (const p of t.split(/[,;\s]+/).filter(Boolean)) {
@@ -373,8 +373,11 @@ if (co('--buoc')) {
         if (!/GC-\d+/.test(l)) continue;
         const c = l.replace(/\\\|/g, '¦').replace(/^\s*\|?/, '|').split('|').map((x) => x.replace(/\*\*/g, '').trim()); // bỏ chữ đậm **…**, giữ '*' = mọi Bước
         if (c.length < 6 || !/^GC-\d+$/.test(c[1])) { khongDoc.push(l.trim().slice(0, 60)); continue; }
-        const tt = (c[5] || '').toLowerCase();
-        const dongLai = /đóng|dong|closed|xong/.test(tt), moTT = /mở|\bmo\b|open/.test(tt);
+        // Trạng thái = ô cuối có chữ (nội dung lỡ có '|' chưa thoát thì cột lệch nhưng ô cuối vẫn là trạng thái); quyết theo TỪ ĐẦU
+        const o = c.slice(1).filter((x, i, a) => x !== '' || i < a.length - 1);
+        if (o.length > 5) khongDoc.push(`${c[1]}: nội dung có '|' chưa thoát (viết \\|) — đã đọc trạng thái ở ô cuối`);
+        const tt = (o[o.length - 1] || '').toLowerCase().replace(/^đang\s+/, '');
+        const dongLai = /^(đóng|dong|closed|xong)/.test(tt), moTT = /^(mở|mo|open)(\s|$|[—,.;:-])/.test(tt);
         if (!moTT || dongLai) continue;
         const bs = tachBuoc(c[3]);
         if (!bs) { khongDoc.push(`${c[1]}: cột Bước "${c[3]}"`); continue; }

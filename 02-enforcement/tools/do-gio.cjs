@@ -33,7 +33,7 @@ const locNgay = (t) => (!tu || ngayMay(t) >= tu) && (!den || ngayMay(t) <= den);
 const SO_GIO = H.P(H.C.thuMuc.log, 'so-gio');
 const PHUT_NGHI = (H.C.doGio && typeof H.C.doGio.phutNghi === 'number') ? H.C.doGio.phutNghi : 15;
 // Chủ dự án ngắt AI giữa chừng (Esc) thì không có sự kiện "xong": prompt → prompt kế = AI đang chạy, tính đủ nhưng chặn trần
-const TRAN_NGAT_PHUT = (H.C.doGio && H.C.doGio.tranNgatPhut) || 120;
+const TRAN_NGAT_PHUT = (H.C.doGio && H.C.doGio.tranNgatPhut) || 60;
 if (H.fs.existsSync(SO_GIO) && !args.includes('--cu')) {
   const khoang = []; const theoNgay = {}; const theoMoiTruong = {};
   for (const f of H.fs.readdirSync(SO_GIO).filter((x) => x.endsWith('.ndjson'))) {

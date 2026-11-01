@@ -29,6 +29,7 @@
 | Luật | Vì sao | Cưỡng chế |
 |---|---|---|
 | **Lệnh có ý định ghi vào CSDL thật chỉ chạy khi có bản sao lưu mới** | Dữ liệu thật của người dùng không hoàn lại được | Hook `chan-ghi-csdl-that.cjs` theo khoá `csdlThat` trong `harness.config.json` · sổ `CHAN-CSDL-THAT.ndjson` |
+| CSDL nằm **ngoài repo** (thư mục dữ liệu của app trên máy) vẫn phải được gác: khai `csdlThat.khuon` theo đường dẫn tệp CSDL và `thuMucSaoLuu` trỏ thư mục sao lưu (nhận `%APPDATA%`, `~`, đường dẫn tuyệt đối); xoá / dời / ghi đè tệp CSDL cũng bị chặn khi chưa sao lưu | Dữ liệu người dùng thật thường nằm ngoài repo nên trước 2.0.1 hook không gác được | Hook `chan-ghi-csdl-that.cjs` (2.0.1) |
 | Tệp dữ liệu (`.db`, `.sqlite`…) không bao giờ vào git | Lộ dữ liệu thật qua lịch sử repo | Khoá `dayGit.tepDuLieu` của skill day-git |
 
 ## 5. Lệnh shell

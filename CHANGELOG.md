@@ -3,6 +3,23 @@
 > Mỗi mục ghi đủ: **dự án nguồn** · **lớp** (*lõi chung* = mọi dự án · *gói `<loại>`* = dự án cùng loại · *riêng* = không đưa) · **bắt buộc / khuyến nghị** với dự án nhận · **tệp đổi** · **vì sao** (bằng chứng). Mục *bắt buộc* mà `cap-nhat.cjs` không tự làm được thì ghi rõ dự án nhận phải làm gì.
 > Số bản: `VERSION`. PATCH sửa chữ / lỗi công cụ · MINOR thêm luật, công cụ, hook, skill, gói · MAJOR đổi cấu trúc thư mục, khoá `harness.config.json`, cách khai cổng.
 
+## 2.0.1 — 2026-11-01 · hook chặn ghi CSDL thật gác được dữ liệu nằm ngoài repo
+
+Nguồn: dự án Mười Ngón · khi nâng lên 2.0.0, chủ dự án chọn *"Có, khai đường dẫn"* cho dữ liệu của hai bé, rồi *"Sửa hook 2.0.1 rồi khai"*. Dữ liệu thật của app nằm ở thư mục dữ liệu của app trên máy (`%APPDATA%\<app>\…db`, ngoài repo); hook 2.0.0 ghép `thuMucSaoLuu` vào gốc dự án nên không trỏ được ra ngoài, và chỉ coi câu SQL là "ghi" — lệnh xoá / dời tệp CSDL lọt qua. Chạm hook (điều dừng 5): **ĐỆ được lợi nếu nới — không**, sửa này chỉ siết.
+
+| Lớp | Mức | Tệp | Vì sao |
+|---|---|---|---|
+| lõi chung | khuyến nghị | `02-enforcement/hooks/chan-ghi-csdl-that.cjs` | (1) `thuMucSaoLuu` nhận đường dẫn tuyệt đối, `~`, `%BIẾN%`, `$BIẾN` (path.resolve thay path.join); (2) xoá / dời / ghi đè / chuyển hướng ghi lên tệp CSDL thật tính là ghi; chép (`cp` / `Copy-Item`) không tính — đó là cách sao lưu. Thử 9 ca trên CSDL giả lập ngoài repo: chặn xoá / WAL / SQL ghi / chuyển hướng khi chưa sao lưu, cho qua SQL đọc, chép sao lưu, lệnh không liên quan; có sao lưu < 120 phút thì qua, quá hạn thì chặn |
+| tài liệu | — | `harness.config.json › csdlThat._doc` · `00-rules/B2-EXTERNAL-TOOLS.md` mục 4 | Cách khai cho CSDL ngoài repo |
+
+**Sửa thêm sau soát của tester senior (GO, kèm điều kiện):** nhận bí danh PowerShell (`ri`, `mi`, `rni`, `sc`, `ac`, `clc`, `tee`), `Add-Content`, ghi qua node / python (`unlinkSync`, `rmSync`, `os.remove`, `shutil.rmtree`), lệnh dot của sqlite3 (`.read`, `.restore`, `.import`) và `sqlite3 <db> < tệp.sql`; **chép đè** vào CSDL (đích của `cp` / `Copy-Item` là CSDL, không phải thư mục sao lưu) bị chặn; chuyển hướng `>` chỉ tính khi đích là CSDL (xuất csv ra chỗ khác vẫn được); `PRAGMA wal_checkpoint(…)` và `VACUUM INTO` không bị coi là ghi; giờ bản sao lưu = max(giờ sửa, giờ tạo) để bản chép bằng `Copy-Item` được tính; khoá mới `csdlThat.saoLuuToiThieuByte` (tệp nhỏ hơn không tính là sao lưu). Khuyến nghị khuôn **mức thư mục** dữ liệu của app (xoá cả thư mục / wildcard / đường dẫn tách qua biến đều bị chặn) và sao lưu bằng `sqlite3 <db> ".backup '<thư mục sao lưu>/<tên>.db'"` (an toàn với WAL). Thử 23 ca trên CSDL giả lập: đúng hết.
+
+**Đổi hành vi:** dự án có `csdlThat.khuon` mặc định (`App/db/…`) nay bị chặn `rm App/db/app.db` khi chưa có bản sao lưu (trước 2.0.1 lọt qua).
+
+Giới hạn còn lại: hook chỉ thấy chuỗi lệnh Bash / PowerShell (lệnh ghi bằng công cụ Write, hoặc SQL nằm trong tệp script, không thấy); đường dẫn tách qua `cd` rồi gọi tên trần chỉ bị chặn khi khuôn ở mức thư mục; bản sao lưu nằm trong chính thư mục được gác thì xoá cả thư mục là mất cả hai — nên có thêm bản ngoài thư mục đó.
+
+**Dự án nhận:** `cap-nhat.cjs --ap-dung` chép hook mới (nhóm công cụ). Dự án có CSDL ngoài repo thì khai `csdlThat` (luật quản AI — chủ dự án duyệt).
+
 ## 2.0.0 — 2026-11-01 · bố cục theo cây luật; sổ giờ; ghi chú chủ dự án; luật cho vùng trống; nâng bản có đổi tên
 
 Nguồn: trang Proposal của Control Tower (bản 2–4, 31/10–01/11/2026) và 13 góp ý bằng ảnh của chủ dự án. Huynh 01/11: *"Bộ Rule điều khiển AI … gồm Pipeline Rules và Rule điều khiển tổng thể (giới hạn quyền của AI, giao tiếp với tool ngoài …)"*; *"bắt tay ngay vào nâng cấp bộ globalharness … khi chưa yêu cầu áp dụng vào mức project thì các project vẫn hoạt động theo bộ global và project harness hiện tại"*; duyệt phạm vi "đề xuất của đệ" (ba mức + gộp Bước 6+7, công cụ RTM M8, CLAUDE.md bản đồ để 2.1), "Nhánh + pull request", "Tên tiếng Anh theo cây", sổ giờ, giữ log 5 GB. Chạm hook / gate-check / bộ cài / settings (điều dừng 5): khai **ĐỆ được lợi nếu nới — không**: mọi thay đổi cổng là siết (thêm điều kiện (n), thêm `permissions.ask`), hook mới chỉ ghi, không nới phép kiểm nào.

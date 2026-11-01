@@ -23,16 +23,33 @@ const KHUON_THAT = (CFG.khuon || []).map((s) => K.re(s, 'i')).filter(Boolean);
 const KHUON_PROD = K.re(CFG.khuonProd, 'i');
 const KICH_BAN = K.re(CFG.kichBanNguy, 'i');
 const Y_DINH_GHI = /\b(DELETE|UPDATE|INSERT|REPLACE|DROP|ALTER|TRUNCATE|VACUUM|CREATE\s+TABLE|--lam-that)\b/i;
+// 2.0.1 — thao tác TỆP xoá / dời / ghi đè lên CSDL thật cũng là ghi (dữ liệu ngoài repo, ví dụ thư mục dữ liệu của app).
+const GHI_TEP = /(^|[\s;&|(])(rm|del|erase|rd|rmdir|mv|move|ren|Remove-Item|ri|Move-Item|mi|Rename-Item|rni|Set-Content|sc|Add-Content|ac|Clear-Content|clc|Out-File|tee|Tee-Object|truncate)(\s|$)|unlinkSync|rmSync|rmdirSync|writeFileSync|os\.(remove|unlink)|shutil\.rmtree|\.(read|restore|import)\s/i;
+// sqlite3 <db> < tep.sql — đầu vào là lệnh ghi tiềm tàng
+const NAP_SQL = /sqlite3?\b[^|;&]*<\s*\S/i;
+// Câu an toàn mà Y_DINH_GHI hiểu nhầm: checkpoint WAL (khuyến nghị trước khi sao lưu) và VACUUM INTO (cách sao lưu an toàn với WAL)
+const AN_TOAN = /wal_checkpoint\s*\(\s*\w*\s*\)|VACUUM\s+INTO/gi;
+// Chép (cp / Copy-Item) là cách sao lưu ⇒ không tính, TRỪ khi đích (tham số cuối) là CSDL thật — chép đè
+const CHEP = /(^|[\s;&|(])(cp|copy|Copy-Item|cpi)\s/i;
 const CHI_DOC = /\b(SELECT|PRAGMA|\.schema|\.tables|mode=ro)\b/i;
 const CO_DI_VONG = /#\s*DA-SAO-LUU/i;
 const HAN = Number(CFG.hanSaoLuuPhut || 120);
 
+// 2.0.1 — thư mục sao lưu có thể nằm NGOÀI repo: nhận đường dẫn tuyệt đối, ~, %BIẾN% (Windows), $BIẾN / ${BIẾN}.
+function moRongDuongDan(s) {
+  return String(s || '')
+    .replace(/%([A-Za-z_][\w]*)%/g, (m, v) => process.env[v] || m)
+    .replace(/\$\{([A-Za-z_]\w*)\}|\$([A-Za-z_]\w*)/g, (m, a, b) => process.env[a || b] || m)
+    .replace(/^~(?=[\\/]|$)/, require('os').homedir());
+}
 function tuoiSaoLuu() {
   try {
-    const thu = K.path.join(K.GOC, CFG.thuMucSaoLuu || '');
+    const thu = K.path.resolve(K.GOC, moRongDuongDan(CFG.thuMucSaoLuu));
     const reBak = K.re(CFG.khuonSaoLuu, 'i');
     if (!reBak) return null;
-    const ds = K.fs.readdirSync(thu).filter((f) => reBak.test(f)).map((f) => { const t = K.fs.statSync(K.path.join(thu, f)); return { f, ms: t.mtimeMs, byte: t.size }; }).filter((x) => x.byte > 0).sort((a, b) => b.ms - a.ms);
+    // Giờ của bản sao lưu = max(giờ sửa, giờ tạo): Copy-Item giữ giờ sửa của tệp gốc nhưng giờ tạo là lúc chép
+    const toiThieu = Number(CFG.saoLuuToiThieuByte || 1);
+    const ds = K.fs.readdirSync(thu).filter((f) => reBak.test(f)).map((f) => { const t = K.fs.statSync(K.path.join(thu, f)); return { f, ms: Math.max(t.mtimeMs, t.birthtimeMs || 0), byte: t.size }; }).filter((x) => x.byte >= toiThieu).sort((a, b) => b.ms - a.ms);
     return ds.length ? { phut: (Date.now() - ds[0].ms) / 60000, ten: ds[0].f } : null;
   } catch { return null; }
 }
@@ -47,7 +64,19 @@ K.docStdin((hook) => {
   const chamProd = KHUON_PROD && KHUON_PROD.test(lenh);
   const chamThat = KHUON_THAT.some((r) => r.test(lenh));
   const chayKichBan = KICH_BAN && KICH_BAN.test(lenh);
-  const coYGhi = Y_DINH_GHI.test(lenh);
+  const lenhSql = lenh.replace(AN_TOAN, ' ');
+  const chamDuong = (s) => KHUON_THAT.some((r) => r.test(s));
+  // chuyển hướng > / >> chỉ tính khi ĐÍCH là CSDL thật (xuất csv ra chỗ khác vẫn được)
+  const dichChuyen = [...lenh.matchAll(/>{1,2}(?!&)\s*("[^"]+"|'[^']+'|\S+)/g)].map((m) => m[1]);
+  const reBakTen = K.re(CFG.khuonSaoLuu, 'i');
+  const chepDe = CHEP.test(lenh) && (() => {
+    const dich = lenh.trim().split(/\s+/).filter((x) => !/^-/.test(x)).pop().replace(/^["']|["']$/g, '');
+    // chép VÀO thư mục sao lưu (đúng tên thư mục + tên khớp khuôn sao lưu) = sao lưu, không phải chép đè
+    const phan = dich.split(/[\\/]+/), thuSl = String(CFG.thuMucSaoLuu || '').split(/[\\/]+/).filter(Boolean).pop();
+    const laBanSaoLuu = !!(reBakTen && thuSl && reBakTen.test(phan[phan.length - 1]) && phan[phan.length - 2] === thuSl);
+    return chamDuong(dich) && !laBanSaoLuu;
+  })();
+  const coYGhi = Y_DINH_GHI.test(lenhSql) || (chamThat && (GHI_TEP.test(lenh) || NAP_SQL.test(lenh) || chepDe || dichChuyen.some(chamDuong)));
   if (chamProd && (coYGhi || chayKichBan)) {
     if (CO_DI_VONG.test(lenh)) { K.ghiSo(SO, { ts: new Date().toISOString(), phien, loai: 'di-vong-prod', lenh: gon }); return process.exit(0); }
     K.ghiSo(SO, { ts: new Date().toISOString(), phien, loai: 'chan-prod', lenh: gon });

@@ -46,6 +46,15 @@ for (const m of B.banDo(HARNESS, GOC, C, ten)) {
   daChep.push(rel(m.den));
   manifest.tep[rel(m.den)] = { nguon, dich: B.bam(m.den), nhom: m.nhom };
 }
+// L-CONG-01: cấp số thứ tự cổng máy = số lớn nhất trong sổ + 1 (chỉ khi vừa chép mẫu cấu hình; không ghi vào sổ — việc tiếp theo số 6)
+let sttMoi = null;
+if (daChep.includes('harness.config.json')) {
+  const so = JSON.parse(fs.readFileSync(path.join(HARNESS, '08-update', 'DU-AN-DANG-KY.json'), 'utf8'));
+  sttMoi = Math.max(...so.duAn.map((d) => (Number.isInteger(d.stt) ? d.stt : -1))) + 1;
+  const tepCfg = path.join(GOC, 'harness.config.json');
+  fs.writeFileSync(tepCfg, fs.readFileSync(tepCfg, 'utf8').replace('"stt": null', `"stt": ${sttMoi}`), 'utf8');
+  manifest.tep['harness.config.json'].dich = B.bam(tepCfg);
+}
 if (boQua.includes('.claude/settings.json')) {
   const den = path.join(GOC, '.claude', 'settings.harness.json');
   fs.copyFileSync(path.join(HARNESS, '02-enforcement', 'settings.json'), den);
@@ -64,7 +73,7 @@ console.log('  2. Sửa CLAUDE.md: bối cảnh 1 dòng · kiến trúc không �
 console.log('  3. Kho git chưa có thì `git init` + commit đầu tiên (qua skill day-git) — c2 không đo ngược được; rồi đặt dayGit.mocGoc = commit đó');
 console.log('  4. Thêm vào .gitignore: Log/.moc-day-git.json · Log/doc-health-theo-buoc/ (tuỳ) · *.db · .env  — ⛔ KHÔNG ignore .harness-manifest.json (commit nó)');
 console.log('  5. Bước 0: chép NGUYÊN VĂN mục tiêu chủ dự án vào Instructions/PHAM-VI-MVP.json trước khi viết SCOPE');
-console.log(`  6. Đăng ký dự án vào ${path.join(HARNESS, '08-update', 'DU-AN-DANG-KY.json')} (tên · đường dẫn · loại · bản ${manifest.harnessVersion})`);
+console.log(`  6. Đăng ký dự án vào ${path.join(HARNESS, '08-update', 'DU-AN-DANG-KY.json')} (tên · ${sttMoi === null ? 'stt theo congMay' : 'stt ' + sttMoi} · đường dẫn · loại · bản ${manifest.harnessVersion}) — stt giữ cổng máy riêng (L-CONG-01)`);
 if (!args.includes('--kho')) {
   console.log(`\n--- node ${TM.log}/kiem-harness.cjs ---`);
   try { console.log(execSync(`node ${JSON.stringify(path.join(GOC, TM.log, 'kiem-harness.cjs'))}`, { cwd: GOC, encoding: 'utf8', env: { ...process.env, HARNESS_ROOT: GOC } })); }

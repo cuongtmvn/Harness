@@ -3,6 +3,7 @@
   "duAn": [
     {
       "ten": "GlobalHarness",
+      "stt": 0,
       "duongDan": "D:\\OneDrive\\AI\\Harness",
       "repo": "https://github.com/cuongtmvn/Harness.git",
       "loai": "harness",
@@ -11,6 +12,7 @@
     },
     {
       "ten": "Thiên Số",
+      "stt": 1,
       "duongDan": "D:\\OneDrive\\AI\\Bootcamp",
       "repo": "git@github.com:cuongtmvn/ThienSo.git",
       "loai": "web-cloud",
@@ -19,6 +21,7 @@
     },
     {
       "ten": "Mười Ngón",
+      "stt": 2,
       "duongDan": "D:\\OneDrive\\AI\\TypingMaster\\Source code\\typingmaster",
       "repo": "https://github.com/Cuongtmvn/typingmaster",
       "loai": "desktop-tauri",
@@ -29,6 +32,7 @@
     },
     {
       "ten": "ChildDressShop",
+      "stt": 3,
       "duongDan": "D:/OneDrive/AI/DressShop",
       "repo": "https://github.com/cuongtmvn/ChildDressShop.git",
       "loai": "web-cloud",
@@ -39,6 +43,7 @@
     },
     {
       "ten": "AIAutoNews",
+      "stt": 4,
       "duongDan": "D:\\OneDrive\\AI\\AInAutomotiveNews",
       "repo": "git@github.com:cuongtmvn/AIAutonews.git",
       "loai": "web-cloud",
@@ -49,6 +54,7 @@
     },
     {
       "ten": "Control Tower",
+      "stt": 5,
       "duongDan": "D:\\ClaudeLog\\dai-quan-sat",
       "repo": "https://github.com/cuongtmvn/ControlTower (riêng tư)",
       "loai": "dashboard",
@@ -56,6 +62,16 @@
       "ngayDangKy": "2026-11-01",
       "ngayCapNhat": "2026-11-01",
       "ghiChu": "01/11: cài mới 2.0.2, commit đầu 90c944f — bảng điều hành các dự án AI (gom → dựng → máy chủ cục bộ). Huynh 31/10: tên repo ControlTower, riêng tư."
+    },
+    {
+      "ten": "TreCon",
+      "stt": 6,
+      "duongDan": "D:/OneDrive/AI/TreCon",
+      "loai": "chưa rõ",
+      "banDangDung": "chưa có ProjectHarness — lưu trữ",
+      "ngayDangKy": "2026-11-05",
+      "ghiChu": "05/11: đăng ký để giữ số cổng, chưa cài ProjectHarness."
     }
-  ]
+  ],
+  "_docStt": "stt = số thứ tự cố định của dự án, cấp cổng máy theo L-CONG-01 (cổng = 20000 + stt × 100 + độ lệch). Dự án mới: số lớn nhất + 1, thêm cuối sổ. Không đổi, không dùng lại kể cả khi dự án ngừng. Sổ giữ thứ tự đăng ký (không hẳn thứ tự tạo)."
 }

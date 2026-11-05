@@ -26,7 +26,7 @@ for (const mt of ['uat', 'production']) { const o = (C.moiTruong || {})[mt] || {
 // ② tệp có mặt
 const log = C.thuMuc.log, luat = C.thuMuc.luat, out = C.thuMuc.output;
 for (const d of [log, luat, out, C.thuMuc.app]) can(fs.existsSync(H.P(d)), `Thiếu thư mục ${d}/`);
-const CONG_CU = ['_harness-config.cjs', 'gate-check.cjs', 'rtm-check.cjs', 'doc-health.cjs', 'cho-quyet.cjs', 'kiem-luat.cjs', 'kiem-backlog.cjs', 'kiem-pham-vi.cjs', 'kiem-phu-moi-truong.cjs', 'cong-uat-truoc-prod.cjs', 'kiem-c2-staged.cjs', 'kiem-khoa-lo.cjs', 'check-telemetry-gaps.cjs', 'do-gio.cjs', 'moc-day-git.cjs', 'ghi-vet-day-git.cjs', 'kiem-day-git.cjs'];
+const CONG_CU = ['_harness-config.cjs', 'gate-check.cjs', 'rtm-check.cjs', 'doc-health.cjs', 'cho-quyet.cjs', 'kiem-luat.cjs', 'kiem-backlog.cjs', 'kiem-pham-vi.cjs', 'kiem-phu-moi-truong.cjs', 'cong-uat-truoc-prod.cjs', 'kiem-c2-staged.cjs', 'kiem-khoa-lo.cjs', 'check-telemetry-gaps.cjs', 'do-gio.cjs', 'moc-day-git.cjs', 'ghi-vet-day-git.cjs', 'kiem-day-git.cjs', 'cong-du-an.cjs'];
 for (const f of CONG_CU) can(fs.existsSync(H.P(log, f)), `Thiếu công cụ ${log}/${f}`);
 for (const f of ['PLAYBOOK', 'PHASEGATE', 'OPERATING_MODEL', 'RUNBOOK', 'REVIEW_POLICY', 'TRACEABILITY', 'LUAT_DANGKY', 'LEASH', 'PHAM_VI', 'PHU_MOI_TRUONG']) can(fs.existsSync(H.tep(f)), `Thiếu ${H.rel(H.tep(f))}`);
 for (const f of ['RTM', 'SPEC', 'SCOPE', 'BACKLOG', 'DEVBOOK', 'TELEMETRY', 'RISK', 'ARCH', 'SITUAT']) if (!fs.existsSync(H.tep(f))) canh.push(`Chưa có ${H.rel(H.tep(f))} — các cổng đọc tệp này sẽ báo "chưa có dữ liệu" (bình thường trước Bước tương ứng)`);
@@ -54,6 +54,7 @@ if (!fs.existsSync(H.P(H.C.thuMuc.luat, 'RULE-TREE.md'))) canh.push(`Chưa có $
 if (st && st.hooks && !JSON.stringify(st.hooks).includes('ghi-so-gio.cjs')) canh.push('settings.json chưa lắp hook ghi-so-gio.cjs (harness 2.0: sổ giờ) — gộp khối SessionStart/UserPromptSubmit/Stop/SessionEnd từ mẫu 02-enforcement/settings.json');
 if (!fs.existsSync(H.P(H.C.thuMuc.output, 'GHI-CHU-CHU-DU-AN.md'))) canh.push(`Chưa có ${H.C.thuMuc.output}/GHI-CHU-CHU-DU-AN.md (harness 2.0: ghi chú chủ dự án, đọc khi khai V6) — chạy cap-nhat.cjs --ap-dung để nhận`);
 if (!H.C.doGio) canh.push('harness.config.json chưa có khối doGio (harness 2.0: ngưỡng nghỉ của sổ giờ) — thêm { "phutNghi": 15 } theo mẫu');
+if (!H.C.congMay || !Number.isInteger(H.C.congMay.stt)) canh.push('harness.config.json chưa có congMay.stt (harness 2.2: cổng máy theo số thứ tự dự án, L-CONG-01) — thêm khối theo mẫu, stt lấy ở sổ đăng ký');
 // 2.0 — tệp riêng của dự án mà mẫu ở GlobalHarness đã đổi, chưa gộp tay (cap-nhat chỉ báo một lần lúc áp dụng)
 {
   const mf = H.docJson('.harness-manifest.json', null);

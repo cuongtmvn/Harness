@@ -1108,6 +1108,25 @@
       "themBan": "2.0.0"
     },
     {
+      "id": "L-CONG-01",
+      "muc": "9",
+      "tomtat": "Cổng máy của công cụ và test lấy theo số thứ tự dự án, không gõ tay",
+      "file": "Instructions/B5-SESSIONS.md",
+      "neo": "Cổng máy theo số thứ tự dự án (L-CONG-01)",
+      "cochequuongche": "cong-du-an.cjs tính cổng, đối chiếu sổ đăng ký, báo cổng bận · kiem-harness cảnh báo khi thiếu congMay.stt · kiem-luat --mat · chưa có cổng máy chặn gõ tay số cổng",
+      "botdi_thi_sao": "Hai công cụ cùng nối một cổng gỡ lỗi, điều khiển nhầm cửa sổ của nhau mà không báo lỗi",
+      "trangthai": "song",
+      "ghiChuNeo": "05/11/2026 chủ dự án (Mười Ngón): \"hình thành cơ chế tạo cổng đi, không có lại lẫn, tốt nhất là lấy theo số thức tự tạo dự án\"",
+      "nhanh": "B5",
+      "phamVi": "global",
+      "apDung": [
+        "B08",
+        "B09"
+      ],
+      "soGhiVet": "Output/DEVBOOK.md",
+      "themBan": "2.2.0"
+    },
+    {
       "id": "L-UAT-02",
       "muc": "—",
       "tomtat": "Test trên máy bằng bản chạy cục bộ, đạt rồi mới đóng gói một lần; không đóng gói để test",

@@ -3,6 +3,19 @@
 > Mỗi mục ghi đủ: **dự án nguồn** · **lớp** (*lõi chung* = mọi dự án · *gói `<loại>`* = dự án cùng loại · *riêng* = không đưa) · **bắt buộc / khuyến nghị** với dự án nhận · **tệp đổi** · **vì sao** (bằng chứng). Mục *bắt buộc* mà `cap-nhat.cjs` không tự làm được thì ghi rõ dự án nhận phải làm gì.
 > Số bản: `VERSION`. PATCH sửa chữ / lỗi công cụ · MINOR thêm luật, công cụ, hook, skill, gói · MAJOR đổi cấu trúc thư mục, khoá `harness.config.json`, cách khai cổng.
 
+## 2.2.0 — 2026-11-05 · L-CONG-01: cổng máy theo số thứ tự dự án
+
+Nguồn: Mười Ngón · UAT MVP 4: phép đo bộ nhớ 30 phút hỏng ở phút 19 khi cửa sổ thử trên cổng gỡ lỗi 9333 bị chuyển sang trang của dự án khác (chưa xác minh được công cụ nào gây ra). Chủ dự án: *"hình thành cơ chế tạo cổng đi, không có lại lẫn, tốt nhất là lấy theo số thức tự tạo dự án"* · *"đưa lên globalharness"*.
+
+| Lớp | Mức | Tệp | Vì sao |
+|---|---|---|---|
+| lõi chung | khuyến nghị | `00-rules/B5-SESSIONS.md` §9 · `03-records/LUAT-DANGKY.json` (L-CONG-01) | Cổng của công cụ và test lấy theo số thứ tự dự án, không gõ tay |
+| lõi chung | khuyến nghị | `02-enforcement/tools/cong-du-an.cjs` · `kiem-harness.cjs` | Cổng = goc + stt × khoi + độ lệch việc; đối chiếu sổ, báo cổng bận; cảnh báo khi thiếu stt |
+| lõi chung | khuyến nghị | `harness.config.json` (khối `congMay`) · `07-install/cai-dat.cjs` | Dự án mới tự được cấp số lớn nhất + 1 |
+| lõi chung | khuyến nghị | `08-update/DU-AN-DANG-KY.json` | Thêm trường `stt` cố định cho mọi dự án; đăng ký thêm TreCon để giữ số |
+
+**Dự án nhận:** `harness.config.json` và sổ luật là tệp riêng ⇒ thêm tay khối `congMay` với `stt` trong sổ đăng ký và dòng L-CONG-01; sửa kịch bản đang gõ tay số cổng. Luật siết thêm, không nới.
+
 ## 2.1.0 — 2026-11-05 · L-UAT-02: test trên máy trước, đạt rồi mới đóng gói một lần
 
 Nguồn: Mười Ngón · MVP 4: AI đóng gói bản cài rồi mới nhắc UAT lượt 1, còn nói sai "phải có bản đóng gói rồi mới UAT được". Chủ dự án: *"Vô lý, test thì test ngay trên máy, đóng file exe làm gì"*. WBS của dự án cũng xếp task đóng gói trước task UAT, nên thứ tự sai nằm từ khâu chẻ việc.

@@ -55,7 +55,7 @@
     {
       "ten": "Control Tower",
       "stt": 5,
-      "duongDan": "D:\\ClaudeLog\\dai-quan-sat",
+      "duongDan": "D:\\ClaudeLog\\ControlTower",
       "repo": "https://github.com/cuongtmvn/ControlTower (riêng tư)",
       "loai": "dashboard",
       "banDangDung": "2.0.2",

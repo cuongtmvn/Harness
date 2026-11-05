@@ -25,3 +25,13 @@
                "production": { "ten": "PRODUCTION", "diaChi": "bản cài .exe phát cho người dùng", "dauHieu": "ban-cai|20\\d{6}-\\d{4}" } }
 ```
 Không có đường HTTP ⇒ `kiem-pham-vi.cjs` xác minh `xong` bằng **tệp kiểm trên đĩa**, không bằng route.
+
+## 4. Thử cửa sổ thật mà không đụng dữ liệu thật (L-UAT-02)
+
+Máy phát triển cũng là máy người dùng thật thì đừng chuyển thư mục dữ liệu thật để test. Tauri đặt thư mục dữ liệu theo `identifier`, nên dựng một bản chỉ để thử với định danh khác, không đóng gói:
+```bash
+# thu.json: {"identifier":"<định danh thử, chuỗi khác hẳn định danh thật>","bundle":{"active":false}}
+npx tauri build --no-bundle --config thu.json
+```
+Dữ liệu và hồ sơ WebView2 của bản thử nằm ở thư mục riêng. Điều khiển tự động trên Windows: đặt `WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS=--remote-debugging-port=<cổng>`, rồi Playwright `connect_over_cdp`. CSP là CSP thật của Tauri.
+**Giới hạn:** không qua bộ cài ⇒ đạt rồi đóng gói, vẫn kiểm khói bản cài. Định danh thử không được chứa định danh thật, kẻo khớp nhầm khuôn `csdlThat`.

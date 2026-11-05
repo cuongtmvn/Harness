@@ -99,6 +99,7 @@ Mỗi ca UAT gắn **một nhãn rủi ro lấy thẳng từ `Output/RISK.md`** 
 | Môi trường giống production | `<✅/🔧/⬜>` | UAT chạy ở `moiTruong.uat.diaChi` (`harness.config.json`). Chưa có production hoặc UAT khác production thì **phải ghi rõ giới hạn trong kết quả UAT**, không viết như thể đã kiểm trên môi trường thật. Nơi chạy của từng phép đo khai ở `Instructions/PHU-MOI-TRUONG.json` |
 | Smoke pre-check trước khi chạy UAT | **Bắt buộc, rẻ** | (1) chạy toàn bộ `kiemThu.lenhChayBo` — phải **PASS 100%**; (2) gọi thật **1 request** qua app đang chạy ở địa chỉ UAT. **Fail bất kỳ bước nào = HOÃN UAT**, không chạy tiếp |
 | Accounts & quyền cho các vai nghiệp vụ | `<✅/🔧/⬜>` | Chưa có Auth thì chỉ có vai Guest — **⬜ HOÃN có hạn**, bắt buộc bổ sung ngay khi có Auth |
+| Test trước, đóng gói sau (L-UAT-02) | **Bắt buộc** | Kiểm trên máy phát triển bằng **bản chạy cục bộ**, ⛔ không đóng gói để test. Thứ tự: UT / IT / SIT → UAT lượt 1 trong điều kiện chạy thật (app thật, dữ liệu giả **tách khỏi** dữ liệu thật) → sửa lỗi, kiểm lại → đạt rồi mới đóng gói **một lần** → giao bản đó cho lượt 2. Sau đóng gói chỉ kiểm khói bản cài (cài / mở được, đúng số bản). Chủ dự án ra lệnh đóng gói sớm thì làm, nhưng báo rõ *"chưa qua UAT lượt 1"* |
 | Change control | 🔧 nhẹ | Mỗi lần sửa `Output/SPEC.md` (thêm/đổi AC) → **rà lại ngay bảng trace §2** xem ca UAT nào bị ảnh hưởng, không đợi tới lần chạy sau |
 
 ---

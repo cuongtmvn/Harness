@@ -1108,6 +1108,25 @@
       "themBan": "2.0.0"
     },
     {
+      "id": "L-UAT-02",
+      "muc": "—",
+      "tomtat": "Test trên máy bằng bản chạy cục bộ, đạt rồi mới đóng gói một lần; không đóng gói để test",
+      "file": "Instructions/UAT-RULES.md",
+      "neo": "Test trước, đóng gói sau (L-UAT-02)",
+      "cochequuongche": "kiem-luat --mat kiểm câu neo · checklist B04 (bẫy thứ tự task) + B09 (trong khi làm) · chưa có cổng máy chặn việc đóng gói sớm",
+      "botdi_thi_sao": "Đóng gói nhiều lần cho bản chưa kiểm, tốn thời gian và giao bản chưa qua UAT lượt 1 cho người dùng",
+      "trangthai": "song",
+      "ghiChuNeo": "Nguồn Mười Ngón 05/11/2026, chủ dự án: \"Vô lý, test thì test ngay trên máy, đóng file exe làm gì\"",
+      "nhanh": "A",
+      "phamVi": "global",
+      "apDung": [
+        "B04",
+        "B09"
+      ],
+      "soGhiVet": "Output/SITUAT.md",
+      "themBan": "2.1.0"
+    },
+    {
       "id": "L-DH-01",
       "muc": "—",
       "tomtat": "Đo đủ 7 chỉ số sức khoẻ tài liệu ở Bước 9",

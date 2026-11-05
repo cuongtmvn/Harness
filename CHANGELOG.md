@@ -3,6 +3,18 @@
 > Mỗi mục ghi đủ: **dự án nguồn** · **lớp** (*lõi chung* = mọi dự án · *gói `<loại>`* = dự án cùng loại · *riêng* = không đưa) · **bắt buộc / khuyến nghị** với dự án nhận · **tệp đổi** · **vì sao** (bằng chứng). Mục *bắt buộc* mà `cap-nhat.cjs` không tự làm được thì ghi rõ dự án nhận phải làm gì.
 > Số bản: `VERSION`. PATCH sửa chữ / lỗi công cụ · MINOR thêm luật, công cụ, hook, skill, gói · MAJOR đổi cấu trúc thư mục, khoá `harness.config.json`, cách khai cổng.
 
+## 2.1.0 — 2026-11-05 · L-UAT-02: test trên máy trước, đạt rồi mới đóng gói một lần
+
+Nguồn: Mười Ngón · MVP 4: AI đóng gói bản cài rồi mới nhắc UAT lượt 1, còn nói sai "phải có bản đóng gói rồi mới UAT được". Chủ dự án: *"Vô lý, test thì test ngay trên máy, đóng file exe làm gì"*. WBS của dự án cũng xếp task đóng gói trước task UAT, nên thứ tự sai nằm từ khâu chẻ việc.
+
+| Lớp | Mức | Tệp | Vì sao |
+|---|---|---|---|
+| lõi chung | khuyến nghị | `01-pipeline/testing/UAT-RULES.md` §5 · `03-records/LUAT-DANGKY.json` (L-UAT-02) | Kiểm bằng bản chạy cục bộ, đạt rồi mới đóng gói một lần; sau đóng gói chỉ kiểm khói bản cài; chủ dự án ra lệnh đóng gói sớm thì báo "chưa qua UAT lượt 1" |
+| lõi chung | khuyến nghị | `01-pipeline/steps/B04.md` · `01-pipeline/steps/B09.md` | Bẫy WBS: task đóng gói đứng trước task kiểm thử; nhắc thứ tự khi làm Bước 9 |
+| gói `desktop-tauri` | khuyến nghị | `09-packs/desktop-tauri/README.md` §4 | Cách chạy cửa sổ thật với thư mục dữ liệu riêng, khỏi đụng dữ liệu thật trên máy phát triển. Đã chạy thật ở Mười Ngón: thư mục thật không đổi |
+
+**Dự án nhận:** sổ luật là tệp riêng của dự án — thêm dòng L-UAT-02. Chưa có cổng máy chặn đóng gói sớm: luật này là kỷ luật + checklist. Luật siết thêm, không nới quyền AI.
+
 ## 2.0.2 — 2026-11-01 · đăng ký luật L-TOOL-07 cho dòng luật CSDL ngoài repo
 
 Nguồn: Mười Ngón · khi nâng lên 2.0.1, cổng day-git của dự án (`kiem-luat --dongbo`) chặn vì `B2-EXTERNAL-TOOLS.md` có dòng luật mới mà sổ luật không đổi — bản 2.0.1 thêm dòng luật nhưng quên đăng ký vào sổ nguồn (cổng kho không chạy `--dongbo` trên tệp luật nguồn).

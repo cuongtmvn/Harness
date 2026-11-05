@@ -58,9 +58,9 @@
       "duongDan": "D:\\ClaudeLog\\ControlTower",
       "repo": "https://github.com/cuongtmvn/ControlTower (riêng tư)",
       "loai": "dashboard",
-      "banDangDung": "2.0.2",
+      "banDangDung": "2.2.0",
       "ngayDangKy": "2026-11-01",
-      "ngayCapNhat": "2026-11-01",
+      "ngayCapNhat": "2026-11-05",
       "ghiChu": "01/11: cài mới 2.0.2, commit đầu 90c944f — bảng điều hành các dự án AI (gom → dựng → máy chủ cục bộ). Huynh 31/10: tên repo ControlTower, riêng tư."
     },
     {

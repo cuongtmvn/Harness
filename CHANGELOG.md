@@ -3,6 +3,16 @@
 > Mỗi mục ghi đủ: **dự án nguồn** · **lớp** (*lõi chung* = mọi dự án · *gói `<loại>`* = dự án cùng loại · *riêng* = không đưa) · **bắt buộc / khuyến nghị** với dự án nhận · **tệp đổi** · **vì sao** (bằng chứng). Mục *bắt buộc* mà `cap-nhat.cjs` không tự làm được thì ghi rõ dự án nhận phải làm gì.
 > Số bản: `VERSION`. PATCH sửa chữ / lỗi công cụ · MINOR thêm luật, công cụ, hook, skill, gói · MAJOR đổi cấu trúc thư mục, khoá `harness.config.json`, cách khai cổng.
 
+## 2.3.0 — 2026-11-07 · L-DUYET-01: AI đề xuất, chủ dự án duyệt, AI làm
+
+Nguồn: Mười Ngón · Dev Book 07/11/2026: AI báo "việc của Huynh: tự sửa 17 mục `permissions.allow`" trong khi AI làm được. Chủ dự án: *"luôn phải thực hiện: đề xuất ta duyệt, ta sẽ không tự làm tay cái gì."* · *"lưu lại yêu cầu của ta về cách yêu cầu duyệt vào project harness, lưu xong thì cập nhật lại GlobalHarness"*.
+
+| Lớp | Mức | Tệp | Vì sao |
+|---|---|---|---|
+| lõi chung | khuyến nghị | `00-rules/B1-AI-AUTHORITY.md` §11 · `CLAUDE.template.md` mục ⑤ · `03-records/LUAT-DANGKY.json` (L-DUYET-01) | Chủ dự án chỉ duyệt, không làm tay; chưa duyệt thì chưa làm |
+
+**Dự án nhận:** `CLAUDE.md` và sổ luật là tệp riêng ⇒ thêm tay một khối và dòng L-DUYET-01. Luật đổi người thực hiện, không nới cổng duyệt; AI được lợi ở chỗ tự sửa được cấu hình sau khi duyệt nên cổng duyệt giữ nguyên. Chưa có hook chặn, dựa vào kỷ luật của AI.
+
 ## 2.2.0 — 2026-11-05 · L-CONG-01: cổng máy theo số thứ tự dự án
 
 Nguồn: Mười Ngón · UAT MVP 4: phép đo bộ nhớ 30 phút hỏng ở phút 19 khi cửa sổ thử trên cổng gỡ lỗi 9333 bị chuyển sang trang của dự án khác (chưa xác minh được công cụ nào gây ra). Chủ dự án: *"hình thành cơ chế tạo cổng đi, không có lại lẫn, tốt nhất là lấy theo số thức tự tạo dự án"* · *"đưa lên globalharness"*.

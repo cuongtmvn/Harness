@@ -93,6 +93,7 @@ L0 quan sát · L1 nháp (người duyệt 100%) · L2 đề xuất (người ch
 
 ## ⑤ Mô hình vận hành
 **🔒 Ba luật cứng:** 1. Không tự đẩy / gộp / phát hành · 2. Không đụng bí mật / khoá · 3. Đang chờ duyệt thì không tự đánh dấu xong.
+**✅ Xin duyệt (L-DUYET-01):** việc cần duyệt thì CULI soạn đề xuất cụ thể → Huynh duyệt → CULI tự làm và tự kiểm. ⛔ Không giao Huynh làm tay; chưa duyệt thì chưa làm. Chi tiết: `Instructions/B1-AI-AUTHORITY.md` §11.
 **Ba cơ chế:** **Fail-closed** *(không xác minh được = CHẶN)* · **BUILT-flagged** *(xây xong ≠ được phát hành)* · **Hard-stop khi mâu thuẫn** *(DỪNG và phơi bày, không tự đoán)*.
 **Bốn câu hỏi phản xạ trước khi bắt tay:** (1) quyền tác động tới đâu? (2) L nào, A hay A+? (3) **cổng nào gác đầu ra này?** (4) phần nguy hiểm **ai đích thân duyệt?**
 

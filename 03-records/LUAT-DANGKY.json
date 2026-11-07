@@ -1178,6 +1178,24 @@
       ],
       "soGhiVet": "Log/CHAN-CSDL-THAT.ndjson",
       "themBan": "2.0.2"
+    },
+    {
+      "id": "L-DUYET-01",
+      "muc": "⑤",
+      "tomtat": "Việc cần duyệt: AI soạn đề xuất cụ thể, chủ dự án duyệt, AI tự làm và tự kiểm; không giao chủ dự án làm tay; chưa duyệt thì chưa làm; việc chỉ người làm được thì nói rõ vì sao",
+      "file": "Instructions/B1-AI-AUTHORITY.md",
+      "neo": "Culi đề xuất, Huynh duyệt, Culi làm (L-DUYET-01)",
+      "cochequuongche": "kiem-luat --mat kiểm câu neo · chưa có hook chặn câu giao việc tay, dựa vào kỷ luật của AI và chủ dự án soi báo cáo",
+      "botdi_thi_sao": "AI giao lại cho chủ dự án việc tay mà AI làm được, tốn giờ của chủ dự án và việc nằm chờ",
+      "trangthai": "song",
+      "ghiChuNeo": "07/11/2026 chủ dự án (Mười Ngón): \"luôn phải thực hiện: đề xuất ta duyệt, ta sẽ không tự làm tay cái gì.\"",
+      "nhanh": "B1",
+      "phamVi": "global",
+      "apDung": [
+        "*"
+      ],
+      "soGhiVet": "Output/DEVBOOK.md",
+      "themBan": "2.3.0"
     }
   ]
 }

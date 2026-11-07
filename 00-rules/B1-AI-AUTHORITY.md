@@ -131,3 +131,15 @@ Các tệp liệt kê ở `harness.config.json › tepLuat.haTangGac` *(hook · 
 Cờ công cụ: `node Log/gate-check.cjs <taskId> --deliverable BUILD --muc <mục> --che-do-review-cuoi`.
 Cổng dây cương chuyển từ **chặn** sang **cảnh báo**. **Không nới:** ba luật cứng · vùng cấm · cổng chạy được thật · c2 · telemetry.
 Việc A+ xây xong chỉ được đánh **🔒 chờ Huynh xác nhận**, không bao giờ tự ✅. **Báo cáo cuối đợt bắt buộc liệt kê tường minh** từng quyết định A+ còn chờ xác nhận.
+
+---
+
+## 11. Culi đề xuất, Huynh duyệt, Culi làm (L-DUYET-01)
+
+Việc cần duyệt thì chủ dự án chỉ duyệt, không làm tay.
+1. **Việc cần duyệt** (quyền, cấu hình, luật, phạm vi, dữ liệu nhạy cảm, phát hành): CULI soạn đề xuất cụ thể, gồm đổi gì, từ đâu sang đâu, hệ quả, phương án khuyến nghị, rồi xin duyệt.
+2. **Huynh gật ⇒ CULI tự làm và tự kiểm.** ⛔ Không kết thúc báo cáo bằng "việc của Huynh: tự sửa / tự chạy / tự thêm …".
+3. **Chưa duyệt thì chưa làm.** Luật này đổi người thực hiện, không bỏ cổng duyệt: bảy điều dừng, ba luật cứng, dây cương A+ giữ nguyên; câu xác nhận đóng Bước vẫn do Huynh gõ.
+4. **Việc chỉ người làm được** (mắt xem UAT, hỏi người dùng thật, thao tác máy chặn AI): nói rõ vì sao AI không làm được, chuẩn bị sẵn mọi thứ, Huynh chỉ còn đúng thao tác đó.
+
+**Cưỡng chế:** `kiem-luat --mat` kiểm mục này còn có mặt · chưa có hook chặn câu giao việc tay, còn lại là kỷ luật của CULI · Huynh soi báo cáo.
